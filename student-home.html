@@ -1,0 +1,1616 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quizora | Student Dashboard</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--p:#635bff;--p2:#5148e8;--ink:#17182a;--text:#282a3c;--muted:#7f8398;--bg:#f5f6fb;--card:#fff;--line:#e7e8f0;--green:#139b66;--greenbg:#e9faf2;--red:#d92d3a;--redbg:#fff0f1;--yellow:#f59e0b;--yellowbg:#fffbeb;--shadow:0 18px 55px rgba(30,34,75,.08)}
+body{font-family:Inter,system-ui,-apple-system,"Segoe UI",Arial,sans-serif;background:radial-gradient(circle at 5% 0,rgba(99,91,255,.1),transparent 28%),var(--bg);color:var(--text);min-height:100vh}
+button,input{font:inherit}button{cursor:pointer}
+.header{min-height:78px;background:rgba(15,18,42,.97);border-bottom:1px solid rgba(255,255,255,.09);display:flex;align-items:center;justify-content:space-between;padding:12px 5%;position:sticky;top:0;z-index:100;backdrop-filter:blur(18px);box-shadow:0 10px 30px rgba(15,18,42,.16);gap:18px}
+.brand{display:flex;align-items:center;gap:12px;color:#fff;min-width:max-content}.logo{width:46px;height:46px;border-radius:50%;display:block;object-fit:cover;background:#fff;box-shadow:0 8px 22px rgba(49,104,255,.25);border:1px solid rgba(255,255,255,.16)}.brand b{font-size:23px;letter-spacing:1px;font-weight:950;color:#fff}.brand b .ora{color:#5f9cff}.brand small{display:block;font-size:9px;color:#aeb8d7;margin-top:3px;letter-spacing:.5px}
+.head-right{display:flex;align-items:center;gap:9px;flex-wrap:wrap;justify-content:flex-end}.nav-action{display:inline-flex;align-items:center;justify-content:center;gap:7px;border:1px solid rgba(255,255,255,.15);border-radius:11px;padding:10px 13px;background:rgba(255,255,255,.07);color:#f6f8ff;font-size:11px;font-weight:800;white-space:nowrap;transition:.2s}.nav-action:hover{background:rgba(92,142,255,.2);border-color:rgba(122,162,255,.5);transform:translateY(-1px)}.nav-action.results-action{background:linear-gradient(135deg,#4c7dff,#6958ed);border-color:transparent;box-shadow:0 7px 20px rgba(70,105,255,.25)}.api{display:none}.api i{display:none}
+.user{display:flex;align-items:center;gap:9px;position:relative;cursor:pointer}.avatar{width:42px;height:42px;border-radius:14px;background:linear-gradient(135deg,#7e9fff,#4c58ed);color:#fff;display:grid;place-items:center;font-weight:900;border:2px solid rgba(255,255,255,.35);box-shadow:0 5px 15px rgba(75,100,255,.3)}.uname{font-size:11px;font-weight:850;color:#fff}.urole{font-size:9px;color:#aeb8d7;margin-top:3px}.menu{position:absolute;right:0;top:58px;width:260px;background:#fff;border:1px solid var(--line);border-radius:16px;padding:8px;box-shadow:0 20px 50px rgba(0,0,0,.2);display:none;z-index:200;color:var(--text)}.profile-summary{padding:13px 12px 14px;border-bottom:1px solid var(--line);margin-bottom:5px}.profile-summary strong{display:block;font-size:12px;color:var(--ink);overflow-wrap:anywhere}.profile-summary span{display:block;font-size:10px;color:var(--muted);margin-top:5px;overflow-wrap:anywhere}.menu .menu-label{font-size:9px;font-weight:800;color:var(--muted);padding:8px 11px 4px}.menu.open{display:block}.menu button{width:100%;border:0;background:none;text-align:left;padding:11px;border-radius:9px;font-size:9px}.menu button:hover{background:#f7f7fb}.menu .logout{color:var(--red)}
+main{width:90%;max-width:1240px;margin:auto;padding:28px 0 70px}.hero{padding:31px;border-radius:25px;background:linear-gradient(120deg,#5d56ef,#7a72ff 55%,#5148e8);color:#fff;box-shadow:0 24px 55px rgba(99,91,255,.22);position:relative;overflow:hidden;margin-bottom:18px}.hero:after{content:"";position:absolute;width:290px;height:290px;border-radius:50%;right:-90px;top:-160px;background:rgba(255,255,255,.08)}.badge{display:inline-block;padding:7px 10px;border-radius:20px;background:rgba(255,255,255,.13);font-size:8px;font-weight:850;margin-bottom:12px}.hero h1{font-size:29px;letter-spacing:-1px;margin-bottom:7px}.hero p{font-size:10px;line-height:1.7;color:rgba(255,255,255,.84);max-width:690px}.hero-actions{display:flex;gap:9px;margin-top:18px}.btn{border:0;border-radius:10px;padding:10px 14px;font-size:9px;font-weight:850;transition:.18s}.btn:hover{transform:translateY(-1px)}.primary{background:linear-gradient(135deg,#716aff,#5148e8);color:#fff}.hero .primary{background:#fff;color:var(--p)}.hero .ghost{background:rgba(255,255,255,.11);border:1px solid rgba(255,255,255,.18);color:#fff}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:24px}.stat{background:#fff;border:1px solid var(--line);border-radius:18px;padding:20px 18px;box-shadow:0 8px 24px rgba(99,91,255,.08);position:relative;overflow:hidden;transition:all .25s}.stat:hover{transform:translateY(-3px);box-shadow:0 12px 32px rgba(99,91,255,.14)}.stat:before{content:"";position:absolute;top:0;right:0;width:80px;height:80px;border-radius:50%;opacity:.08;transition:all .3s}.stat:nth-child(1):before{background:linear-gradient(135deg,#6366f1,#8b5cf6);right:-20px;top:-30px}.stat:nth-child(2):before{background:linear-gradient(135deg,#10b981,#059669);right:-20px;top:-30px}.stat:nth-child(3):before{background:linear-gradient(135deg,#f59e0b,#d97706);right:-20px;top:-30px}.stat:nth-child(4):before{background:linear-gradient(135deg,#ef4444,#dc2626);right:-20px;top:-30px}.stat-icon{width:38px;height:38px;border-radius:11px;display:grid;place-items:center;font-size:18px;margin-bottom:12px;position:relative;z-index:1}.stat:nth-child(1) .stat-icon{background:linear-gradient(135deg,rgba(99,102,241,.12),rgba(139,92,246,.12));color:#6366f1}.stat:nth-child(2) .stat-icon{background:linear-gradient(135deg,rgba(16,185,129,.12),rgba(5,150,105,.12));color:#10b981}.stat:nth-child(3) .stat-icon{background:linear-gradient(135deg,rgba(245,158,11,.12),rgba(217,119,6,.12));color:#f59e0b}.stat:nth-child(4) .stat-icon{background:linear-gradient(135deg,rgba(239,68,68,.12),rgba(220,38,38,.12));color:#ef4444}.stat label{font-size:9px;color:var(--muted);font-weight:700;letter-spacing:.3px;display:block;margin-bottom:8px;position:relative;z-index:1}.stat strong{display:block;font-size:28px;margin-bottom:5px;font-weight:900;letter-spacing:-.5px;position:relative;z-index:1}.stat:nth-child(1) strong{background:linear-gradient(135deg,#6366f1,#8b5cf6);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}.stat:nth-child(2) strong{background:linear-gradient(135deg,#10b981,#059669);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}.stat:nth-child(3) strong{background:linear-gradient(135deg,#f59e0b,#d97706);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}.stat:nth-child(4) strong{background:linear-gradient(135deg,#ef4444,#dc2626);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}.stat span{font-size:8px;color:var(--muted);font-weight:600;position:relative;z-index:1}
+.grid{display:grid;grid-template-columns:1.45fr .9fr;gap:17px;margin-top:17px}.card{background:#fff;border:1px solid var(--line);border-radius:19px;box-shadow:var(--shadow);overflow:hidden}.card-head{padding:18px 20px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center}.title{font-size:14px;font-weight:850}.sub{font-size:8px;color:var(--muted);margin-top:4px}.list{padding:4px 20px 14px}.test{display:flex;align-items:center;gap:12px;padding:14px 2px;border-bottom:1px solid #f0f1f5}.test:last-child{border-bottom:0}.icon{width:43px;height:43px;border-radius:13px;background:#f0efff;display:grid;place-items:center;font-size:18px}.info{flex:1;min-width:0}.name{font-size:10px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.meta{font-size:8px;color:var(--muted);margin-top:4px}.tag{display:inline-block;margin-top:5px;padding:4px 7px;border-radius:6px;font-size:7px;font-weight:850;background:var(--greenbg);color:var(--green)}.start{border:0;background:#efeeff;color:var(--p2);border-radius:9px;padding:9px 12px;font-size:8px;font-weight:850}.start:hover{background:var(--p);color:#fff}
+.join{padding:21px}.join-icon{width:44px;height:44px;border-radius:13px;background:#efeeff;display:grid;place-items:center;font-size:19px;margin-bottom:13px}.join h2{font-size:17px}.join p{font-size:8px;color:var(--muted);line-height:1.6;margin:6px 0 15px}.code-input{display:flex;align-items:center;border:1px solid var(--line);border-radius:10px;height:46px;padding:0 11px;gap:7px}.code-input span{font-size:12px}.code-input input{border:0;outline:0;width:100%;font-size:11px;font-weight:850;letter-spacing:2px}.verify{width:100%;margin-top:9px;height:44px}
+.results{margin-top:17px}.result{display:flex;align-items:center;gap:10px;padding:12px 20px;border-bottom:1px solid #f0f1f5}.result:last-child{border-bottom:0}.result-icon{width:36px;height:36px;border-radius:10px;background:var(--greenbg);display:grid;place-items:center}.result-info{flex:1}.result-name{font-size:9px;font-weight:800}.result-meta{font-size:7px;color:var(--muted);margin-top:3px}.score{font-size:11px;font-weight:900;color:var(--green)}.empty{text-align:center;padding:38px 20px;color:var(--muted);font-size:9px}.empty b{display:block;color:var(--text);font-size:11px;margin:7px 0 4px}
+.overlay{position:fixed;inset:0;background:rgba(13,15,32,.56);backdrop-filter:blur(8px);display:none;align-items:center;justify-content:center;padding:15px;z-index:500}.overlay.show{display:flex}
+.exam{width:100%;height:100vh;background:#fff;display:flex;flex-direction:column;position:fixed;inset:0;z-index:1000}
+.exam-head{padding:18px 24px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;gap:20px;background:#fff;flex-shrink:0}
+.exam-head-left{display:flex;align-items:center;gap:16px}
+.exam-logo{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;color:#fff;font-weight:950;font-size:17px;background:linear-gradient(135deg,#776fff,#5148e8);box-shadow:0 6px 18px rgba(99,91,255,.2)}
+.exam-info{display:flex;flex-direction:column;gap:3px}
+.exam-title{font-size:13px;font-weight:850;color:var(--ink)}
+.exam-sub{font-size:10px;color:var(--muted);font-weight:700}
+.exam-head-right{display:flex;align-items:center;gap:14px}
+.connection-status{display:flex;align-items:center;gap:7px;padding:8px 12px;border-radius:10px;font-size:9px;font-weight:800;background:var(--greenbg);color:var(--green)}
+.connection-status.offline{background:var(--redbg);color:var(--red)}
+.connection-dot{width:8px;height:8px;border-radius:50%;background:currentColor}
+.timer{background:#fff2f2;color:var(--red);border-radius:10px;padding:10px 14px;font-size:12px;font-weight:950;white-space:nowrap;min-width:75px;text-align:center}
+.exam-body{flex:1;padding:32px 24px;overflow-y:auto;display:flex;flex-direction:column;align-items:center}
+.exam-content{width:100%;max-width:900px}
+.qnum{font-size:13px;font-weight:850;color:var(--p);margin-bottom:12px}
+.qtext{font-size:22px;line-height:1.5;font-weight:800;letter-spacing:-.4px;margin-bottom:28px;color:var(--ink)}
+.options{display:grid;gap:12px}
+.answer-option{border:2px solid var(--line);background:#fff;border-radius:14px;padding:18px;display:flex;align-items:flex-start;gap:14px;text-align:left;width:100%;font-size:11px;line-height:1.6;transition:all .15s;cursor:pointer}
+.answer-option:hover{border-color:#b8b4ff;background:#faf9ff;transform:translateY(-1px)}
+.answer-option.selected{border-color:var(--p);background:#f2f1ff;box-shadow:0 0 0 4px rgba(99,91,255,.08)}
+.letter{width:32px;height:32px;border-radius:9px;background:#f1f1f6;display:grid;place-items:center;font-weight:900;font-size:11px;flex:none;transition:all .15s}
+.selected .letter{background:var(--p);color:#fff}
+.exam-foot{padding:18px 24px;border-top:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;gap:12px;background:#fff;flex-shrink:0}
+.question-nav{padding:12px 20px;border-bottom:1px solid var(--line);background:#fafafa;display:flex;flex-wrap:wrap;gap:6px;align-items:center;max-height:120px;overflow-y:auto}
+.question-nav-item{width:34px;height:34px;border-radius:7px;background:#fff;border:2px solid var(--line);display:grid;place-items:center;font-size:10px;font-weight:700;transition:all .15s;cursor:default;flex-shrink:0}
+.question-nav-item.current{border-color:var(--p);background:#f2f1ff;color:var(--p);box-shadow:0 0 0 2px rgba(99,91,255,.12)}
+.question-nav-item.answered{background:var(--greenbg);border-color:var(--green);color:var(--green)}
+.question-nav-item.answered.current{background:#e8f5e9;border-color:var(--green);color:var(--green);box-shadow:0 0 0 2px rgba(16,133,87,.12)}
+.exam-nav-btn{border:0;padding:11px 18px;border-radius:10px;font-size:16px;font-weight:850;transition:all .15s;min-width:60px}
+.exam-nav-btn:disabled{opacity:.4;cursor:not-allowed}
+.exam-nav-btn.prev{background:#f0f0f5;color:var(--text)}
+.exam-nav-btn.prev:not(:disabled):hover{background:#e5e5ee}
+.exam-nav-btn.next{background:var(--p);color:#fff}
+.exam-nav-btn.next:not(:disabled):hover{background:var(--p2);transform:translateY(-1px)}
+.exam-nav-btn.submit{background:var(--green);color:#fff;font-size:11px;min-width:90px}
+.exam-nav-btn.submit:hover{background:#108557}
+.malpractice-overlay{position:fixed;inset:0;background:rgba(13,15,32,.98);backdrop-filter:blur(16px);display:none;align-items:center;justify-content:center;z-index:10000;color:#fff}
+.malpractice-overlay.show{display:flex}
+.malpractice-content{text-align:center;max-width:550px;padding:50px}
+.malpractice-icon{font-size:80px;margin-bottom:24px}
+.malpractice-content h2{font-size:28px;margin-bottom:16px;color:#ff6b6b}
+.malpractice-content p{font-size:13px;line-height:1.8;color:rgba(255,255,255,.9);margin-bottom:20px}
+.malpractice-reason{background:rgba(217,45,58,.2);border:1px solid var(--red);border-radius:12px;padding:16px;margin-bottom:28px;font-size:11px;font-weight:700;color:#ff6b6b}
+.malpractice-contact{background:rgba(255,255,255,.1);border-radius:12px;padding:20px;font-size:11px;line-height:1.7;color:rgba(255,255,255,.8)}
+.result-modal{width:min(500px,94%);background:#fff;border-radius:23px;padding:28px;text-align:center;box-shadow:0 30px 100px rgba(0,0,0,.3)}
+.result-circle{width:110px;height:110px;border-radius:50%;background:#efeeff;color:var(--p);display:grid;place-items:center;font-size:26px;font-weight:950;margin:0 auto 16px;border:4px solid var(--p)}
+.result-modal h2{font-size:22px;margin-bottom:8px}
+.result-modal p{font-size:10px;color:var(--muted);margin-bottom:22px;line-height:1.6}
+.result-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:18px}
+.result-stat{background:#f7f7fb;border-radius:12px;padding:14px}
+.result-stat strong{display:block;font-size:19px;margin-bottom:4px}
+.result-stat span{font-size:8px;color:var(--muted);font-weight:700}
+.fullbtn{width:100%;height:48px;font-size:10px}
+.confirm-modal{width:min(480px,94%);background:#fff;border-radius:20px;padding:26px;box-shadow:0 30px 100px rgba(0,0,0,.3)}
+.confirm-modal h3{font-size:18px;margin-bottom:10px;color:var(--ink)}
+.confirm-modal p{font-size:10px;color:var(--muted);margin-bottom:18px;line-height:1.6}
+.confirm-summary{background:#f9f9ff;border:1px solid var(--line);border-radius:12px;padding:16px;margin-bottom:20px}
+.confirm-summary-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0}
+.confirm-summary-row:not(:last-child){border-bottom:1px solid #ededf5}
+.confirm-summary-label{font-size:9px;color:var(--muted);font-weight:700}
+.confirm-summary-value{font-size:11px;font-weight:900;color:var(--ink)}
+.confirm-actions{display:flex;gap:10px}
+.confirm-actions button{flex:1;height:46px;border-radius:11px;font-size:10px;font-weight:850}
+.confirm-cancel{background:#f0f0f5;color:var(--text);border:0}
+.confirm-cancel:hover{background:#e5e5ee}
+.confirm-submit{background:var(--green);color:#fff;border:0}
+.confirm-submit:hover{background:#108557}
+.completed-btn{background:var(--greenbg)!important;color:var(--green)!important;cursor:not-allowed!important}
+.completed-tag{background:var(--greenbg)!important;color:var(--green)!important}
+.toast{position:fixed;right:18px;bottom:18px;background:#171827;color:#fff;padding:12px 16px;border-radius:12px;font-size:9px;font-weight:700;display:none;z-index:9999;box-shadow:0 12px 40px rgba(0,0,0,.3)}
+.toast.show{display:block}
+.exam-wizard{width:min(1100px,95%);max-height:90vh;background:#fff;border-radius:20px;display:flex;overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,.2)}.wizard-sidebar{width:280px;background:linear-gradient(135deg,#6f67ff,#5148e8);color:#fff;padding:30px 20px;display:flex;flex-direction:column}.wizard-logo{text-align:center;margin-bottom:30px}.wizard-logo h3{font-size:16px;margin-top:12px}.wizard-steps{flex:1}.wizard-step{display:flex;align-items:center;gap:12px;padding:15px;margin-bottom:12px;border-radius:12px;background:rgba(255,255,255,.1);cursor:pointer;transition:.2s;opacity:.6}.wizard-step.active{background:rgba(255,255,255,.2);opacity:1}.wizard-step.completed{opacity:1}.wizard-step.completed .step-number{background:#fff;color:var(--p)}.step-number{width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.2);display:grid;place-items:center;font-weight:900;font-size:13px}.wizard-step span{font-size:10px;font-weight:700}.wizard-content{flex:1;padding:40px;overflow-y:auto}.wizard-page{display:none}.wizard-page.active{display:block}.wizard-header h2{font-size:22px;margin-bottom:8px}.wizard-header p{font-size:10px;color:var(--muted);margin-bottom:25px}.wizard-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:30px;padding-top:25px;border-top:1px solid var(--line)}.terms-box{background:#f9f9ff;border:1px solid var(--line);border-radius:14px;padding:25px;max-height:400px;overflow-y:auto}.terms-box h3{font-size:14px;margin-bottom:15px}.terms-box ol{padding-left:20px;line-height:1.9;font-size:9px;color:var(--text)}.terms-box ol li{margin-bottom:8px}
+.student-form{display:grid;gap:10px;text-align:left}.student-form input{width:100%;height:44px;border:1px solid var(--line);border-radius:10px;padding:0 12px;outline:0;background:#fff;color:var(--text);font-size:10px}.student-form input:focus{border-color:#aaa6ff;box-shadow:0 0 0 3px rgba(99,91,255,.08)}
+.check-item{display:flex;align-items:flex-start;gap:15px;padding:18px;background:#f9f9ff;border-radius:12px;margin-bottom:12px}.check-icon{width:40px;height:40px;border-radius:50%;background:var(--greenbg);color:var(--green);display:grid;place-items:center;font-size:18px;font-weight:900;flex-shrink:0}.check-item strong{display:block;font-size:11px;margin-bottom:4px}.check-item p{font-size:8px;color:var(--muted)}
+@media(max-width:950px){.grid{grid-template-columns:1fr}.stats{grid-template-columns:repeat(2,1fr);gap:12px}.stat{padding:16px 14px}.stat strong{font-size:24px}}@media(max-width:550px){.stats{grid-template-columns:1fr;gap:10px}.stat{padding:18px 16px}}
+@media(max-width:760px){.header{padding:11px 14px;align-items:flex-start}.brand{gap:8px}.logo{width:39px;height:39px}.brand b{font-size:20px}.brand small{font-size:8px}.head-right{gap:6px}.nav-action{padding:9px 10px;font-size:10px}.user{gap:7px}.menu{top:51px}}@media(max-width:600px){.header{padding:10px 11px;flex-wrap:wrap;align-items:center}.head-right{width:100%;justify-content:space-between}.nav-action{flex:1;padding:10px 7px;font-size:9px}.user{margin-left:auto}.uname,.urole{display:none}main{width:calc(100% - 20px);padding-top:14px}.hero{padding:23px 19px}.hero h1{font-size:23px}.hero-actions{flex-direction:column}.hero-actions .btn{width:100%}.stats{grid-template-columns:1fr 1fr}.qtext{font-size:18px}.exam-head{padding:14px}.question-nav{padding:10px 14px;gap:5px}.question-nav-item{width:30px;height:30px;font-size:9px}.exam-body{padding:20px}.exam-foot{padding:14px;flex-direction:column;gap:8px}.exam-foot > div:first-child{text-align:center}.result-grid{grid-template-columns:1fr 1fr 1fr}}
+html.quizora-exam-active,body.quizora-exam-active{overflow:hidden!important;cursor:none!important}
+html.quizora-exam-active *{cursor:none!important}
+html.quizora-exam-active body > *:not(.exam):not(#toast):not(#confirmOverlay):not(#malpracticeOverlay),body.quizora-exam-active > *:not(.exam):not(#toast):not(#confirmOverlay):not(#malpracticeOverlay){display:none!important}
+.profile-modal{width:min(750px,96%);background:#fff;border-radius:16px;box-shadow:0 20px 60px rgba(0,0,0,.15),0 0 1px rgba(0,0,0,.1);max-height:92vh;display:flex;flex-direction:column;animation:slideUp .3s ease}@keyframes slideUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.profile-modal-header{padding:32px 36px;background:#fff;border-bottom:1px solid #e8e9f0;display:flex;align-items:center;gap:20px;position:relative}
+.profile-avatar{width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,#635bff 0%,#4943d8 100%);color:#fff;display:grid;place-items:center;font-size:28px;font-weight:700;flex-shrink:0;box-shadow:0 4px 16px rgba(99,91,255,.25);letter-spacing:-.5px}
+.profile-header-info{flex:1}.profile-header-info h2{font-size:24px;margin:0 0 6px;font-weight:700;letter-spacing:-.6px;color:#1a1d2e}.profile-header-info p{font-size:13px;margin:0;color:#6b7280;font-weight:500}
+.edit-profile-btn{width:40px;height:40px;border-radius:10px;border:1px solid #e0e3ed;background:#fff;color:#635bff;cursor:pointer;display:grid;place-items:center;transition:.2s}.edit-profile-btn:hover{background:#f8f8fc;border-color:#635bff;transform:scale(1.05)}
+.close-profile{position:absolute;right:28px;top:28px;width:36px;height:36px;border-radius:8px;border:0;background:transparent;color:#9ca3af;font-size:24px;font-weight:400;cursor:pointer;display:grid;place-items:center;transition:.2s}.close-profile:hover{background:#f3f4f6;color:#1a1d2e}
+.profile-modal-body{padding:32px 36px;overflow-y:auto;background:#fafbfc}
+.profile-section-header{font-size:12px;font-weight:800;color:#1a1d2e;margin:32px 0 16px;text-transform:uppercase;letter-spacing:.8px;max-width:580px;margin-left:auto;margin-right:auto;padding-left:4px;padding-bottom:12px;border-bottom:2px solid #e8e9f0}.profile-section-header:first-child{margin-top:0}
+.profile-grid-container{display:flex;flex-direction:column;gap:16px;margin-bottom:24px;max-width:580px;margin-left:auto;margin-right:auto}.profile-grid-container:last-of-type{margin-bottom:0}
+.profile-card{background:#fff;border:1px solid #e8e9f0;border-radius:12px;padding:20px 24px;transition:.2s;cursor:default;display:flex;align-items:flex-start;gap:16px}.profile-card:hover{border-color:#d1d5dd;box-shadow:0 2px 8px rgba(0,0,0,.04)}
+.profile-card-icon{width:44px;height:44px;border-radius:10px;display:grid;place-items:center;font-size:20px;flex-shrink:0}
+.profile-card:nth-child(1) .profile-card-icon{background:#f0f0ff;color:#635bff}
+.profile-card:nth-child(2) .profile-card-icon{background:#fff0f6;color:#e91e63}
+.profile-card:nth-child(3) .profile-card-icon{background:#e6f7ff;color:#1890ff}
+.profile-card:nth-child(4) .profile-card-icon{background:#f0fdf4;color:#16a34a}
+.profile-card:nth-child(5) .profile-card-icon{background:#fff7ed;color:#ea580c}
+.profile-card-content{flex:1;min-width:0}
+.profile-card-label{font-size:11px;color:#6b7280;font-weight:700;margin-bottom:8px;text-transform:uppercase;letter-spacing:.8px}
+.profile-card-value{font-size:15px;color:#1a1d2e;font-weight:600;word-break:break-word;line-height:1.5}
+.profile-card-input{display:none;width:100%;padding:11px 14px;border:1px solid #d1d5dd;border-radius:8px;font-size:15px;color:#1a1d2e;font-weight:500;background:#fff;transition:.2s;font-family:inherit}.profile-card-input:focus{outline:none;border-color:#635bff;box-shadow:0 0 0 3px rgba(99,91,255,.08)}
+.profile-card-input::placeholder{color:#9ca3af}
+.profile-card-input[readonly]{background:#f3f4f6;color:#6b7280;cursor:not-allowed;border-color:#e5e7eb}
+.profile-modal.edit-mode .profile-card-value{display:none}
+.profile-modal.edit-mode .profile-card-input{display:block}
+.profile-modal.edit-mode .profile-card{border-color:#b8b4ff;background:#fafbff}
+.profile-modal.edit-mode .edit-profile-btn{background:#635bff;color:#fff;border-color:#635bff}
+.profile-actions{display:none;gap:12px;justify-content:flex-end;border-top:1px solid #e8e9f0;margin-top:32px;padding-top:24px;max-width:580px;margin-left:auto;margin-right:auto}
+.profile-modal.edit-mode .profile-actions{display:flex}
+.profile-action-btn{border:0;border-radius:8px;padding:11px 22px;font-size:14px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:8px;transition:.2s;letter-spacing:-.2px}
+.profile-action-btn.cancel{background:#f3f4f6;color:#4b5563}.profile-action-btn.cancel:hover{background:#e5e7eb}
+.profile-action-btn.save{background:#635bff;color:#fff;box-shadow:0 2px 8px rgba(99,91,255,.2)}.profile-action-btn.save:hover{background:#5148e8;box-shadow:0 4px 12px rgba(99,91,255,.3)}
+.profile-action-btn:disabled{opacity:.6;cursor:not-allowed}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <a class="brand" href="student-home.html" aria-label="Quizora Student Portal" style="text-decoration:none">
+    <img class="logo" src="logo.jpeg" alt="Quizora logo" onerror="this.style.display='none';this.nextElementSibling.style.marginLeft='0'">
+    <div><b><span>Quiz</span><span class="ora">ora</span></b><small>STUDENT WORKSPACE</small></div>
+  </a>
+  <nav class="head-right" aria-label="Student navigation">
+    <button class="nav-action" id="refreshBtn" type="button"><span aria-hidden="true">↻</span> Refresh Tests</button>
+    <button class="nav-action results-action" id="viewResultsBtn" type="button"><span aria-hidden="true">▥</span> View My Results</button>
+    <div class="user" id="userArea" role="button" tabindex="0" aria-haspopup="true" aria-expanded="false" title="Open profile menu">
+      <div class="avatar" id="avatar">S</div>
+      <div><div class="uname" id="headerName">Student</div><div class="urole">Student profile ▾</div></div>
+      <div class="menu" id="profileMenu">
+        <div class="profile-summary"><strong id="profileName">Student</strong><span id="profileEmail">student@example.com</span><span id="profileSchool">Quizora Student</span></div>
+        <div class="menu-label">ACCOUNT</div>
+        <button id="profileDetailsBtn" type="button">👤 Profile details</button>
+        <button id="logoutBtn" class="logout" type="button">↪ Log out</button>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<main>
+<section class="hero">
+  <div class="badge">🎓 STUDENT DASHBOARD</div>
+  <h1>Welcome back, <span id="welcomeName">Student</span> 👋</h1>
+  <p>Join your examiner's assessment using test code, start available tests, and track your completed assessments.</p>
+  <div class="hero-actions">
+    <button class="btn primary" id="joinBtn">🔑 Join Test</button>
+  </div>
+</section>
+
+<section class="stats">
+  <div class="stat">
+    <div class="stat-icon">📝</div>
+    <label>AVAILABLE TESTS</label>
+    <strong id="availableCount">0</strong>
+    <span>Active assignments</span>
+  </div>
+  <div class="stat">
+    <div class="stat-icon">✅</div>
+    <label>COMPLETED</label>
+    <strong id="completedCount">0</strong>
+    <span>Your attempts</span>
+  </div>
+  <div class="stat">
+    <div class="stat-icon">📊</div>
+    <label>AVERAGE SCORE</label>
+    <strong id="averageScore">0%</strong>
+    <span>All completed tests</span>
+  </div>
+  <div class="stat">
+    <div class="stat-icon">🏆</div>
+    <label>BEST SCORE</label>
+    <strong id="bestScore">0%</strong>
+    <span>Personal record</span>
+  </div>
+</section>
+
+<div class="grid">
+  <section class="card">
+    <div class="card-head"><div><div class="title">Available Tests</div><div class="sub">Tests currently published by examiners</div></div></div>
+    <div class="list" id="testList"></div>
+  </section>
+
+  <div>
+    <section class="card join">
+      <div class="join-icon">🔑</div>
+      <h2>Join with Test Code</h2>
+      <p>Enter code given by your examiner. Quizora will verify it with AWS before loading assessment.</p>
+      <div class="code-input"><span>#</span><input id="codeInput" maxlength="20" placeholder="ENTER CODE"></div>
+      <button class="btn primary verify" id="verifyBtn">Verify Code & Continue →</button>
+    </section>
+
+    
+  </div>
+</div>
+</main>
+
+<div class="overlay" id="examWizardOverlay">
+  <div class="exam-wizard">
+    <div class="wizard-sidebar">
+      <div class="wizard-logo">
+        <div class="logo">Q</div>
+        <h3 style="margin-top:12px;">Exam Setup</h3>
+      </div>
+      <div class="wizard-steps">
+        <div class="wizard-step active" data-step="1">
+          <div class="step-number">1</div>
+          <span>Student Details</span>
+        </div>
+        <div class="wizard-step" data-step="2">
+          <div class="step-number">2</div>
+          <span>Terms & Conditions</span>
+        </div>
+        <div class="wizard-step" data-step="3">
+          <div class="step-number">3</div>
+          <span>Ready Check</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="wizard-content">
+      <div class="wizard-page active" id="wizardStep1">
+        <div class="wizard-header">
+          <h2>Student Information</h2>
+          <p>Provide your details to continue</p>
+        </div>
+        <div class="student-form"></div>
+        <div class="wizard-actions">
+          <button class="btn ghost" onclick="closeExamWizard()">Cancel</button>
+          <button class="btn primary" onclick="nextWizardStep()">Next: Terms & Conditions →</button>
+        </div>
+      </div>
+
+      <div class="wizard-page" id="wizardStep2">
+        <div class="wizard-header">
+          <h2>Terms & Conditions</h2>
+          <p>Read and accept following terms</p>
+        </div>
+        <div class="terms-box">
+          <h3>Exam Guidelines</h3>
+          <ol>
+            <li>This is proctored online examination</li>
+            <li>Complete exam in one sitting without leaving</li>
+            <li>Exam must be taken in fullscreen mode</li>
+            <li>Exiting fullscreen will stop exam immediately and mark as MALPRACTICE</li>
+            <li>Switching tabs or minimizing window will stop exam</li>
+            <li>Only keyboard navigation (arrow keys + Enter) is allowed during exam</li>
+            <li>Mouse clicks work only on answer options and navigation buttons</li>
+            <li>Exam will auto-submit when time expires</li>
+            <li>Responses saved automatically</li>
+            <li>Any form of cheating or malpractice will result in disqualification</li>
+            <li>By proceeding, you agree to abide by these rules and regulations</li>
+          </ol>
+          <label style="display:flex;align-items:center;gap:10px;margin-top:20px;padding:15px;background:#f0efff;border-radius:10px;cursor:pointer;">
+            <input type="checkbox" id="acceptTerms" style="width:20px;height:20px;">
+            <span style="font-size:10px;font-weight:700;">I have read and accept terms and conditions</span>
+          </label>
+        </div>
+        <div class="wizard-actions">
+          <button class="btn ghost" onclick="prevWizardStep()">← Back</button>
+          <button class="btn primary" id="acceptTermsBtn" onclick="nextWizardStep()" disabled>Next: Ready Check →</button>
+        </div>
+      </div>
+
+      <div class="wizard-page" id="wizardStep3">
+        <div class="wizard-header">
+          <h2>Pre-Exam Checklist</h2>
+          <p>Verify all requirements before starting</p>
+        </div>
+        <div style="margin:20px 0">
+          <div class="check-item">
+            <div class="check-icon">✓</div>
+            <div>
+              <strong>Student Details</strong>
+              <p>Your information has been verified</p>
+            </div>
+          </div>
+          <div class="check-item">
+            <div class="check-icon">✓</div>
+            <div>
+              <strong>Terms Accepted</strong>
+              <p>You agreed to exam guidelines</p>
+            </div>
+          </div>
+          <div class="check-item">
+            <div class="check-icon">○</div>
+            <div>
+              <strong>Fullscreen Mode</strong>
+              <p>Will be enabled when you start exam</p>
+            </div>
+          </div>
+        </div>
+        <div style="background:linear-gradient(135deg,#f0efff,#faf9ff);padding:25px;border-radius:14px;margin-top:20px;border:2px solid var(--p)">
+          <h3 style="font-size:14px;margin-bottom:10px">⚡ Ready to Begin</h3>
+          <p style="font-size:9px;margin-bottom:15px;line-height:1.6"><strong>Important:</strong> Exam will enter fullscreen mode automatically.</p>
+          <ul style="padding-left:20px;font-size:9px;line-height:1.8">
+            <li>Use <kbd style="background:#fff;padding:4px 8px;border-radius:6px;border:1px solid var(--line);font-family:monospace;font-size:9px;box-shadow:0 2px 4px rgba(0,0,0,.1)">↑</kbd> <kbd style="background:#fff;padding:4px 8px;border-radius:6px;border:1px solid var(--line);font-family:monospace;font-size:9px;box-shadow:0 2px 4px rgba(0,0,0,.1)">↓</kbd> arrow keys to select answers (A → B → C → D)</li>
+            <li>Use <kbd style="background:#fff;padding:4px 8px;border-radius:6px;border:1px solid var(--line);font-family:monospace;font-size:9px;box-shadow:0 2px 4px rgba(0,0,0,.1)">→</kbd> to go next question</li>
+            <li>Use <kbd style="background:#fff;padding:4px 8px;border-radius:6px;border:1px solid var(--line);font-family:monospace;font-size:9px;box-shadow:0 2px 4px rgba(0,0,0,.1)">←</kbd> to go previous question</li>
+            <li>Use <kbd style="background:#fff;padding:4px 8px;border-radius:6px;border:1px solid var(--line);font-family:monospace;font-size:9px;box-shadow:0 2px 4px rgba(0,0,0,.1)">Enter</kbd> on Submit button to finish</li>
+            <li>Or use mouse to click answers and Previous/Next buttons</li>
+            <li><strong style="color:var(--red);">⚠️ CRITICAL: Do not exit fullscreen or switch tabs - exam will stop immediately</strong></li>
+          </ul>
+        </div>
+        <div style="background:#fff0f1;border:2px solid var(--red);padding:15px;border-radius:10px;margin:15px 0;text-align:center;">
+          <p style="font-size:10px;font-weight:700;color:var(--red);margin:0;">
+            🚨 Exiting fullscreen = IMMEDIATE MALPRACTICE - Exam will stop
+          </p>
+        </div>
+        <div class="wizard-actions">
+          <button class="btn ghost" onclick="prevWizardStep()">← Back</button>
+          <button class="btn primary" onclick="startExamFullscreen()" style="background:var(--green);font-size:11px;padding:14px 24px;">🚀 Start Exam in Fullscreen</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="exam" id="examContainer" style="display:none;">
+  <div class="exam-head">
+    <div class="exam-head-left">
+      <div class="exam-logo">Q</div>
+      <div class="exam-info">
+        <div class="exam-title" id="examTitle">Test</div>
+        <div class="exam-sub" id="examSub">Question 1 / 20</div>
+      </div>
+    </div>
+    <div class="exam-head-right">
+      <div class="connection-status" id="connectionStatus">
+        <span class="connection-dot"></span>
+        <span id="connectionText">Connected</span>
+      </div>
+      <div class="timer" id="timer">30:00</div>
+    </div>
+  </div>
+  <div class="question-nav" id="questionNav"></div>
+  <div class="exam-body">
+    <div class="exam-content">
+      <div class="qnum" id="questionNumber">Question 1</div>
+      <div class="qtext" id="questionText"></div>
+      <div class="options" id="options"></div>
+    </div>
+  </div>
+  <div class="exam-foot">
+    <div style="font-size:8px;color:var(--muted);flex:1;">
+      <b>Keyboard Only:</b> ↑↓ Select Answer · ← Previous · → Next · Enter Next/Submit
+    </div>
+    <div style="display:flex;gap:12px;">
+      <button class="exam-nav-btn prev" id="prevBtn" disabled>←</button>
+      <button class="exam-nav-btn next" id="nextBtn">→</button>
+    </div>
+  </div>
+</div>
+
+<div class="malpractice-overlay" id="malpracticeOverlay">
+  <div class="malpractice-content">
+    <div class="malpractice-icon">🚫</div>
+    <h2>Exam Stopped: Malpractice Detected</h2>
+    <p>Your exam has been automatically stopped due to security violation.</p>
+    <div class="malpractice-reason" id="malpracticeReason">
+      Reason: Exited fullscreen mode during exam
+    </div>
+    <div class="malpractice-contact">
+      Your answers up to this point have been saved. Please contact your teacher or examiner to resume exam. They will need to approve resumption from teacher dashboard.
+    </div>
+  </div>
+</div>
+
+<div class="overlay" id="resultOverlay">
+  <div class="result-modal">
+    <div class="result-circle" id="resultPercentage">0%</div>
+    <h2 id="resultTitle">Test Completed</h2>
+    <p id="resultMessage">Your result has been saved.</p>
+    <div class="result-grid">
+      <div class="result-stat"><strong id="correctCount">0</strong><span>Correct</span></div>
+      <div class="result-stat"><strong id="wrongCount">0</strong><span>Wrong</span></div>
+      <div class="result-stat"><strong id="unansweredCount">0</strong><span>Unanswered</span></div>
+    </div>
+    <button class="btn primary fullbtn" id="backDashboard">Back to Dashboard</button>
+  </div>
+</div>
+
+<div class="overlay" id="confirmOverlay">
+  <div class="confirm-modal">
+    <h3>Submit Your Exam?</h3>
+    <p>Are you sure you want to submit your exam? Once submitted, you cannot make any changes.</p>
+    <div class="confirm-summary">
+      <div class="confirm-summary-row">
+        <span class="confirm-summary-label">Total Questions</span>
+        <span class="confirm-summary-value" id="confirmTotal">0</span>
+      </div>
+      <div class="confirm-summary-row">
+        <span class="confirm-summary-label">Answered</span>
+        <span class="confirm-summary-value" id="confirmAnswered">0</span>
+      </div>
+      <div class="confirm-summary-row">
+        <span class="confirm-summary-label">Unanswered</span>
+        <span class="confirm-summary-value" id="confirmUnanswered">0</span>
+      </div>
+    </div>
+    <div id="confirmUnansweredList" style="display:none;"></div>
+    <div style="text-align:center;font-size:8px;color:var(--muted);margin-bottom:12px;margin-top:12px;">
+      Press <b>Enter</b> to submit · Press <b>Esc</b> to cancel
+    </div>
+    <div class="confirm-actions">
+      <button class="confirm-cancel" id="confirmCancelBtn">Cancel (Esc)</button>
+      <button class="confirm-submit" id="confirmSubmitBtn">Submit Exam (Enter)</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script type="module">
+import {initializeApp} from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
+import {getAuth,onAuthStateChanged,signOut} from "https://www.gstatic.com/firebasejs/12.3.0/firebase-auth.js";
+
+const firebaseConfig={
+ apiKey:"AIzaSyDtzQlc-9UyuPMoHjBT_12oSLgSYdceJFw",
+ authDomain:"mcq-test-platform-eb2b5.firebaseapp.com",
+ projectId:"mcq-test-platform-eb2b5",
+ storageBucket:"mcq-test-platform-eb2b5.firebasestorage.app",
+ messagingSenderId:"609604711611",
+ appId:"1:609604711611:web:df16e391dc17cfea17659e",
+ measurementId:"G-62ZX6HKWDP"
+};
+const app=initializeApp(firebaseConfig),auth=getAuth(app);
+const API="https://yh5j21oonb.execute-api.eu-north-1.amazonaws.com/prod";
+
+let user=null,currentTest=null,currentIndex=0,answers=[],timer=null,seconds=0,heartbeatTimer=null,refreshTimer=null,studentResultsCache=[];
+let completedTestIds=new Set();
+let pendingTestId=null,pendingTestMeta=null;
+let studentDetails={};
+let currentRequiredDetails={name:true,email:true,school:false,regNo:false,custom:[]};
+let selectedOptionIndex=0;
+let isOnline=true;
+let attemptStatus='ACTIVE';
+let malpracticeStatusPoll=null;
+const $=id=>document.getElementById(id);
+function esc(v){return String(v??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]))}
+function toast(t){const e=$("toast");e.textContent=t;e.classList.add("show");setTimeout(()=>e.classList.remove("show"),3000)}
+async function api(path,options={}){const r=await fetch(API+path,options);let d={};try{d=await r.json()}catch(e){}if(!r.ok||d.success===false)throw new Error(d.message||d.error||`Request failed (${r.status})`);return d}
+function apiGet(path){return api(path)}
+function apiPost(path,body){return api(path,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(body)})}
+
+function updateConnectionStatus(){
+  isOnline=navigator.onLine;
+  const status=$("connectionStatus");
+  const text=$("connectionText");
+  if(isOnline){
+    status.classList.remove("offline");
+    text.textContent="Connected";
+  }else{
+    status.classList.add("offline");
+    text.textContent="Offline";
+  }
+}
+window.addEventListener("online",()=>{updateConnectionStatus();toast("Connection restored")});
+window.addEventListener("offline",()=>{updateConnectionStatus();toast("Connection lost. Answers saved locally.")});
+
+onAuthStateChanged(auth,async u=>{
+ if(!u){window.location.href="student-login.html";return}
+ user=u;
+
+ // Fetch profile from DynamoDB
+ let savedDetails={};
+ try{
+   const response=await apiGet("/students?studentEmail="+encodeURIComponent(u.email||""));
+   if(response.success&&response.student){
+     savedDetails=response.student;
+   }
+ }catch(e){
+   console.warn('Could not fetch student profile:',e);
+ }
+
+ studentDetails=savedDetails;
+ const name=savedDetails.name||savedDetails.studentName||u.displayName||u.email?.split("@")[0]||"Student";
+ const first=name.trim().split(/\s+/)[0]||"Student";
+
+ $("welcomeName").textContent=esc(first);
+ $("headerName").textContent=esc(name);
+ $("profileName").textContent=esc(name);
+ $("profileEmail").textContent=esc(u.email||"No email available");
+ $("profileSchool").textContent=esc(savedDetails.collegeName||"Quizora Student");
+ $("avatar").textContent=first.charAt(0).toUpperCase();
+
+ await loadDashboard();
+});
+$("userArea").onclick=e=>{e.stopPropagation();const opened=$("profileMenu").classList.toggle("open");$("userArea").setAttribute("aria-expanded",String(opened))};
+$("userArea").onkeydown=e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();$("userArea").click()}else if(e.key==="Escape"){$("profileMenu").classList.remove("open");$("userArea").setAttribute("aria-expanded","false")}};
+document.addEventListener("click",()=>{$("profileMenu").classList.remove("open");$("userArea").setAttribute("aria-expanded","false")});
+$("profileMenu").onclick=e=>e.stopPropagation();
+$("viewResultsBtn").onclick=()=>{window.location.href="student-results.html"};
+let currentProfileData=null;
+
+$("profileDetailsBtn").onclick=async()=>{
+  $("profileMenu").classList.remove("open");
+  $("profileOverlay").classList.add("show");
+  $("profileOverlay").querySelector(".profile-modal").classList.remove("edit-mode");
+
+  $("modalName").textContent="Loading...";
+  $("modalEmail").textContent="Loading...";
+  $("modalRoll").textContent="Loading...";
+  $("modalCollege").textContent="Loading...";
+  $("modalPhone").textContent="Loading...";
+
+  try{
+    const response=await apiGet("/students?studentEmail="+encodeURIComponent(user.email||""));
+
+    if(response.success&&response.student){
+      currentProfileData=response.student;
+      const p=response.student;
+      const name=p.name||p.studentName||user.displayName||"Not provided";
+      const email=p.email||p.studentEmail||user.email||"Not provided";
+      const roll=p.rollNumber||p.regNo||"";
+      const college=p.collegeName||"";
+      const phone=p.phone||"";
+
+      $("modalName").textContent=name;
+      $("modalEmail").textContent=email;
+      $("modalRoll").textContent=roll||"Not provided";
+      $("modalCollege").textContent=college||"Not provided";
+      $("modalPhone").textContent=phone||"Not provided";
+
+      $("profileHeaderName").textContent=name;
+      $("profileHeaderEmail").textContent=email;
+      $("profileAvatar").textContent=name.charAt(0).toUpperCase();
+
+      $("editName").value=name;
+      $("editEmail").value=email;
+      $("editRoll").value=roll;
+      $("editCollege").value=college;
+      $("editPhone").value=phone;
+    }else{
+      const name=user?.displayName||"Not provided";
+      const email=user?.email||"Not provided";
+
+      $("modalName").textContent=name;
+      $("modalEmail").textContent=email;
+      $("modalRoll").textContent="Not provided";
+      $("modalCollege").textContent="Not provided";
+      $("modalPhone").textContent="Not provided";
+
+      $("profileHeaderName").textContent=name;
+      $("profileHeaderEmail").textContent=email;
+      $("profileAvatar").textContent=name.charAt(0).toUpperCase();
+
+      $("editName").value=name;
+      $("editEmail").value=email;
+      $("editRoll").value="";
+      $("editCollege").value="";
+      $("editPhone").value="";
+    }
+  }catch(e){
+    console.error('Error loading profile:',e);
+    const name=user?.displayName||"Not provided";
+    const email=user?.email||"Not provided";
+
+    $("modalName").textContent=name;
+    $("modalEmail").textContent=email;
+    $("modalRoll").textContent="Not provided";
+    $("modalCollege").textContent="Not provided";
+    $("modalPhone").textContent="Not provided";
+
+    $("profileHeaderName").textContent=name;
+    $("profileHeaderEmail").textContent=email;
+    $("profileAvatar").textContent=name.charAt(0).toUpperCase();
+  }
+};
+
+$("editProfileBtn").onclick=()=>{
+  $("profileOverlay").querySelector(".profile-modal").classList.add("edit-mode");
+};
+
+$("cancelEditBtn").onclick=()=>{
+  $("profileOverlay").querySelector(".profile-modal").classList.remove("edit-mode");
+};
+
+$("saveProfileBtn").onclick=async()=>{
+  const btn=$("saveProfileBtn");
+  const originalHTML=btn.innerHTML;
+
+  // Validate inputs
+  const name=$("editName").value.trim();
+  const roll=$("editRoll").value.trim();
+  const college=$("editCollege").value.trim();
+  const phone=$("editPhone").value.trim();
+
+  if(!name||name.length<2){
+    toast("Please enter your full name");
+    return;
+  }
+
+  if(!roll){
+    toast("Please enter your roll number");
+    return;
+  }
+
+  if(!college){
+    toast("Please enter your college name");
+    return;
+  }
+
+  if(!phone||phone.length<10){
+    toast("Please enter valid phone number");
+    return;
+  }
+
+  btn.disabled=true;
+  btn.innerHTML='<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="10"></circle></svg> Saving...';
+
+  const updatedData={
+    studentId:user.uid,
+    name:name,
+    studentName:name,
+    email:user.email||"",
+    studentEmail:user.email||"",
+    rollNumber:roll,
+    regNo:roll,
+    collegeName:college,
+    phone:phone,
+    profileComplete:true
+  };
+
+  console.log('Saving profile data:',updatedData);
+
+  try{
+    const response=await fetch(`${API}/students`,{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify(updatedData)
+    });
+
+    console.log('Response status:',response.status);
+
+    let data;
+    try{
+      data=await response.json();
+      console.log('Response data:',data);
+    }catch(parseErr){
+      console.error('JSON parse error:',parseErr);
+      throw new Error('Server returned invalid response');
+    }
+
+    if(!response.ok||!data.success){
+      throw new Error(data.message||`Failed to save profile (HTTP ${response.status})`);
+    }
+
+    $("modalName").textContent=name;
+    $("modalRoll").textContent=roll||"Not provided";
+    $("modalCollege").textContent=college||"Not provided";
+    $("modalPhone").textContent=phone||"Not provided";
+
+    $("profileHeaderName").textContent=name;
+    $("profileAvatar").textContent=name.charAt(0).toUpperCase();
+
+    $("headerName").textContent=name;
+    $("profileName").textContent=name;
+    $("avatar").textContent=name.charAt(0).toUpperCase();
+
+    currentProfileData=data.student||updatedData;
+
+    $("profileOverlay").querySelector(".profile-modal").classList.remove("edit-mode");
+    toast("Profile updated successfully!");
+  }catch(e){
+    console.error('Save profile error:',e);
+    toast(e.message||"Failed to save profile. Check console for details.");
+  }finally{
+    btn.disabled=false;
+    btn.innerHTML=originalHTML;
+  }
+};
+
+$("closeProfile").onclick=()=>{
+  $("profileOverlay").classList.remove("show");
+  $("profileOverlay").querySelector(".profile-modal").classList.remove("edit-mode");
+};
+
+$("profileOverlay").onclick=e=>{
+  if(e.target.id==="profileOverlay"){
+    $("profileOverlay").classList.remove("show");
+    $("profileOverlay").querySelector(".profile-modal").classList.remove("edit-mode");
+  }
+};
+$("logoutBtn").onclick=async e=>{e.stopPropagation();try{await signOut(auth)}finally{window.location.href="student-login.html"}};
+
+async function loadDashboard(){
+  // Initialize stats to 0
+  $("availableCount").textContent="0";
+  $("completedCount").textContent="0";
+  $("averageScore").textContent="0%";
+  $("bestScore").textContent="0%";
+
+  try{
+    await loadStudentResults();
+    await loadTests();
+  }catch(e){
+    toast("Could not load dashboard: "+e.message);
+  }
+
+  renderResults();
+}
+async function loadStudentResults(){
+  if(!user?.email)return;
+
+  try{
+    const d=await apiGet("/results?studentEmail="+encodeURIComponent(user.email));
+    const rows=Array.isArray(d.results)?d.results:[];
+
+    console.log(`Loaded ${rows.length} results for student ${user.email}`);
+
+    completedTestIds=new Set(rows.map(x=>String(x.testId||"")).filter(Boolean));
+
+    // Store results in cache
+    studentResultsCache=rows.map(r=>({
+      testId:r.testId,
+      testTitle:r.testTitle||'Untitled Test',
+      percentage:Number(r.percentage)||0,
+      score:r.score||0,
+      totalMarks:r.totalMarks||0,
+      correct:r.correct||0,
+      total:r.totalQuestions||0,
+      date:r.submittedAt||new Date().toISOString()
+    }));
+  }catch(e){
+    console.error('Error loading student results:', e);
+    completedTestIds=new Set();
+    studentResultsCache=[];
+  }
+}
+function formatRemaining(sec){sec=Math.max(0,Number(sec)||0);const h=Math.floor(sec/3600),m=Math.floor((sec%3600)/60),s=sec%60;return h?`${h}h ${String(m).padStart(2,"0")}m`:`${m}m ${String(s).padStart(2,"0")}s`}
+async function loadTests(){
+ const data=await apiGet("/student/tests?studentEmail="+encodeURIComponent(user.email||""));
+ const tests=(data.tests||[]).filter(t=>Number(t.remainingSeconds||0)>0);
+ $("availableCount").textContent=tests.length;
+ const list=$("testList");
+ if(!tests.length){list.innerHTML='<div class="empty">📝<b>No tests available</b>New assigned tests will appear here.</div>';return}
+ const icons=["💻","🐍","🌐","🗄️","📚","🧠"];
+ list.innerHTML="";
+
+ for(let i=0;i<tests.length;i++){
+   const t=tests[i];
+   const id=String(t.testId||"");
+   const completed=completedTestIds.has(id);
+
+   let attemptStat='ACTIVE';
+   try{
+     const attemptData=await apiGet(`/attempt/status?testId=${encodeURIComponent(id)}&studentEmail=${encodeURIComponent(user.email||"")}`);
+     attemptStat=attemptData.status||'ACTIVE';
+     console.log(`Attempt status for test ${id}:`,attemptStat,attemptData);
+   }catch(e){
+     console.error(`Failed to get attempt status for test ${id}:`,e);
+   }
+
+   const el=document.createElement("div");el.className="test";
+
+   let tagHtml='';
+   let buttonHtml='';
+
+   if(completed){
+     tagHtml=`<span class="tag completed-tag">✓ Test Completed</span>`;
+     buttonHtml=`<button class="start completed-btn" disabled>✓ Completed</button>`;
+   }else if(attemptStat==='MALPRACTICE'){
+     tagHtml=`<span class="tag" style="background:var(--redbg);color:var(--red);">🚫 Malpractice</span>`;
+     buttonHtml=`<button class="start" style="background:var(--redbg);color:var(--red);cursor:not-allowed;" disabled>Malpractice</button>`;
+   }else if(attemptStat==='RESUMED'){
+     tagHtml=`<span class="tag" style="background:var(--greenbg);color:var(--green);">✓ Resumed</span>`;
+     buttonHtml=`<button class="start">Start</button>`;
+   }else{
+     tagHtml=`<span class="tag">Ends in ${esc(formatRemaining(t.remainingSeconds))}</span>`;
+     buttonHtml=`<button class="start">Start</button>`;
+   }
+
+   el.innerHTML=`<div class="icon">${icons[i%icons.length]}</div><div class="info"><div class="name">${esc(t.testName||t.title||"Untitled Test")}</div><div class="meta">${Number(t.questionCount||t.totalQuestions||0)} Questions · ${Number(t.duration||t.durationMinutes||30)} Minutes · ${esc(t.subject||"General")}</div>${tagHtml}</div>${buttonHtml}`;
+
+   if(!completed&&attemptStat!=='MALPRACTICE'){
+     const startBtn=el.querySelector(".start");
+     if(startBtn&&!startBtn.disabled){
+       startBtn.onclick=()=>openStudentDetails(id,t);
+     }
+   }
+   list.appendChild(el);
+ }
+}
+
+let currentWizardStep=1;
+async function openStudentDetails(testId,meta={}){
+ if(completedTestIds.has(String(testId))){toast("You have already completed this test.");return}
+ pendingTestId=String(testId);pendingTestMeta=meta;
+ try{
+  const testData=await apiGet("/student/test/"+encodeURIComponent(testId)+"?studentEmail="+encodeURIComponent(user.email||""));
+  currentRequiredDetails=testData.test?.requiredDetails||{name:true,email:true,school:false,regNo:false,custom:[]};
+
+  try{
+   const attemptData=await apiGet(`/attempt/status?testId=${encodeURIComponent(testId)}&studentEmail=${encodeURIComponent(user.email||"")}`);
+   attemptStatus=attemptData.status||'ACTIVE';
+
+   if(attemptStatus==='MALPRACTICE'){
+    showMalpracticeScreen(attemptData.malpracticeReason||'Exam security violation');
+    startMalpracticeStatusPoll(testId);
+    return;
+   }
+   if(attemptStatus==='RESUMED'){
+    attemptStatus='ACTIVE';
+   }
+  }catch(e){
+   attemptStatus='ACTIVE';
+  }
+
+  currentWizardStep=1;
+  renderStudentForm();
+  updateWizardUI();
+  $("examWizardOverlay").classList.add("show");document.body.style.overflow="hidden";
+  setTimeout(()=>{const first=document.querySelector(".student-form input");if(first)first.focus()},100);
+ }catch(e){toast("Could not load test details: "+e.message)}
+}
+
+function startMalpracticeStatusPoll(testId){
+ clearInterval(malpracticeStatusPoll);
+ malpracticeStatusPoll=setInterval(async()=>{
+  try{
+   const attemptData=await apiGet(`/attempt/status?testId=${encodeURIComponent(testId)}&studentEmail=${encodeURIComponent(user.email||"")}`);
+   if(attemptData.status==='RESUMED'){
+    clearInterval(malpracticeStatusPoll);
+    hideMalpracticeScreen();
+    openStudentDetails(testId,pendingTestMeta||{});
+   }
+  }catch(e){}
+ },5000);
+}
+
+function showMalpracticeScreen(reason){
+ $("malpracticeReason").textContent=`Reason: ${reason}`;
+ $("malpracticeOverlay").classList.add("show");
+ document.body.style.overflow="hidden";
+}
+
+function hideMalpracticeScreen(){
+ $("malpracticeOverlay").classList.remove("show");
+ document.body.style.overflow="";
+}
+
+function updateWizardUI(){
+ document.querySelectorAll(".wizard-step").forEach((s,i)=>{
+  const step=i+1;
+  s.classList.toggle("active",step===currentWizardStep);
+  s.classList.toggle("completed",step<currentWizardStep);
+ });
+ document.querySelectorAll(".wizard-page").forEach((p,i)=>{
+  p.classList.toggle("active",i+1===currentWizardStep);
+ });
+}
+function nextWizardStep(){
+ if(currentWizardStep===1){
+  if(!validateStudentForm())return;
+ }
+ if(currentWizardStep===2){
+  if(!$("acceptTerms").checked){toast("Please accept terms and conditions");return}
+ }
+ if(currentWizardStep<3){
+  currentWizardStep++;
+  updateWizardUI();
+ }
+}
+window.nextWizardStep=nextWizardStep;
+function prevWizardStep(){
+ if(currentWizardStep>1){
+  currentWizardStep--;
+  updateWizardUI();
+ }
+}
+window.prevWizardStep=prevWizardStep;
+function closeExamWizard(){
+ $("examWizardOverlay").classList.remove("show");
+ document.body.style.overflow="";
+ pendingTestId=null;
+ pendingTestMeta=null;
+ currentWizardStep=1;
+}
+window.closeExamWizard=closeExamWizard;
+function validateStudentForm(){
+ studentDetails={};
+ if(currentRequiredDetails.name!==false){
+  const v=$("studentName")?.value.trim()||"";
+  if(!v){toast("Please enter your Name.");$("studentName")?.focus();return false}
+  studentDetails.name=v;
+ }
+ if(currentRequiredDetails.email!==false){
+  const v=$("studentEmail")?.value.trim().toLowerCase()||"";
+  if(!v||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)){toast("Please enter valid Email.");$("studentEmail")?.focus();return false}
+  studentDetails.email=v;
+ }
+ if(currentRequiredDetails.school===true){
+  const v=$("studentSchool")?.value.trim()||"";
+  if(!v){toast("Please enter School Name.");$("studentSchool")?.focus();return false}
+  studentDetails.school=v;
+ }
+ if(currentRequiredDetails.regNo===true){
+  const v=$("studentRegNo")?.value.trim()||"";
+  if(!v){toast("Please enter Registration Number.");$("studentRegNo")?.focus();return false}
+  studentDetails.regNo=v;
+ }
+ if(Array.isArray(currentRequiredDetails.custom)){
+  for(let i=0;i<currentRequiredDetails.custom.length;i++){
+   const field=currentRequiredDetails.custom[i];
+   const el=$("studentCustom"+i);
+   const v=el?.value.trim()||"";
+   if(!v){toast(`Please enter ${field}.`);el?.focus();return false}
+   studentDetails['custom_'+field]=v;
+  }
+ }
+ try{localStorage.setItem("quizora_student_details_"+user.uid,JSON.stringify(studentDetails))}catch{}
+ return true;
+}
+function renderStudentForm(){
+ const saved=studentDetails||{};
+ const form=document.querySelector(".student-form");
+ let html="";
+ if(currentRequiredDetails.name!==false){
+  html+=`<input id="studentName" type="text" placeholder="Full Name *" autocomplete="name" value="${esc(saved.name||user.displayName||user.email?.split("@")[0]||"")}">`;
+ }
+ if(currentRequiredDetails.email!==false){
+  html+=`<input id="studentEmail" type="email" placeholder="Email Address *" autocomplete="email" value="${esc((user&&user.email)||"")}" readonly>`;
+ }
+ if(currentRequiredDetails.school===true){
+  html+=`<input id="studentSchool" type="text" placeholder="School Name *" autocomplete="organization" value="${esc(saved.school||"")}">`;
+ }
+ if(currentRequiredDetails.regNo===true){
+  html+=`<input id="studentRegNo" type="text" placeholder="Registration Number *" autocomplete="off" value="${esc(saved.regNo||"")}">`;
+ }
+ if(Array.isArray(currentRequiredDetails.custom)){
+  currentRequiredDetails.custom.forEach((field,i)=>{
+   html+=`<input id="studentCustom${i}" type="text" placeholder="${esc(field)} *" autocomplete="off" value="${esc(saved['custom_'+field]||"")}">`;
+  });
+ }
+ form.innerHTML=html;
+}
+document.addEventListener("DOMContentLoaded",()=>{
+ const acceptTerms=$("acceptTerms");
+ if(acceptTerms){
+  acceptTerms.addEventListener("change",e=>{
+   const btn=$("acceptTermsBtn");
+   if(btn)btn.disabled=!e.target.checked;
+  });
+ }
+});
+
+async function lockExamKeyboard(){
+ if(!navigator.keyboard?.lock)return false;
+ try{
+  await navigator.keyboard.lock(['Escape']);
+  return true;
+ }catch(e){
+  return false;
+ }
+}
+
+async function triggerMalpractice(reason){
+ clearInterval(timer);
+ clearInterval(heartbeatTimer);
+ attemptStatus='MALPRACTICE';
+
+ console.log('Triggering malpractice for reason:',reason);
+ try{
+  const result=await apiPost('/attempt/malpractice',{
+   testId:currentTest.testId,
+   studentEmail:user.email||"",
+   studentId:user.uid,
+   reason,
+   questionIndex:currentIndex,
+   timestamp:new Date().toISOString(),
+   currentAnswers:answers.map((v,i)=>({
+    questionId:currentTest.questions[i].questionId||String(i+1).padStart(3,"0"),
+    answer:v===null?null:"ABCD"[v]
+   }))
+  });
+  console.log('Malpractice submitted successfully:',result);
+ }catch(e){
+  console.error('Failed to submit malpractice:',e);
+ }
+
+ const reasonText=reason==='FULLSCREEN_EXIT'?'Exited fullscreen mode during exam':
+                  reason==='TAB_SWITCH'?'Switched tabs during exam':
+                  reason==='WINDOW_BLUR'?'Left window during exam':'Exam security violation';
+
+ showMalpracticeScreen(reasonText);
+ startMalpracticeStatusPoll(currentTest.testId);
+
+ $("examContainer").style.display="none";
+ $("confirmOverlay").classList.remove("show");
+ document.documentElement.classList.remove("quizora-exam-active");
+ document.body.classList.remove("quizora-exam-active");
+
+ if(navigator.keyboard&&navigator.keyboard.unlock){
+  navigator.keyboard.unlock();
+ }
+ if(document.fullscreenElement){
+  document.exitFullscreen().catch(()=>{});
+ }
+
+ document.removeEventListener("keydown",handleExamKeypress,true);
+ document.removeEventListener("click",handleExamClick,true);
+}
+
+document.addEventListener('visibilitychange',async()=>{
+ if(currentTest&&document.visibilityState!=='visible'&&attemptStatus==='ACTIVE'){
+  await triggerMalpractice('TAB_SWITCH');
+ }
+},{capture:true});
+
+window.addEventListener('blur',async()=>{
+ if(currentTest&&attemptStatus==='ACTIVE'){
+  await triggerMalpractice('WINDOW_BLUR');
+ }
+},{capture:true});
+
+async function startExamFullscreen(){
+ if(!studentDetails||Object.keys(studentDetails).length===0){toast('Student details missing');return}
+ const btn=document.querySelector('[onclick="startExamFullscreen()"]');
+ if(btn){btn.textContent='🖥️ Entering Fullscreen...';btn.disabled=true}
+ try{
+  attemptStatus='ACTIVE';
+  await document.documentElement.requestFullscreen({navigationUI:"hide"});
+  if(!document.fullscreenElement)throw new Error('Fullscreen denied');
+  await lockExamKeyboard();
+  document.documentElement.classList.add('quizora-exam-active');
+  document.body.classList.add('quizora-exam-active');
+  $('examWizardOverlay').classList.remove('show');
+  document.body.style.overflow='hidden';
+  const id=pendingTestId,meta=pendingTestMeta||{};
+  pendingTestId=null;pendingTestMeta=null;currentWizardStep=1;
+  updateConnectionStatus();
+  await loadAndStartTest(id,meta);
+ }catch(e){
+  toast('Fullscreen required. Please allow and try again.');
+  if(btn){btn.textContent='🚀 Start Exam in Fullscreen';btn.disabled=false}
+ }
+}
+window.startExamFullscreen=startExamFullscreen;
+
+document.addEventListener('fullscreenchange',async()=>{
+ if(!currentTest||attemptStatus!=='ACTIVE')return;
+ if(document.fullscreenElement){
+  document.documentElement.classList.add('quizora-exam-active');
+  document.body.classList.add('quizora-exam-active');
+  lockExamKeyboard();
+  return;
+ }
+ await triggerMalpractice('FULLSCREEN_EXIT');
+});
+
+async function loadAndStartTest(testId,meta={}){
+ try{
+  if(completedTestIds.has(String(testId))){toast("Already completed this test");await loadTests();return}
+  const testData=await apiGet("/student/test/"+encodeURIComponent(testId)+"?studentEmail="+encodeURIComponent(user.email||""));
+  if(Number(testData.test?.remainingSeconds||0)<=0)throw new Error("Test has ended");
+  const qData=await apiGet("/questions/"+encodeURIComponent(testId)+"?studentEmail="+encodeURIComponent(user.email||""));
+  const qs=(qData.questions||[]).map(q=>({questionId:q.id||q.questionId,question:q.question,options:Array.isArray(q.options)?q.options:[q.optionA,q.optionB,q.optionC,q.optionD]}));
+  if(!qs.length)throw new Error("No questions in test");
+  currentTest={...testData.test,...meta,questions:qs};
+
+  try{
+   const attemptCheck=await apiGet(`/attempt/status?testId=${encodeURIComponent(testId)}&studentEmail=${encodeURIComponent(user.email||"")}`);
+   console.log("Attempt status on exam start:",attemptCheck);
+  }catch(e){
+   console.error("Failed to check attempt status:",e);
+  }
+
+  await apiPost("/attendance",{testId,studentId:user.uid,studentEmail:user.email||"",studentName:studentDetails.name||user.displayName||"Student",...studentDetails,startedAt:new Date().toISOString()});
+
+  try{
+   await apiPost('/attempt/violation',{
+    testId,
+    studentEmail:user.email||"",
+    violationType:'EXAM_STARTED',
+    questionIndex:0,
+    timestamp:new Date().toISOString()
+   });
+   console.log("Attempt record created on exam start");
+  }catch(e){
+   console.error("Failed to create attempt record:",e);
+  }
+
+  beginExam();
+ }catch(e){toast(e.message)}
+}
+
+$("joinBtn").onclick=()=>{const v=prompt("Enter test code:");if(v)verifyCode(v)};
+$("verifyBtn").onclick=()=>verifyCode($("codeInput").value);
+$("codeInput").oninput=e=>e.target.value=e.target.value.toUpperCase().replace(/\s/g,"");
+$("codeInput").onkeydown=e=>{if(e.key==="Enter")verifyCode(e.target.value)};
+$("refreshBtn").onclick=async()=>{await loadDashboard();toast("Tests refreshed")};
+async function verifyCode(code){
+ code=String(code||"").trim().toUpperCase();
+ if(!code){toast("Enter test code");return}
+ try{
+  const d=await apiGet("/test-code/"+encodeURIComponent(code));
+  if(!d.test?.testId)throw new Error("Invalid test code");
+  openStudentDetails(d.test.testId,d.test);
+ }catch(e){toast(e.message)}
+}
+
+function beginExam(){
+ currentIndex=0;
+ answers=new Array(currentTest.questions.length).fill(null);
+ selectedOptionIndex=answers[0]!==null?answers[0]:0;
+
+ $("examTitle").textContent=currentTest.testName||"Quizora Test";
+ $("examSub").textContent=`Question 1 / ${currentTest.questions.length}`;
+
+ $("examContainer").style.display="flex";
+ document.body.style.overflow="hidden";
+ document.documentElement.classList.add("quizora-exam-active");
+ document.body.classList.add("quizora-exam-active");
+
+ startTimerFromEndTime(currentTest.endTime);
+ startHeartbeat();
+ renderQuestion();
+ setupKeyboardNav();
+
+ if(!document.fullscreenElement){
+  document.documentElement.requestFullscreen({navigationUI:"hide"}).catch(()=>{});
+ }
+}
+
+function handleExamMouse(e){
+ if(!currentTest||attemptStatus!=='ACTIVE')return;
+ e.preventDefault();
+ e.stopPropagation();
+ e.stopImmediatePropagation();
+ return false;
+}
+
+function setupKeyboardNav(){
+ document.removeEventListener("keydown",handleExamKeypress,true);
+ document.removeEventListener("click",handleExamClick,true);
+ document.removeEventListener("mousedown",handleExamMouse,true);
+ document.removeEventListener("mouseup",handleExamMouse,true);
+ document.removeEventListener("mousemove",handleExamMouse,true);
+ document.removeEventListener("contextmenu",handleExamMouse,true);
+
+ document.addEventListener("keydown",handleExamKeypress,true);
+ document.addEventListener("click",handleExamClick,true);
+ document.addEventListener("mousedown",handleExamMouse,true);
+ document.addEventListener("mouseup",handleExamMouse,true);
+ document.addEventListener("mousemove",handleExamMouse,true);
+ document.addEventListener("contextmenu",handleExamMouse,true);
+}
+
+function handleExamKeypress(e){
+ if(!currentTest||attemptStatus!=='ACTIVE')return;
+
+ const confirmOverlay=$("confirmOverlay");
+ const isConfirmVisible=confirmOverlay&&confirmOverlay.classList.contains("show");
+
+ if(isConfirmVisible){
+  if(e.key==="Enter"){
+   e.preventDefault();
+   e.stopPropagation();
+   confirmOverlay.classList.remove("show");
+   submitExam(false);
+   return false;
+  }else if(e.key==="Escape"){
+   e.preventDefault();
+   e.stopPropagation();
+   confirmOverlay.classList.remove("show");
+   return false;
+  }
+  return;
+ }
+
+ const allowedKeys=["ArrowDown","ArrowUp","ArrowLeft","ArrowRight","Enter"];
+ if(!allowedKeys.includes(e.key)){
+  e.preventDefault();
+  e.stopPropagation();
+  e.stopImmediatePropagation();
+  return false;
+ }
+
+ e.preventDefault();
+ e.stopPropagation();
+
+ if(e.key==="ArrowDown"){
+  selectedOptionIndex=(selectedOptionIndex+1)%4;
+  answers[currentIndex]=selectedOptionIndex;
+  renderQuestion();
+ }else if(e.key==="ArrowUp"){
+  selectedOptionIndex=(selectedOptionIndex+3)%4;
+  answers[currentIndex]=selectedOptionIndex;
+  renderQuestion();
+ }else if(e.key==="ArrowLeft"){
+  if(currentIndex>0){
+   goPrev();
+  }
+ }else if(e.key==="ArrowRight"){
+  if(currentIndex<currentTest.questions.length-1){
+   goNext();
+  }
+ }else if(e.key==="Enter"){
+  if(currentIndex===currentTest.questions.length-1){
+   showSubmitConfirmation();
+  }else{
+   goNext();
+  }
+ }
+ return false;
+}
+
+function handleExamClick(e){
+ if(!currentTest||attemptStatus!=='ACTIVE')return;
+
+ e.preventDefault();
+ e.stopPropagation();
+ e.stopImmediatePropagation();
+ return false;
+}
+
+function goNext(){
+ if(!currentTest||attemptStatus!=='ACTIVE')return;
+ if(currentIndex<currentTest.questions.length-1){
+  currentIndex++;
+  selectedOptionIndex=answers[currentIndex]!==null?answers[currentIndex]:0;
+  renderQuestion();
+ }
+}
+function goPrev(){
+ if(!currentTest||attemptStatus!=='ACTIVE')return;
+ if(currentIndex>0){
+  currentIndex--;
+  selectedOptionIndex=answers[currentIndex]!==null?answers[currentIndex]:0;
+  renderQuestion();
+ }
+}
+
+function startTimerFromEndTime(endTime){
+ clearInterval(timer);
+ const end=Date.parse(endTime);
+ seconds=Math.max(0,Math.ceil((end-Date.now())/1000));
+ updateTimer();
+ timer=setInterval(()=>{
+  seconds=Math.max(0,Math.ceil((end-Date.now())/1000));
+  updateTimer();
+  if(seconds<=0){
+   clearInterval(timer);
+   clearInterval(heartbeatTimer);
+   submitExam(true);
+  }
+ },500);
+}
+function updateTimer(){
+ const m=Math.floor(seconds/60),s=seconds%60;
+ $("timer").textContent=(Math.floor(seconds/3600)?String(Math.floor(seconds/3600)).padStart(2,"0")+":" : "")+String(m%60).padStart(2,"0")+":"+String(s).padStart(2,"0");
+ if(seconds<=60)$("timer").style.background="#fff0f1";
+}
+function startHeartbeat(){
+ clearInterval(heartbeatTimer);
+ const beat=()=>apiPost("/attendance",{testId:currentTest.testId,studentId:user.uid,name:user.displayName||"Student",email:user.email||"",startedAt:currentTest.startTime}).catch(()=>{});
+ heartbeatTimer=setInterval(beat,30000);
+}
+
+function renderQuestion(){
+ const q=currentTest.questions[currentIndex],total=currentTest.questions.length,selected=answers[currentIndex];
+ $("examSub").textContent=`Question ${currentIndex+1} / ${total}`;
+ $("questionNumber").textContent=`Question ${currentIndex+1}`;
+ $("questionText").textContent=q.question;
+ $("options").innerHTML=q.options.map((o,i)=>`<button class="answer-option ${selected===i?"selected":""}" data-i="${i}"><span class="letter">${"ABCD"[i]}</span><span>${esc(o)}</span></button>`).join("");
+
+ const answeredCount=answers.filter(a=>a!==null).length;
+ $("questionNav").innerHTML=`
+  <div style="font-size:8px;color:var(--muted);font-weight:700;margin-right:8px;">Questions:</div>
+  ${answers.map((a,i)=>`<div class="question-nav-item ${i===currentIndex?'current':''} ${a!==null?'answered':''}">${i+1}</div>`).join('')}
+  <div style="margin-left:auto;font-size:8px;color:var(--green);font-weight:700;">✓ ${answeredCount}/${total} Answered</div>
+ `;
+
+ $("prevBtn").disabled=currentIndex===0;
+ if(currentIndex===total-1){
+  $("nextBtn").textContent="Submit ✓";
+  $("nextBtn").classList.add("submit");
+  $("nextBtn").classList.remove("next");
+ }else{
+  $("nextBtn").textContent="→";
+  $("nextBtn").classList.add("next");
+  $("nextBtn").classList.remove("submit");
+ }
+ $("prevBtn").textContent="←";
+}
+
+
+function showSubmitConfirmation(){
+ if(!currentTest||attemptStatus!=='ACTIVE')return;
+ const total=currentTest.questions.length;
+ const answered=answers.filter(v=>v!==null).length;
+ const unanswered=total-answered;
+
+ const unansweredNumbers=[];
+ answers.forEach((a,i)=>{
+  if(a===null)unansweredNumbers.push(i+1);
+ });
+
+ $("confirmTotal").textContent=total;
+ $("confirmAnswered").textContent=answered;
+ $("confirmUnanswered").textContent=unanswered;
+
+ const unansweredList=$("confirmUnansweredList");
+ const submitBtn=$("confirmSubmitBtn");
+ if(unansweredNumbers.length>0){
+  unansweredList.style.display="block";
+  unansweredList.innerHTML=`
+   <div style="background:#fff3cd;border:1px solid #ffc107;border-radius:8px;padding:12px;margin-top:12px;">
+    <div style="font-size:10px;font-weight:700;color:#856404;margin-bottom:6px;">⚠️ Unanswered Questions:</div>
+    <div style="font-size:9px;color:#856404;">Questions: ${unansweredNumbers.join(', ')}</div>
+    <div style="font-size:8px;color:#856404;margin-top:4px;">Press Esc to go back and answer these questions</div>
+   </div>
+  `;
+  submitBtn.textContent="Submit Anyway (Enter)";
+  submitBtn.style.background="#ff9800";
+ }else{
+  unansweredList.style.display="none";
+  submitBtn.textContent="Submit Exam (Enter)";
+  submitBtn.style.background="var(--green)";
+ }
+
+ $("confirmOverlay").classList.add("show");
+}
+
+
+async function submitExam(auto){
+ if(!currentTest)return;
+ if(!auto&&attemptStatus!=='ACTIVE')return;
+ clearInterval(timer);
+ clearInterval(heartbeatTimer);
+ const total=currentTest.questions.length;
+ const submissionData={
+  studentId:user.uid,
+  studentName:studentDetails.name||user.displayName||"Student",
+  studentEmail:studentDetails.email||user.email||"",
+  name:studentDetails.name||user.displayName||"Student",
+  email:studentDetails.email||user.email||"",
+  testId:currentTest.testId,
+  answers:answers.map((v,i)=>({
+   questionId:currentTest.questions[i].questionId||String(i+1).padStart(3,"0"),
+   answer:v===null?null:"ABCD"[v]
+  }))
+ };
+ Object.keys(studentDetails).forEach(key=>{
+  if(
+    key === "school" ||
+    key === "regNo" ||
+    key === "rollNumber" ||
+    key === "registerNumber" ||
+    key === "collegeName" ||
+    key.startsWith("custom_")
+  ){
+    submissionData[key]=studentDetails[key];
+  }
+ });
+
+ try{
+  const d=await apiPost("/results",submissionData);
+  completedTestIds.add(String(currentTest.testId));
+  saveLocalResult({
+   testId:currentTest.testId,
+   testTitle:currentTest.testName||"Quizora Test",
+   score:d.result?.score??d.score,
+   totalMarks:d.result?.totalMarks??d.totalMarks,
+   total,
+   percentage:d.result?.percentage??d.percentage,
+   correct:d.result?.correct??d.correct,
+   wrong:d.result?.wrong??d.wrong,
+   unanswered:d.result?.unanswered??d.unanswered,
+   date:new Date().toISOString(),
+   resultId:d.result?.resultId??d.resultId
+  });
+  showResult(d.result?.correct??d.correct,d.result?.wrong??d.wrong,d.result?.unanswered??d.unanswered,total,auto,d.result?.score??d.score,d.result?.totalMarks??d.totalMarks);
+ }catch(e){
+  toast("Could not save result: "+e.message);
+ }
+}
+
+function saveLocalResult(r){
+ if(!user?.uid){
+   console.error('Cannot save result: no user UID');
+   return;
+ }
+
+ const key="quizora_student_results_"+user.uid;
+ let a=[];
+
+ try{
+   a=JSON.parse(localStorage.getItem(key)||"[]");
+ }catch(e){
+   console.error('Error parsing existing results:', e);
+   a=[];
+ }
+
+ a.unshift(r);
+ localStorage.setItem(key,JSON.stringify(a.slice(0,20)));
+
+ console.log(`Saved result for ${user.email}, total results: ${a.length}`);
+}
+
+function renderResults(){
+ if(!user){
+   console.log('No user, cannot render results');
+   return;
+ }
+
+ const a=studentResultsCache||[];
+
+ console.log(`Rendering ${a.length} results for student ${user.email}`);
+
+ // Update completed count
+ $("completedCount").textContent=String(a.length);
+
+ // Calculate and update stats
+ if(!a.length || a.length === 0){
+  $("averageScore").textContent="0%";
+  $("bestScore").textContent="0%";
+  $("resultList").innerHTML='<div class="empty">📊<b>No completed tests</b>Your results will appear here.</div>';
+  return;
+ }
+
+ const vals=a.map(x=>Number(x.percentage)||0).filter(x=>!isNaN(x));
+ const avgScore=vals.length > 0 ? Math.round(vals.reduce((x,y)=>x+y,0)/vals.length) : 0;
+ const maxScore=vals.length > 0 ? Math.max(...vals) : 0;
+
+ $("averageScore").textContent=avgScore+"%";
+ $("bestScore").textContent=maxScore+"%";
+
+ // Render recent results
+ $("resultList").innerHTML=a.slice(0,5).map(x=>`<div class="result"><div class="result-icon">📊</div><div class="result-info"><div class="result-name">${esc(x.testTitle||'Test')}</div><div class="result-meta">${new Date(x.date).toLocaleDateString()} · ${x.correct||0}/${x.total||0} correct</div></div><div class="score">${x.percentage||0}%</div></div>`).join("");
+}
+
+function showResult(correct,wrong,unanswered,total,auto,score,totalMarks){
+ currentTest=null;
+
+ document.documentElement.classList.remove("quizora-exam-active");
+ document.body.classList.remove("quizora-exam-active");
+
+ if(navigator.keyboard&&navigator.keyboard.unlock){
+  navigator.keyboard.unlock();
+ }
+
+ const pct=totalMarks?Math.round(score/totalMarks*100):Math.round(correct/total*100);
+ $("resultPercentage").textContent=pct+"%";
+ $("correctCount").textContent=correct;
+ $("wrongCount").textContent=wrong;
+ $("unansweredCount").textContent=unanswered;
+ $("resultTitle").textContent=auto?"Time Up — Test Submitted":"Test Completed";
+ $("resultMessage").textContent="Your answers were checked securely by Quizora AWS.";
+
+ $("examContainer").style.display="none";
+ $("resultOverlay").classList.add("show");
+ document.body.style.overflow="";
+
+ if(document.fullscreenElement){
+  document.exitFullscreen().catch(()=>{});
+ }
+
+ document.removeEventListener("keydown",handleExamKeypress,true);
+ document.removeEventListener("click",handleExamClick,true);
+
+ renderResults();
+ loadTests();
+}
+
+$("backDashboard").onclick=()=>{
+ $("resultOverlay").classList.remove("show");
+ currentTest=null;
+ if(navigator.keyboard&&navigator.keyboard.unlock){
+  navigator.keyboard.unlock();
+ }
+ if(document.fullscreenElement){
+  document.exitFullscreen();
+ }
+ document.removeEventListener("keydown",handleExamKeypress,true);
+ document.removeEventListener("click",handleExamClick,true);
+ loadDashboard();
+};
+
+clearInterval(refreshTimer);
+refreshTimer=setInterval(()=>{if(!currentTest&&!document.hidden)loadTests().catch(()=>{})},30000);
+loadDashboard();
+</script>
+
+<!-- Profile Modal -->
+<div class="overlay" id="profileOverlay">
+  <div class="profile-modal">
+    <div class="profile-modal-header">
+      <div class="profile-avatar" id="profileAvatar">S</div>
+      <div class="profile-header-info">
+        <h2 id="profileHeaderName">Student</h2>
+        <p id="profileHeaderEmail">student@example.com</p>
+      </div>
+      <button class="edit-profile-btn" id="editProfileBtn" title="Edit Profile">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+      </button>
+      <button class="close-profile" id="closeProfile">✕</button>
+    </div>
+    <div class="profile-modal-body">
+      <div class="profile-section-header">Personal Information</div>
+      <div class="profile-grid-container">
+        <div class="profile-card">
+          <div class="profile-card-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+          </div>
+          <div class="profile-card-content">
+            <div class="profile-card-label">Full Name</div>
+            <div class="profile-card-value" id="modalName">Loading...</div>
+            <input class="profile-card-input" id="editName" type="text" placeholder="Enter your full name">
+          </div>
+        </div>
+
+        <div class="profile-card">
+          <div class="profile-card-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+          </div>
+          <div class="profile-card-content">
+            <div class="profile-card-label">
+              Email Address
+              <span style="display:inline-flex;align-items:center;gap:4px;background:#f3f4f6;color:#6b7280;padding:2px 8px;border-radius:6px;font-size:9px;margin-left:8px;font-weight:700">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                LOCKED
+              </span>
+            </div>
+            <div class="profile-card-value" id="modalEmail">Loading...</div>
+            <input class="profile-card-input" id="editEmail" type="email" placeholder="your.email@example.com" readonly>
+          </div>
+        </div>
+      </div>
+
+      <div class="profile-section-header">Academic Details</div>
+      <div class="profile-grid-container">
+        <div class="profile-card">
+          <div class="profile-card-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
+          </div>
+          <div class="profile-card-content">
+            <div class="profile-card-label">Student ID / Roll Number</div>
+            <div class="profile-card-value" id="modalRoll">Not provided</div>
+            <input class="profile-card-input" id="editRoll" type="text" placeholder="Enter your roll number">
+          </div>
+        </div>
+
+        <div class="profile-card">
+          <div class="profile-card-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+          </div>
+          <div class="profile-card-content">
+            <div class="profile-card-label">College / Institution</div>
+            <div class="profile-card-value" id="modalCollege">Not provided</div>
+            <input class="profile-card-input" id="editCollege" type="text" placeholder="Enter your college or institution">
+          </div>
+        </div>
+      </div>
+
+      <div class="profile-section-header">Contact Information</div>
+      <div class="profile-grid-container">
+        <div class="profile-card">
+          <div class="profile-card-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+          </div>
+          <div class="profile-card-content">
+            <div class="profile-card-label">Phone Number</div>
+            <div class="profile-card-value" id="modalPhone">Not provided</div>
+            <input class="profile-card-input" id="editPhone" type="tel" placeholder="Enter your phone number">
+          </div>
+        </div>
+      </div>
+
+      <div class="profile-actions" id="profileActions">
+        <button class="profile-action-btn cancel" id="cancelEditBtn">Cancel</button>
+        <button class="profile-action-btn save" id="saveProfileBtn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+          Save Changes
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+import{initializeApp}from'https://www.gstatic.com/firebasejs/11.2.0/firebase-app.js';
+import{getAuth,onAuthStateChanged}from'https://www.gstatic.com/firebasejs/11.2.0/firebase-auth.js';
+
+const firebaseConfig={apiKey:"AIzaSyDtzQlc-9UyuPMoHjBT_12oSLgSYdceJFw",authDomain:"mcq-test-platform-eb2b5.firebaseapp.com",projectId:"mcq-test-platform-eb2b5",storageBucket:"mcq-test-platform-eb2b5.firebasestorage.app",messagingSenderId:"609604711611",appId:"1:609604711611:web:df16e391dc17cfea17659e",measurementId:"G-62ZX6HKWDP"};
+const app=initializeApp(firebaseConfig);
+const auth=getAuth(app);
+
+onAuthStateChanged(auth,user=>{
+  if(!user){
+    const returnUrl=encodeURIComponent(location.pathname+location.search);
+    location.replace('student-login.html?redirect='+returnUrl);
+  }
+});
+</script>
+
+</body>
+</html>

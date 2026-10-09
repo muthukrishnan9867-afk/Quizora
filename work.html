@@ -1,0 +1,5468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Quizora Documentation - Test Creator Guide</title>
+
+<style>
+
+/* =========================================================
+   GLOBAL
+========================================================= */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Roboto,
+        Arial,
+        sans-serif;
+
+    color: #1f2937;
+    background: #ffffff;
+
+    line-height: 1.7;
+}
+
+a {
+    color: #635bff;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+button,
+input {
+    font-family: inherit;
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.header {
+    height: 72px;
+
+    background: #000;
+    color: white;
+
+    display: flex;
+    align-items: center;
+
+    padding: 0 24px;
+
+    position: sticky;
+    top: 0;
+
+    z-index: 1000;
+
+    border-bottom: 3px solid #635bff;
+
+    box-shadow: 0 8px 32px rgba(0,0,0,.5);
+}
+
+
+/* LOGO */
+
+.logo-area {
+    display: flex;
+    align-items: center;
+
+    gap: 12px;
+
+    min-width: 270px;
+}
+
+.logo {
+    width: 48px;
+    height: 48px;
+
+    border-radius: 50%;
+
+    background-image: url('logo.jpeg');
+    background-size: cover;
+    background-position: center;
+
+    box-shadow:
+        0 8px 24px rgba(99,91,255,.4),
+        0 0 0 3px rgba(99,91,255,.5);
+
+    transition: transform .3s ease;
+}
+
+.logo:hover {
+    transform: scale(1.08);
+}
+
+.logo-text {
+    font-size: 20px;
+
+    font-weight: 800;
+
+    letter-spacing: 2px;
+
+    color: white;
+
+    text-shadow: 0 2px 8px rgba(99,91,255,.4);
+}
+
+.logo-subtitle {
+    display: block;
+
+    font-size: 11px;
+
+    color: rgba(255,255,255,.75);
+
+    font-weight: 600;
+
+    letter-spacing: 0.5px;
+
+    line-height: 1.2;
+
+    margin-top: 2px;
+}
+
+
+/* SEARCH */
+
+.search-area {
+    flex: 1;
+
+    max-width: 600px;
+
+    margin: 0 auto;
+
+    position: relative;
+}
+
+.search-area input {
+    width: 100%;
+
+    height: 40px;
+
+    padding:
+        0 16px 0 42px;
+
+    border-radius: 8px;
+
+    border:
+        1px solid rgba(255,255,255,.2);
+
+    background: rgba(255,255,255,.08);
+
+    color: white;
+
+    outline: none;
+
+    font-size: 14px;
+
+    transition: all .2s ease;
+}
+
+.search-area input::placeholder {
+    color: rgba(255,255,255,.5);
+}
+
+.search-area input:focus {
+    border-color: #635bff;
+
+    background: rgba(255,255,255,.12);
+
+    box-shadow: 0 0 0 3px rgba(99,91,255,.2);
+}
+
+.search-icon {
+    position: absolute;
+
+    left: 14px;
+    top: 7px;
+
+    color: rgba(255,255,255,.5);
+
+    font-size: 20px;
+
+    pointer-events: none;
+}
+
+
+/* HEADER RIGHT */
+
+.header-right {
+    min-width: 250px;
+
+    display: flex;
+
+    justify-content: flex-end;
+
+    align-items: center;
+
+    gap: 15px;
+}
+
+.header-right a {
+    color: #60a5fa;
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+    text-decoration: none;
+
+    padding: 8px 14px;
+
+    border-radius: 8px;
+
+    border: 1px solid rgba(96,165,250,.3);
+
+    background: rgba(96,165,250,.12);
+
+    transition: all .2s ease;
+}
+
+.header-right a:hover {
+    color: #93c5fd;
+
+    background: rgba(96,165,250,.2);
+
+    border-color: rgba(96,165,250,.5);
+
+    transform: translateY(-1px);
+
+    box-shadow: 0 4px 12px rgba(96,165,250,.3);
+}
+
+
+/* MOBILE MENU BUTTON */
+
+.mobile-menu {
+    display: none;
+
+    border: none;
+
+    background: transparent;
+
+    color: white;
+
+    font-size: 23px;
+
+    cursor: pointer;
+
+    margin-right: 8px;
+}
+
+
+/* =========================================================
+   MAIN LAYOUT
+========================================================= */
+
+.layout {
+    display: grid;
+
+    grid-template-columns:
+        280px
+        minmax(0, 1fr)
+        245px;
+
+    min-height:
+        calc(100vh - 72px);
+}
+
+
+/* =========================================================
+   LEFT SIDEBAR
+========================================================= */
+
+.sidebar {
+    background: #fafafa;
+
+    border-right:
+        1px solid #e5e7eb;
+
+    padding:
+        28px 18px;
+
+    position: sticky;
+
+    top: 72px;
+
+    height:
+        calc(100vh - 72px);
+
+    overflow-y: auto;
+}
+
+.sidebar-title {
+    font-size: 11px;
+
+    font-weight: 800;
+
+    color: #6b7280;
+
+    text-transform: uppercase;
+
+    letter-spacing: .08em;
+
+    margin:
+        0 10px 12px;
+}
+
+.nav-section {
+    margin-bottom: 28px;
+}
+
+.nav-item {
+    display: block;
+
+    padding:
+        8px 11px;
+
+    border-radius: 6px;
+
+    color: #374151;
+
+    font-size: 14px;
+
+    text-decoration: none;
+
+    margin-bottom: 2px;
+
+    transition:
+        background .15s ease,
+        color .15s ease;
+}
+
+.nav-item:hover {
+    background: #eef2ff;
+
+    color: #1d4ed8;
+
+    text-decoration: none;
+}
+
+.nav-item.active {
+    background: #dbeafe;
+
+    color: #1d4ed8;
+
+    font-weight: 700;
+
+    border-left:
+        3px solid #635bff;
+
+    padding-left: 8px;
+}
+
+.sub-nav {
+    margin-left: 13px;
+
+    padding-left: 8px;
+
+    border-left:
+        1px solid #e5e7eb;
+
+    margin-bottom: 5px;
+}
+
+.sub-nav .nav-item {
+    font-size: 13px;
+}
+
+
+/* =========================================================
+   MAIN CONTENT
+========================================================= */
+
+.content {
+    min-width: 0;
+
+    padding:
+        42px 58px 100px;
+}
+
+.breadcrumbs {
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 7px;
+
+    font-size: 13px;
+
+    color: #6b7280;
+
+    margin-bottom: 28px;
+}
+
+.breadcrumbs a {
+    color: #635bff;
+
+    text-decoration: none;
+}
+
+.breadcrumbs span {
+    color: #9ca3af;
+}
+
+.eyebrow {
+    color: #635bff;
+
+    font-size: 12px;
+
+    font-weight: 800;
+
+    letter-spacing: .08em;
+
+    text-transform: uppercase;
+
+    margin-bottom: 10px;
+}
+
+h1 {
+    font-size: 42px;
+
+    line-height: 1.2;
+
+    color: #111827;
+
+    letter-spacing: -.03em;
+
+    margin-bottom: 18px;
+}
+
+.intro {
+    font-size: 17px;
+
+    color: #4b5563;
+
+    max-width: 900px;
+
+    margin-bottom: 30px;
+}
+
+h2 {
+    font-size: 29px;
+
+    line-height: 1.3;
+
+    color: #111827;
+
+    margin-bottom: 16px;
+}
+
+h3 {
+    font-size: 20px;
+
+    color: #1f2937;
+
+    margin:
+        27px 0 10px;
+}
+
+p {
+    font-size: 15px;
+
+    color: #374151;
+
+    margin-bottom: 17px;
+}
+
+ul,
+ol {
+    margin:
+        12px 0 22px 25px;
+}
+
+li {
+    margin-bottom: 8px;
+
+    font-size: 15px;
+
+    color: #374151;
+}
+
+strong {
+    color: #111827;
+}
+
+section {
+    scroll-margin-top: 90px;
+
+    margin-bottom: 58px;
+}
+
+
+/* =========================================================
+   NOTICE
+========================================================= */
+
+.notice {
+    border-left:
+        4px solid #635bff;
+
+    background: #eff6ff;
+
+    padding:
+        17px 20px;
+
+    border-radius: 5px;
+
+    margin:
+        28px 0 35px;
+}
+
+.notice-title {
+    font-weight: 700;
+
+    color: #1e40af;
+
+    margin-bottom: 4px;
+}
+
+.notice p {
+    margin: 0;
+
+    font-size: 14px;
+}
+
+
+/* =========================================================
+   TOPICS
+========================================================= */
+
+.topics {
+    border:
+        1px solid #e5e7eb;
+
+    background: #fafafa;
+
+    border-radius: 8px;
+
+    padding:
+        22px 25px;
+
+    margin-bottom: 50px;
+}
+
+.topics-title {
+    font-size: 17px;
+
+    font-weight: 700;
+
+    color: #111827;
+
+    margin-bottom: 12px;
+}
+
+.topics ul {
+    margin-bottom: 0;
+}
+
+.topics li {
+    margin-bottom: 6px;
+}
+
+
+/* =========================================================
+   TABLE
+========================================================= */
+
+.table-wrapper {
+    overflow-x: auto;
+
+    border:
+        1px solid #e5e7eb;
+
+    border-radius: 7px;
+
+    margin:
+        20px 0 28px;
+}
+
+table {
+    width: 100%;
+
+    border-collapse: collapse;
+
+    min-width: 650px;
+}
+
+th {
+    background: #f3f4f6;
+
+    color: #111827;
+
+    text-align: left;
+
+    padding:
+        13px 15px;
+
+    font-size: 13px;
+
+    border-bottom:
+        1px solid #d1d5db;
+}
+
+td {
+    padding:
+        13px 15px;
+
+    font-size: 14px;
+
+    color: #374151;
+
+    border-bottom:
+        1px solid #e5e7eb;
+}
+
+tr:last-child td {
+    border-bottom: none;
+}
+
+
+/* =========================================================
+   CODE BOX
+========================================================= */
+
+.code-box {
+    background: #111827;
+
+    border-radius: 8px;
+
+    overflow: hidden;
+
+    margin:
+        20px 0 28px;
+}
+
+.code-header {
+    background: #1f2937;
+
+    border-bottom:
+        1px solid #374151;
+
+    color: #cbd5e1;
+
+    padding:
+        9px 15px;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    font-size: 12px;
+}
+
+.copy-btn {
+    border: none;
+
+    background: #374151;
+
+    color: white;
+
+    padding:
+        5px 10px;
+
+    border-radius: 4px;
+
+    cursor: pointer;
+
+    font-size: 12px;
+}
+
+.copy-btn:hover {
+    background: #4b5563;
+}
+
+pre {
+    color: #e5e7eb;
+
+    padding: 18px;
+
+    overflow-x: auto;
+
+    font-family:
+        Consolas,
+        Monaco,
+        monospace;
+
+    font-size: 13px;
+
+    line-height: 1.7;
+}
+
+
+/* =========================================================
+   STEP
+========================================================= */
+
+.step {
+    display: grid;
+
+    grid-template-columns:
+        42px
+        1fr;
+
+    gap: 15px;
+
+    margin-bottom: 28px;
+}
+
+.step-number {
+    width: 34px;
+    height: 34px;
+
+    border-radius: 50%;
+
+    background: #635bff;
+
+    color: white;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-weight: 700;
+
+    font-size: 14px;
+}
+
+.step-content h3 {
+    margin-top: 0;
+}
+
+
+/* =========================================================
+   CHECKLIST
+========================================================= */
+
+.checklist {
+    list-style: none;
+
+    margin-left: 0;
+}
+
+.checklist li {
+    position: relative;
+
+    padding-left: 31px;
+}
+
+.checklist li::before {
+    content: "✓";
+
+    position: absolute;
+
+    left: 0;
+
+    top: 2px;
+
+    width: 21px;
+    height: 21px;
+
+    border-radius: 50%;
+
+    background: #dcfce7;
+
+    color: #15803d;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-size: 12px;
+
+    font-weight: 700;
+}
+
+
+/* =========================================================
+   ERROR
+========================================================= */
+
+.error-box {
+    background: #fef2f2;
+
+    border:
+        1px solid #fecaca;
+
+    border-radius: 7px;
+
+    padding:
+        17px 20px;
+
+    margin:
+        20px 0 25px;
+}
+
+.error-box-title {
+    color: #b91c1c;
+
+    font-weight: 700;
+
+    margin-bottom: 6px;
+}
+
+
+/* =========================================================
+   SUCCESS
+========================================================= */
+
+.success-box {
+    background: #f0fdf4;
+
+    border:
+        1px solid #bbf7d0;
+
+    border-radius: 7px;
+
+    padding:
+        17px 20px;
+
+    margin:
+        20px 0 25px;
+}
+
+.success-box-title {
+    color: #15803d;
+
+    font-weight: 700;
+
+    margin-bottom: 6px;
+}
+
+.success-box p {
+    margin-bottom: 0;
+}
+
+
+/* =========================================================
+   RIGHT TOC
+========================================================= */
+
+.right-toc {
+    border-left:
+        1px solid #e5e7eb;
+
+    padding:
+        40px 24px;
+
+    position: sticky;
+
+    top: 72px;
+
+    height:
+        calc(100vh - 72px);
+
+    overflow-y: auto;
+}
+
+.toc-title {
+    font-size: 11px;
+
+    font-weight: 800;
+
+    color: #6b7280;
+
+    text-transform: uppercase;
+
+    letter-spacing: .08em;
+
+    margin-bottom: 13px;
+}
+
+.toc a {
+    display: block;
+
+    font-size: 13px;
+
+    color: #6b7280;
+
+    padding:
+        5px 0;
+
+    text-decoration: none;
+}
+
+.toc a:hover {
+    color: #635bff;
+
+    text-decoration: none;
+}
+
+.toc a.active {
+    color: #635bff;
+
+    font-weight: 700;
+}
+
+
+/* =========================================================
+   CREATOR SECTION
+========================================================= */
+
+.creator-section {
+    margin-top: 80px;
+
+    padding:
+        45px 35px;
+
+    border:
+        1px solid #e5e7eb;
+
+    border-radius: 14px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #f8fafc,
+            #ffffff
+        );
+
+    scroll-margin-top: 90px;
+}
+
+.creator-header {
+    text-align: center;
+
+    margin-bottom: 35px;
+}
+
+.creator-label {
+    color: #635bff;
+
+    font-size: 12px;
+
+    font-weight: 800;
+
+    text-transform: uppercase;
+
+    letter-spacing: .08em;
+
+    margin-bottom: 8px;
+}
+
+.creator-header h2 {
+    margin-bottom: 8px;
+}
+
+.creator-header p {
+    color: #6b7280;
+
+    margin: 0 auto;
+
+    font-size: 14px;
+
+    max-width: 650px;
+}
+
+
+/* PROFILE */
+
+.creator-profile {
+    display: flex;
+
+    align-items: center;
+
+    gap: 30px;
+
+    padding-bottom: 32px;
+
+    border-bottom:
+        1px solid #e5e7eb;
+}
+
+.creator-photo-wrapper {
+    flex-shrink: 0;
+}
+
+.creator-photo {
+    width: 145px;
+    height: 145px;
+
+    object-fit: cover;
+
+    border-radius: 50%;
+
+    border:
+        5px solid white;
+
+    box-shadow:
+        0 5px 20px rgba(0,0,0,.15);
+
+    display: block;
+}
+
+.creator-info {
+    min-width: 0;
+}
+
+.creator-info h3 {
+    font-size: 28px;
+
+    margin:
+        0 0 5px;
+
+    color: #111827;
+}
+
+.creator-role {
+    color: #635bff;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+    margin-bottom: 14px;
+}
+
+.creator-contact {
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap:
+        9px 20px;
+
+    margin-bottom: 13px;
+}
+
+.creator-contact a {
+    color: #374151;
+
+    font-size: 14px;
+
+    text-decoration: none;
+
+    word-break: break-word;
+}
+
+.creator-contact a:hover {
+    color: #635bff;
+
+    text-decoration: underline;
+}
+
+.creator-links {
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 10px;
+}
+
+.creator-link {
+    display: inline-flex;
+
+    align-items: center;
+
+    padding:
+        7px 12px;
+
+    border:
+        1px solid #d1d5db;
+
+    border-radius: 6px;
+
+    background: white;
+
+    color: #374151 !important;
+
+    font-size: 13px !important;
+
+    text-decoration: none !important;
+}
+
+.creator-link:hover {
+    border-color: #635bff;
+
+    color: #635bff !important;
+
+    background: #eff6ff;
+}
+
+
+/* PROJECTS */
+
+.projects-title {
+    font-size: 21px;
+
+    color: #111827;
+
+    margin:
+        30px 0 18px;
+}
+
+.project-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap: 18px;
+}
+
+.project-card {
+    border:
+        1px solid #e5e7eb;
+
+    border-radius: 9px;
+
+    background: white;
+
+    padding: 22px;
+
+    transition:
+        transform .2s ease,
+        box-shadow .2s ease,
+        border-color .2s ease;
+}
+
+.project-card:hover {
+    transform:
+        translateY(-3px);
+
+    border-color:
+        #bfdbfe;
+
+    box-shadow:
+        0 8px 25px rgba(0,0,0,.08);
+}
+
+.project-number {
+    display: inline-flex;
+
+    width: 30px;
+    height: 30px;
+
+    border-radius: 7px;
+
+    background: #dbeafe;
+
+    color: #1d4ed8;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-size: 13px;
+
+    font-weight: 800;
+
+    margin-bottom: 10px;
+}
+
+.project-card h4 {
+    font-size: 18px;
+
+    color: #111827;
+
+    margin-bottom: 12px;
+
+    line-height: 1.4;
+}
+
+.project-card ul {
+    margin:
+        0 0 0 19px;
+}
+
+.project-card li {
+    font-size: 13.5px;
+
+    color: #4b5563;
+
+    margin-bottom: 9px;
+}
+
+.creator-footer-note {
+    text-align: center;
+
+    margin-top: 30px;
+
+    color: #6b7280;
+
+    font-size: 13px;
+}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+.footer {
+    border-top:
+        1px solid #e5e7eb;
+
+    padding-top: 25px;
+
+    margin-top: 70px;
+
+    color: #6b7280;
+
+    font-size: 13px;
+}
+
+.dashboard-button {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+    margin-top: 18px;
+
+    padding:
+        9px 14px;
+
+    border:
+        1px solid #d1d5db;
+
+    border-radius: 6px;
+
+    background: white;
+
+    color: #374151;
+
+    cursor: pointer;
+
+    text-decoration: none;
+
+    font-size: 13px;
+}
+
+.dashboard-button:hover {
+    background: #f9fafb;
+
+    text-decoration: none;
+}
+
+
+/* =========================================================
+   SEARCH RESULT
+========================================================= */
+
+.search-results {
+    position: fixed;
+
+    top: 60px;
+
+    left: 50%;
+
+    transform:
+        translateX(-50%);
+
+    width:
+        min(600px, calc(100% - 30px));
+
+    background: white;
+
+    border:
+        1px solid #d1d5db;
+
+    border-radius: 7px;
+
+    box-shadow:
+        0 8px 25px rgba(0,0,0,.15);
+
+    display: none;
+
+    z-index: 2000;
+
+    max-height: 400px;
+
+    overflow-y: auto;
+}
+
+.search-result {
+    display: block;
+
+    padding:
+        13px 16px;
+
+    border-bottom:
+        1px solid #e5e7eb;
+
+    cursor: pointer;
+
+    text-decoration: none !important;
+}
+
+.search-result:last-child {
+    border-bottom: none;
+}
+
+.search-result:hover {
+    background: #f9fafb;
+}
+
+.search-result-title {
+    font-weight: 600;
+
+    font-size: 14px;
+
+    color: #111827;
+}
+
+.search-result-text {
+    font-size: 12px;
+
+    color: #6b7280;
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media(max-width:1100px) {
+
+    .layout {
+        grid-template-columns:
+            240px
+            minmax(0,1fr);
+    }
+
+    .right-toc {
+        display: none;
+    }
+
+    .content {
+        padding:
+            40px 42px 80px;
+    }
+
+    .header-right {
+        min-width: 120px;
+    }
+
+    .header-right a {
+        display: none;
+    }
+
+}
+
+
+@media(max-width:760px) {
+
+    .header {
+        height: 64px;
+
+        padding:
+            0 15px;
+    }
+
+    .mobile-menu {
+        display: block;
+    }
+
+    .logo-area {
+        min-width: auto;
+    }
+
+    .logo {
+        width: 42px;
+        height: 42px;
+    }
+
+    .logo-text {
+        font-size: 17px;
+
+        letter-spacing: 1px;
+    }
+
+    .logo-subtitle {
+        display: none;
+    }
+
+    .search-area {
+        display: none;
+    }
+
+    .layout {
+        display: block;
+    }
+
+    .sidebar {
+        display: none;
+
+        position: fixed;
+
+        top: 64px;
+
+        left: 0;
+
+        width: 280px;
+
+        height:
+            calc(100vh - 64px);
+
+        z-index: 999;
+
+        box-shadow:
+            5px 0 20px rgba(0,0,0,.12);
+    }
+
+    .sidebar.open {
+        display: block;
+    }
+
+    .content {
+        padding:
+            28px 20px 70px;
+    }
+
+    h1 {
+        font-size: 30px;
+    }
+
+    h2 {
+        font-size: 25px;
+    }
+
+    .intro {
+        font-size: 16px;
+    }
+
+    .step {
+        grid-template-columns:
+            35px
+            1fr;
+    }
+
+    .creator-section {
+        padding:
+            30px 20px;
+    }
+
+    .creator-profile {
+        flex-direction: column;
+
+        text-align: center;
+
+        gap: 18px;
+    }
+
+    .creator-info h3 {
+        font-size: 24px;
+    }
+
+    .creator-contact,
+    .creator-links {
+        justify-content: center;
+    }
+
+    .project-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .creator-photo {
+        width: 130px;
+        height: 130px;
+    }
+
+}
+
+
+/* =========================================================
+   EXTRA SMALL DEVICES
+========================================================= */
+
+@media(max-width:420px) {
+
+    .content {
+        padding:
+            25px 15px 60px;
+    }
+
+    h1 {
+        font-size: 27px;
+    }
+
+    h2 {
+        font-size: 23px;
+    }
+
+    .creator-section {
+        padding:
+            25px 15px;
+    }
+
+    .creator-contact {
+        flex-direction: column;
+
+        gap: 6px;
+    }
+
+}
+
+</style>
+</head>
+
+
+<body>
+
+
+<!-- =========================================================
+     HEADER
+========================================================= -->
+
+<header class="header">
+
+    <button
+        class="mobile-menu"
+        id="mobileMenu"
+        aria-label="Open navigation">
+
+        ☰
+
+    </button>
+
+
+    <div class="logo-area">
+
+        <div class="logo"></div>
+
+
+        <div>
+
+            <div class="logo-text">
+                <span style="color:#fff;text-shadow:0 2px 8px rgba(99,91,255,.5)">Quiz</span><span style="color:#60a5fa;text-shadow:0 2px 8px rgba(96,165,250,.5)">ora</span>
+            </div>
+
+            <span class="logo-subtitle">
+                Test Creator Guide
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <div class="search-area">
+
+        <span class="search-icon">
+            ⌕
+        </span>
+
+        <input
+            id="searchInput"
+            type="text"
+            placeholder="Search in this guide..."
+            autocomplete="off"
+        >
+
+    </div>
+
+
+    <div class="header-right">
+
+        <a href="test-creator-dashboard.html">
+            ← Return to Dashboard
+        </a>
+
+    </div>
+
+</header>
+
+
+<!-- =========================================================
+     SEARCH RESULTS
+========================================================= -->
+
+<div
+    class="search-results"
+    id="searchResults">
+</div>
+
+
+<!-- =========================================================
+     MAIN LAYOUT
+========================================================= -->
+
+<div class="layout">
+
+
+<!-- =========================================================
+     LEFT SIDEBAR
+========================================================= -->
+
+<aside
+    class="sidebar"
+    id="sidebar">
+
+
+    <!-- TEST CREATOR -->
+
+    <div class="nav-section">
+
+        <div class="sidebar-title">
+            Test Creator
+        </div>
+
+
+        <a
+            class="nav-item"
+            href="#overview">
+
+            Overview
+
+        </a>
+
+    </div>
+
+
+    <!-- TEST CREATION -->
+
+    <div class="nav-section">
+
+        <div class="sidebar-title">
+            Test Creation
+        </div>
+
+
+        <a
+            class="nav-item"
+            href="#test-information">
+
+            Test Information
+
+        </a>
+
+
+        <a
+            class="nav-item"
+            href="#import-questions">
+
+            Import Questions
+
+        </a>
+
+
+        <div class="sub-nav">
+
+            <a
+                class="nav-item"
+                href="#questions-excel">
+
+                Excel File Format
+
+            </a>
+
+
+            <a
+                class="nav-item"
+                href="#answers-excel">
+
+                Answer Column
+
+            </a>
+
+
+            <a
+                class="nav-item"
+                href="#uploading-files">
+
+                Uploading Files
+
+            </a>
+
+
+            <a
+                class="nav-item"
+                href="#validation">
+
+                Validation
+
+            </a>
+
+
+            <a
+                class="nav-item"
+                href="#review-questions">
+
+                Review Questions
+
+            </a>
+
+        </div>
+
+
+        <a
+            class="nav-item"
+            href="#review">
+
+            Review Questions
+
+        </a>
+
+
+        <a
+            class="nav-item"
+            href="#marks-settings">
+
+            Marks & Settings
+
+        </a>
+
+
+      
+
+        
+
+        <a
+            class="nav-item"
+            href="#preview-publish">
+
+            Preview & Publish
+
+        </a>
+
+
+        <a
+            class="nav-item"
+            href="#complete-flow">
+
+            Complete Flow
+
+        </a>
+
+
+        <a
+            class="nav-item"
+            href="#checklist">
+
+            Before Publishing
+
+        </a>
+
+
+        <a
+            class="nav-item"
+            href="#key-features">
+
+            Key Features
+
+        </a>
+
+        <a
+            class="nav-item"
+            href="#created-by">
+
+            Created By
+
+        </a>
+
+    </div>
+
+
+</aside>
+
+
+<!-- =========================================================
+     MAIN DOCUMENT
+========================================================= -->
+
+<main class="content">
+
+
+<!-- BREADCRUMB -->
+
+<div class="breadcrumbs">
+
+    <a href="#">
+        Documentation
+    </a>
+
+    <span>
+        ›
+    </span>
+
+    <a href="#overview">
+        Test Creator
+    </a>
+
+    <span>
+        ›
+    </span>
+
+    <span>
+        How it works
+    </span>
+
+</div>
+
+
+<!-- =========================================================
+     OVERVIEW
+========================================================= -->
+
+<section id="overview">
+
+    <div class="eyebrow">
+        Test Creator Guide
+    </div>
+
+
+    <h1>
+        How the Test Creator Works
+    </h1>
+
+
+    <p class="intro">
+
+        The Quizora Test Creator provides a complete step-by-step
+        workflow for creating, configuring, scheduling, reviewing,
+        and publishing multiple-choice tests.
+
+    </p>
+
+
+    <p>
+
+        Each step collects a specific part of the test
+        configuration. The creator can move through the workflow
+        one step at a time and verify the test before it becomes
+        available to students.
+
+    </p>
+
+
+    <div class="notice" style="background:#eff6ff;border-left:4px solid #635bff;margin-bottom:35px">
+
+        <div class="notice-title" style="color:#635bff">
+            Quick Navigation
+        </div>
+
+        <p style="margin-bottom:10px">
+            Jump directly to any section:
+        </p>
+
+        <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px;font-size:13px">
+            <a href="#test-information" style="color:#635bff;text-decoration:none;font-weight:600">→ Test Information</a>
+            <a href="#import-questions" style="color:#635bff;text-decoration:none;font-weight:600">→ Import Questions</a>
+            <a href="#review" style="color:#635bff;text-decoration:none;font-weight:600">→ Review Questions</a>
+            <a href="#marks-settings" style="color:#635bff;text-decoration:none;font-weight:600">→ Marks & Settings</a>
+            <a href="#student-details" style="color:#635bff;text-decoration:none;font-weight:600">→ Student Details</a>
+            <a href="#schedule" style="color:#635bff;text-decoration:none;font-weight:600">→ Schedule</a>
+            <a href="#instructions" style="color:#635bff;text-decoration:none;font-weight:600">→ Instructions</a>
+            <a href="#preview-publish" style="color:#635bff;text-decoration:none;font-weight:600">→ Preview & Publish</a>
+        </div>
+
+    </div>
+
+
+    <div class="notice">
+
+        <div class="notice-title">
+            Before you begin
+        </div>
+
+        <p>
+
+            Complete the test information, prepare your questions,
+            configure marks and settings, define student details,
+            set the schedule, add instructions, and review the
+            final preview before publishing.
+
+        </p>
+
+    </div>
+
+
+    <div class="topics">
+
+        <div class="topics-title">
+            Topics
+        </div>
+
+
+        <ul>
+
+            <li>
+                <a href="#test-information">
+                    Test Information
+                </a>
+            </li>
+
+            <li>
+                <a href="#import-questions">
+                    Import Questions
+                </a>
+            </li>
+
+            <li>
+                <a href="#questions-excel">
+                    Excel File Format
+                </a>
+            </li>
+
+            <li>
+                <a href="#answers-excel">
+                    Manual Question Entry
+                </a>
+            </li>
+
+            <li>
+                <a href="#uploading-files">
+                    Uploading Files
+                </a>
+            </li>
+
+            <li>
+                <a href="#validation">
+                    Validation
+                </a>
+            </li>
+
+            <li>
+                <a href="#review">
+                    Review Questions
+                </a>
+            </li>
+
+            <li>
+                <a href="#marks-settings">
+                    Marks & Settings
+                </a>
+            </li>
+
+            <li>
+                <a href="#student-details">
+                    Student Details
+                </a>
+            </li>
+
+            <li>
+                <a href="#schedule">
+                    Schedule
+                </a>
+            </li>
+
+            <li>
+                <a href="#instructions">
+                    Instructions
+                </a>
+            </li>
+
+            <li>
+                <a href="#preview-publish">
+                    Preview & Publish
+                </a>
+            </li>
+
+            <li>
+                <a href="#platform-features">
+                    Platform Features
+                </a>
+            </li>
+
+            <li>
+                <a href="#key-features">
+                    Key Features
+                </a>
+            </li>
+
+        </ul>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     STEP 1
+========================================================= -->
+
+<section id="test-information">
+
+    <h2>
+        1. Test Information
+    </h2>
+
+
+    <p>
+
+        The Test Information step is the first stage of the
+        test creation process. It allows the test creator to
+        enter the basic information that identifies the
+        examination.
+
+    </p>
+
+
+    <p>
+
+        This information can later be displayed on the creator
+        dashboard and on the student portal after the test is
+        published.
+
+    </p>
+
+
+    <h3>
+        Information
+    </h3>
+
+
+    <ul class="checklist">
+
+        <li>
+            Test name
+        </li>
+
+        <li>
+            Subject
+        </li>
+
+        <li>
+            Category
+        </li>
+
+        <li>
+            Test description
+        </li>
+
+        <li>
+            Additional test information
+        </li>
+
+    </ul>
+
+
+    <div class="success-box">
+
+        <div class="success-box-title">
+            Next step
+        </div>
+
+        <p>
+
+            After entering the basic information, continue to
+            <strong>Import Questions</strong>.
+
+        </p>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     STEP 2
+========================================================= -->
+
+<section id="import-questions">
+
+    <h2>
+        2. Import Questions
+    </h2>
+
+
+    <p>
+
+        Quizora allows test creators to import a large number
+        of multiple-choice questions using a single Excel file. This
+        avoids manually entering every question into the
+        Test Creator.
+
+    </p>
+
+
+    <p>
+
+        The import process uses one Excel file that contains
+        the questions, answer options (A, B, C, D), and the correct
+        answer all in a single spreadsheet.
+
+    </p>
+
+
+    <h3>
+        Import process
+    </h3>
+
+
+    <div class="step">
+
+        <div class="step-number">
+            1
+        </div>
+
+        <div class="step-content">
+
+            <h3>
+                Prepare your Excel file
+            </h3>
+
+            <p>
+
+                Create an Excel file with columns in this exact order:
+                <strong>Question</strong>, <strong>Option A</strong>,
+                <strong>Option B</strong>, <strong>Option C</strong>,
+                <strong>Option D</strong>, <strong>Correct Answer</strong>.
+
+            </p>
+
+            <div class="notice">
+                <div class="notice-title">Excel Structure</div>
+                <p style="font-family:monospace;font-size:9px;line-height:1.8">
+                    <strong>Row 1 (Headers):</strong> Question | Option A | Option B | Option C | Option D | Correct Answer<br>
+                    <strong>Row 2:</strong> What does CPU stand for? | Central Processing Unit | Computer Personal Unit | Central Program Utility | Control Processing User | A<br>
+                    <strong>Row 3:</strong> Which of these is an operating system? | Google | Windows | Intel | HTML | B
+                </p>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="step">
+
+        <div class="step-number">
+            2
+        </div>
+
+        <div class="step-content">
+
+            <h3>
+                Fill in questions and options
+            </h3>
+
+            <p>
+
+                From row 2 onwards, enter one question per row with all four options
+                (A, B, C, D) in their respective columns. Each row contains one complete question.
+
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="step">
+
+        <div class="step-number">
+            3
+        </div>
+
+        <div class="step-content">
+
+            <h3>
+                Enter correct answers
+            </h3>
+
+            <p>
+
+                In the <strong>Correct Answer</strong> column, enter <strong>A</strong>, <strong>B</strong>,
+                <strong>C</strong>, or <strong>D</strong> to mark the correct option.
+                Each answer must be in the same row as its question.
+
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="step">
+
+        <div class="step-number">
+            4
+        </div>
+
+        <div class="step-content">
+
+            <h3>
+                Upload the Excel file
+            </h3>
+
+            <p>
+
+                Click "Choose Questions & Answers Excel" and upload
+                your prepared file.
+
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="step">
+
+        <div class="step-number">
+            5
+        </div>
+
+        <div class="step-content">
+
+            <h3>
+                Automatic validation
+            </h3>
+
+            <p>
+
+                Quizora checks the file for missing data,
+                invalid answers, incorrect columns, and
+                incomplete rows.
+
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="step">
+
+        <div class="step-number">
+            6
+        </div>
+
+        <div class="step-content">
+
+            <h3>
+                Review imported questions
+            </h3>
+
+            <p>
+
+                Once validation is successful, all questions with
+                answers are displayed for review.
+
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     QUESTIONS EXCEL
+========================================================= -->
+
+<section id="questions-excel">
+
+    <h2>
+        Questions & Answers Excel Format
+    </h2>
+
+
+    <p>
+
+        Your Excel file must have exactly 6 columns in this order:
+        <strong>Question</strong>, <strong>Option A</strong>, <strong>Option B</strong>,
+        <strong>Option C</strong>, <strong>Option D</strong>, <strong>Correct Answer</strong>.
+        Row 1 contains these headers. From row 2 onwards, each row contains one complete question.
+
+    </p>
+
+    <h3>
+        Example Data
+    </h3>
+
+
+    <div class="table-wrapper">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>Question</th>
+                    <th>Option A</th>
+                    <th>Option B</th>
+                    <th>Option C</th>
+                    <th>Option D</th>
+                    <th>Correct Answer</th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                <tr>
+
+                    <td>What does CPU stand for?</td>
+                    <td>Central Processing Unit</td>
+                    <td>Computer Personal Unit</td>
+                    <td>Central Program Utility</td>
+                    <td>Control Processing User</td>
+                    <td>A</td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>Which of these is an operating system?</td>
+                    <td>Google</td>
+                    <td>Windows</td>
+                    <td>Intel</td>
+                    <td>HTML</td>
+                    <td>B</td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>What does RAM stand for?</td>
+                    <td>Read Access Memory</td>
+                    <td>Random Access Memory</td>
+                    <td>Run Access Module</td>
+                    <td>Random Application Memory</td>
+                    <td>B</td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>Which language is used to structure web pages?</td>
+                    <td>Python</td>
+                    <td>Java</td>
+                    <td>HTML</td>
+                    <td>SQL</td>
+                    <td>C</td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>Which device is used to enter text into a computer?</td>
+                    <td>Monitor</td>
+                    <td>Printer</td>
+                    <td>Keyboard</td>
+                    <td>Speaker</td>
+                    <td>C</td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+    <h3>
+        Example
+    </h3>
+
+
+    <div class="code-box">
+
+        <div class="code-header">
+
+            <span>
+                Questions_and_Answers.xlsx
+            </span>
+
+
+            <button
+                class="copy-btn"
+                onclick="copyText('questionsExample')">
+
+                Copy
+
+            </button>
+
+        </div>
+
+
+<pre id="questionsExample">Question | Option A | Option B | Option C | Option D | Correct Answer
+What does CPU stand for? | Central Processing Unit | Computer Personal Unit | Central Program Utility | Control Processing User | A
+Which of these is an operating system? | Google | Windows | Intel | HTML | B
+What does RAM stand for? | Read Access Memory | Random Access Memory | Run Access Module | Random Application Memory | B</pre>
+
+    </div>
+
+
+    <p>
+
+        Keep the column names exactly as required by the
+        Quizora importer.
+
+    </p>
+
+</section>
+
+
+<!-- =========================================================
+     ANSWER COLUMN FORMAT
+========================================================= -->
+
+<section id="answers-excel">
+
+    <h2>
+        Manual Question Entry
+    </h2>
+
+
+    <p>
+
+        Add one question at a time using the manual entry form.
+        This method is ideal for creating small tests or adding specific questions.
+
+    </p>
+
+
+    <div class="notice">
+
+        <div class="notice-title">
+            ✍️ Manual Question Form
+        </div>
+
+        <p>
+
+            Use this form in the Test Creator page to add questions individually:
+
+        </p>
+
+    </div>
+
+
+    <div style="border:1px solid var(--line);border-radius:16px;padding:24px;background:#fafbff;margin:24px 0">
+
+        <div style="margin-bottom:16px">
+            <label style="display:block;font-weight:800;font-size:11px;color:var(--text);margin-bottom:8px">
+                Question
+            </label>
+            <textarea
+                style="width:100%;min-height:80px;border:1px solid var(--line);border-radius:10px;padding:12px;font-size:11px;font-family:inherit;background:#fff"
+                placeholder="Enter your question..."
+                disabled
+            ></textarea>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px">
+            <div>
+                <label style="display:block;font-weight:700;font-size:10px;color:var(--text);margin-bottom:6px">Option A</label>
+                <input type="text" placeholder="Option A" disabled style="width:100%;height:42px;border:1px solid var(--line);border-radius:9px;padding:0 12px;font-size:10px;font-family:inherit;background:#fff">
+            </div>
+            <div>
+                <label style="display:block;font-weight:700;font-size:10px;color:var(--text);margin-bottom:6px">Option B</label>
+                <input type="text" placeholder="Option B" disabled style="width:100%;height:42px;border:1px solid var(--line);border-radius:9px;padding:0 12px;font-size:10px;font-family:inherit;background:#fff">
+            </div>
+            <div>
+                <label style="display:block;font-weight:700;font-size:10px;color:var(--text);margin-bottom:6px">Option C</label>
+                <input type="text" placeholder="Option C" disabled style="width:100%;height:42px;border:1px solid var(--line);border-radius:9px;padding:0 12px;font-size:10px;font-family:inherit;background:#fff">
+            </div>
+            <div>
+                <label style="display:block;font-weight:700;font-size:10px;color:var(--text);margin-bottom:6px">Option D</label>
+                <input type="text" placeholder="Option D" disabled style="width:100%;height:42px;border:1px solid var(--line);border-radius:9px;padding:0 12px;font-size:10px;font-family:inherit;background:#fff">
+            </div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:20px">
+            <div>
+                <label style="display:block;font-weight:700;font-size:10px;color:var(--text);margin-bottom:6px">Correct Answer</label>
+                <select disabled style="width:100%;height:42px;border:1px solid var(--line);border-radius:9px;padding:0 12px;font-size:10px;font-family:inherit;background:#fff">
+                    <option>Select</option>
+                    <option>A</option>
+                    <option>B</option>
+                    <option>C</option>
+                    <option>D</option>
+                </select>
+            </div>
+            <div>
+                <label style="display:block;font-weight:700;font-size:10px;color:var(--text);margin-bottom:6px">Marks</label>
+                <input type="number" placeholder="1 Mark" disabled style="width:100%;height:42px;border:1px solid var(--line);border-radius:9px;padding:0 12px;font-size:10px;font-family:inherit;background:#fff">
+            </div>
+        </div>
+
+        <div style="display:flex;gap:10px">
+            <button disabled style="background:linear-gradient(135deg,#635bff,#5148e8);color:#fff;border:0;border-radius:10px;padding:11px 18px;font-size:10px;font-weight:800;cursor:not-allowed;opacity:0.7">
+                ＋ Add Question
+            </button>
+            <button disabled style="background:#f3f4f6;color:#6b7280;border:0;border-radius:10px;padding:11px 18px;font-size:10px;font-weight:800;cursor:not-allowed">
+                Reset
+            </button>
+        </div>
+
+    </div>
+
+
+    <div class="notice">
+
+        <div class="notice-title">
+            💡 When to Use Manual Entry
+        </div>
+
+        <p>
+
+            <strong>Best for:</strong> Creating 1-20 questions, adding specific questions,
+            or when you want full control over each question entry.
+            <br><br>
+            <strong>For larger tests:</strong> Use Excel import to add many questions at once.
+
+        </p>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     UPLOAD
+========================================================= -->
+
+<section id="uploading-files">
+
+    <h2>
+        Uploading Your Excel File
+    </h2>
+
+
+    <p>
+
+        After preparing your Excel file with questions and answers,
+        return to the Import Questions step in Quizora Test Creator.
+
+    </p>
+
+
+    <div class="step">
+
+        <div class="step-number">
+            1
+        </div>
+
+        <div class="step-content">
+
+            <h3>
+                Click the upload button
+            </h3>
+
+            <p>
+
+                Click <strong>Choose Questions & Answers Excel</strong>
+                to open the file picker.
+
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="step">
+
+        <div class="step-number">
+            2
+        </div>
+
+        <div class="step-content">
+
+            <h3>
+                Select your Excel file
+            </h3>
+
+            <p>
+
+                Choose the Excel file (.xlsx or .xls) containing
+                your questions, options, and answers.
+
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="step">
+
+        <div class="step-number">
+            3
+        </div>
+
+        <div class="step-content">
+
+            <h3>
+                Automatic validation starts
+            </h3>
+
+            <p>
+
+                Quizora reads the uploaded file and checks
+                all columns and data for completeness.
+
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="success-box">
+
+        <div class="success-box-title">
+            Successful upload
+        </div>
+
+        <p>
+
+            After successful processing, Quizora displays:
+            "✓ Successfully imported [X] question(s) with answers from Excel."
+
+        </p>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     VALIDATION
+========================================================= -->
+
+<section id="validation">
+
+    <h2>
+        Validation
+    </h2>
+
+
+    <p>
+
+        Validation ensures that the uploaded Excel file contains
+        all required columns and correctly formatted data before
+        questions are added to the test.
+
+    </p>
+
+
+    <h3>
+        Quizora checks
+    </h3>
+
+
+    <ul class="checklist">
+
+        <li>
+            Required columns exist.
+        </li>
+
+        <li>
+            Question text is not empty.
+        </li>
+
+        <li>
+            Option A is present.
+        </li>
+
+        <li>
+            Option B is present.
+        </li>
+
+        <li>
+            Option C is present.
+        </li>
+
+        <li>
+            Option D is present.
+        </li>
+
+        <li>
+            Correct answer is available.
+        </li>
+
+        <li>
+            Correct answer is A, B, C, or D.
+        </li>
+
+        <li>
+            Answer column exists in the file.
+        </li>
+
+        <li>
+            Invalid or incomplete rows are detected.
+        </li>
+
+        <li>
+            All questions have matching answers.
+        </li>
+
+    </ul>
+
+
+    <div class="error-box">
+
+        <div class="error-box-title">
+            Example validation error
+        </div>
+
+        <p>
+
+            If Question 5 does not contain Option C, Quizora
+            should identify the problem and display an error
+            such as:
+
+        </p>
+
+        <p>
+
+            <strong>
+                Question 5: Option C is missing.
+            </strong>
+
+        </p>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     REVIEW IMPORTED QUESTIONS
+========================================================= -->
+
+<section id="review-questions">
+
+    <h2>
+        Review Questions After Import
+    </h2>
+
+
+    <p>
+
+        After successful validation, Quizora displays the
+        imported questions in the Review Questions area.
+
+    </p>
+
+
+    <p>
+
+        The creator should verify the question text, options,
+        and correct answer before continuing.
+
+    </p>
+
+
+    <ul class="checklist">
+
+        <li>
+            Check question text.
+        </li>
+
+        <li>
+            Check Option A.
+        </li>
+
+        <li>
+            Check Option B.
+        </li>
+
+        <li>
+            Check Option C.
+        </li>
+
+        <li>
+            Check Option D.
+        </li>
+
+        <li>
+            Check the correct answer.
+        </li>
+
+        <li>
+            Remove incorrect questions if necessary.
+        </li>
+
+    </ul>
+
+</section>
+
+
+<!-- =========================================================
+     STEP 3 REVIEW
+========================================================= -->
+
+<section id="review">
+
+    <h2>
+        3. Review Questions
+    </h2>
+
+
+    <p>
+
+        The Review Questions step provides a complete view of
+        all questions that will be included in the examination.
+
+    </p>
+
+
+    <p>
+
+        This step gives the test creator an opportunity to
+        verify the complete question set before configuring
+        marks and test behavior.
+
+    </p>
+
+
+    <h3>
+        Review
+    </h3>
+
+
+    <ul class="checklist">
+
+        <li>
+            Question wording
+        </li>
+
+        <li>
+            All answer options
+        </li>
+
+        <li>
+            Correct answers
+        </li>
+
+        <li>
+            Total question count
+        </li>
+
+        <li>
+            Question order
+        </li>
+
+    </ul>
+
+
+    <h3>
+        Question & Answer Review Interface
+    </h3>
+
+
+    <p>
+
+        Review every question before publishing.
+        The review table displays all questions with their options,
+        correct answers, and status.
+
+    </p>
+
+
+    <div style="border:1px solid var(--line);border-radius:16px;padding:24px;background:#fafbff;margin:24px 0;overflow-x:auto">
+
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
+            <div>
+                <h3 style="margin:0 0 6px;font-size:16px">Question & Answer Review</h3>
+                <p style="margin:0;font-size:10px;color:var(--muted)">Review every question before publishing.</p>
+            </div>
+            <div style="display:flex;gap:10px">
+                <button disabled style="background:#f3f4f6;color:#6b7280;border:0;border-radius:10px;padding:10px 16px;font-size:10px;font-weight:800;cursor:not-allowed">
+                    ⇩ Export JSON
+                </button>
+                <button disabled style="background:#fee2e2;color:#dc2626;border:0;border-radius:10px;padding:10px 16px;font-size:10px;font-weight:800;cursor:not-allowed">
+                    Remove All
+                </button>
+            </div>
+        </div>
+
+        <table style="width:100%;border-collapse:collapse;font-size:10px">
+            <thead>
+                <tr style="background:#f9fafb;border-bottom:2px solid var(--line)">
+                    <th style="padding:12px 10px;text-align:left;font-weight:800;border-bottom:2px solid var(--line)">#</th>
+                    <th style="padding:12px 10px;text-align:left;font-weight:800;border-bottom:2px solid var(--line)">Question</th>
+                    <th style="padding:12px 10px;text-align:left;font-weight:800;border-bottom:2px solid var(--line)">Options</th>
+                    <th style="padding:12px 10px;text-align:center;font-weight:800;border-bottom:2px solid var(--line)">Answer</th>
+                    <th style="padding:12px 10px;text-align:center;font-weight:800;border-bottom:2px solid var(--line)">Marks</th>
+                    <th style="padding:12px 10px;text-align:center;font-weight:800;border-bottom:2px solid var(--line)">Status</th>
+                    <th style="padding:12px 10px;text-align:center;font-weight:800;border-bottom:2px solid var(--line)">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr style="border-bottom:1px solid #e5e7eb">
+                    <td style="padding:14px 10px;font-weight:700">1</td>
+                    <td style="padding:14px 10px">What does CPU stand for?</td>
+                    <td style="padding:14px 10px;line-height:1.6">
+                        <div><strong>A.</strong> Central Processing Unit</div>
+                        <div><strong>B.</strong> Computer Personal Unit</div>
+                        <div><strong>C.</strong> Central Program Utility</div>
+                        <div><strong>D.</strong> Control Processing User</div>
+                    </td>
+                    <td style="padding:14px 10px;text-align:center;font-weight:800;color:#635bff">A</td>
+                    <td style="padding:14px 10px;text-align:center">1</td>
+                    <td style="padding:14px 10px;text-align:center">
+                        <span style="background:#dcfce7;color:#16a34a;padding:4px 10px;border-radius:6px;font-size:9px;font-weight:800">✓ Matched</span>
+                    </td>
+                    <td style="padding:14px 10px;text-align:center">
+                        <div style="display:flex;gap:6px;justify-content:center">
+                            <button disabled style="background:#ede9fe;color:#7c3aed;border:0;border-radius:7px;padding:6px 10px;font-size:9px;font-weight:800;cursor:not-allowed">✏️ Edit</button>
+                            <button disabled style="background:#fee2e2;color:#dc2626;border:0;border-radius:7px;padding:6px 10px;font-size:9px;font-weight:800;cursor:not-allowed">🗑</button>
+                        </div>
+                    </td>
+                </tr>
+                <tr style="border-bottom:1px solid #e5e7eb">
+                    <td style="padding:14px 10px;font-weight:700">2</td>
+                    <td style="padding:14px 10px">Which of these is an operating system?</td>
+                    <td style="padding:14px 10px;line-height:1.6">
+                        <div><strong>A.</strong> Google</div>
+                        <div><strong>B.</strong> Windows</div>
+                        <div><strong>C.</strong> Intel</div>
+                        <div><strong>D.</strong> HTML</div>
+                    </td>
+                    <td style="padding:14px 10px;text-align:center;font-weight:800;color:#635bff">B</td>
+                    <td style="padding:14px 10px;text-align:center">1</td>
+                    <td style="padding:14px 10px;text-align:center">
+                        <span style="background:#dcfce7;color:#16a34a;padding:4px 10px;border-radius:6px;font-size:9px;font-weight:800">✓ Matched</span>
+                    </td>
+                    <td style="padding:14px 10px;text-align:center">
+                        <div style="display:flex;gap:6px;justify-content:center">
+                            <button disabled style="background:#ede9fe;color:#7c3aed;border:0;border-radius:7px;padding:6px 10px;font-size:9px;font-weight:800;cursor:not-allowed">✏️ Edit</button>
+                            <button disabled style="background:#fee2e2;color:#dc2626;border:0;border-radius:7px;padding:6px 10px;font-size:9px;font-weight:800;cursor:not-allowed">🗑</button>
+                        </div>
+                    </td>
+                </tr>
+                <tr style="border-bottom:1px solid #e5e7eb">
+                    <td style="padding:14px 10px;font-weight:700">3</td>
+                    <td style="padding:14px 10px">What does RAM stand for?</td>
+                    <td style="padding:14px 10px;line-height:1.6">
+                        <div><strong>A.</strong> Read Access Memory</div>
+                        <div><strong>B.</strong> Random Access Memory</div>
+                        <div><strong>C.</strong> Run Access Module</div>
+                        <div><strong>D.</strong> Random Application Memory</div>
+                    </td>
+                    <td style="padding:14px 10px;text-align:center;font-weight:800;color:#635bff">B</td>
+                    <td style="padding:14px 10px;text-align:center">1</td>
+                    <td style="padding:14px 10px;text-align:center">
+                        <span style="background:#dcfce7;color:#16a34a;padding:4px 10px;border-radius:6px;font-size:9px;font-weight:800">✓ Matched</span>
+                    </td>
+                    <td style="padding:14px 10px;text-align:center">
+                        <div style="display:flex;gap:6px;justify-content:center">
+                            <button disabled style="background:#ede9fe;color:#7c3aed;border:0;border-radius:7px;padding:6px 10px;font-size:9px;font-weight:800;cursor:not-allowed">✏️ Edit</button>
+                            <button disabled style="background:#fee2e2;color:#dc2626;border:0;border-radius:7px;padding:6px 10px;font-size:9px;font-weight:800;cursor:not-allowed">🗑</button>
+                        </div>
+                    </td>
+                </tr>
+                <tr style="border-bottom:1px solid #e5e7eb">
+                    <td style="padding:14px 10px;font-weight:700">4</td>
+                    <td style="padding:14px 10px">Which language is used to structure web pages?</td>
+                    <td style="padding:14px 10px;line-height:1.6">
+                        <div><strong>A.</strong> Python</div>
+                        <div><strong>B.</strong> Java</div>
+                        <div><strong>C.</strong> HTML</div>
+                        <div><strong>D.</strong> SQL</div>
+                    </td>
+                    <td style="padding:14px 10px;text-align:center;font-weight:800;color:#635bff">C</td>
+                    <td style="padding:14px 10px;text-align:center">1</td>
+                    <td style="padding:14px 10px;text-align:center">
+                        <span style="background:#dcfce7;color:#16a34a;padding:4px 10px;border-radius:6px;font-size:9px;font-weight:800">✓ Matched</span>
+                    </td>
+                    <td style="padding:14px 10px;text-align:center">
+                        <div style="display:flex;gap:6px;justify-content:center">
+                            <button disabled style="background:#ede9fe;color:#7c3aed;border:0;border-radius:7px;padding:6px 10px;font-size:9px;font-weight:800;cursor:not-allowed">✏️ Edit</button>
+                            <button disabled style="background:#fee2e2;color:#dc2626;border:0;border-radius:7px;padding:6px 10px;font-size:9px;font-weight:800;cursor:not-allowed">🗑</button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+
+
+    <div class="notice">
+
+        <div class="notice-title">
+            Review Actions
+        </div>
+
+        <p>
+
+            <strong>✏️ Edit:</strong> Modify question text, options, or correct answer<br>
+            <strong>🗑 Delete:</strong> Remove question from test<br>
+            <strong>⇩ Export JSON:</strong> Download questions in JSON format<br>
+            <strong>Remove All:</strong> Clear all questions and start over
+
+        </p>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     STEP 4 MARKS
+========================================================= -->
+
+<section id="marks-settings">
+
+    <h2>
+        4. Marks & Settings
+    </h2>
+
+
+    <p>
+
+        The Marks & Settings section controls how the test
+        is scored and how students interact with the questions.
+
+    </p>
+
+
+    <h3>
+        Marks per Question
+    </h3>
+
+
+    <p>
+
+        The test creator can select the marks awarded for
+        each correct answer.
+
+    </p>
+
+
+    <p>
+
+        Available options can include:
+
+    </p>
+
+
+    <ul>
+
+        <li>
+            1 Mark
+        </li>
+
+        <li>
+            2 Marks
+        </li>
+
+        <li>
+            3 Marks
+        </li>
+
+        <li>
+            4 Marks
+        </li>
+
+        <li>
+            5 Marks
+        </li>
+
+        <li>
+            10 Marks
+        </li>
+
+    </ul>
+
+
+    <h3>
+        Total Marks
+    </h3>
+
+
+    <div class="code-box">
+
+        <div class="code-header">
+
+            <span>
+                Calculation
+            </span>
+
+        </div>
+
+
+<pre>Total Marks
+=
+Number of Questions × Marks Per Question
+
+
+Example:
+
+50 Questions × 2 Marks
+=
+100 Total Marks</pre>
+
+    </div>
+
+
+    <h3>
+        Test Settings
+    </h3>
+
+
+    <ul class="checklist">
+
+        <li>
+            Randomize questions
+        </li>
+
+        <li>
+            Randomize answer options
+        </li>
+
+        <li>
+            Allow previous question navigation
+        </li>
+
+        <li>
+            Negative marking
+        </li>
+
+        <li>
+            Other examination settings
+        </li>
+
+    </ul>
+
+</section>
+
+
+<!-- =========================================================
+     STEP 5 STUDENT DETAILS
+========================================================= -->
+
+<section id="student-details">
+
+    <h2>
+        5. Student Details
+    </h2>
+
+
+    <p>
+
+        The Student Details step defines the information that
+        students must provide before they start the test.
+
+    </p>
+
+
+    <p>
+
+        Name and email can be required by default. The test
+        creator can also add additional custom fields depending
+        on the requirements of the examination.
+
+    </p>
+
+
+    <h3>
+        Example Fields
+    </h3>
+
+
+    <div class="table-wrapper">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        Field
+                    </th>
+
+                    <th>
+                        Status
+                    </th>
+
+                    <th>
+                        Example
+                    </th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                <tr>
+
+                    <td>
+                        Full Name
+                    </td>
+
+                    <td>
+                        Required
+                    </td>
+
+                    <td>
+                        Muthukrishnan J
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        Email
+                    </td>
+
+                    <td>
+                        Required
+                    </td>
+
+                    <td>
+                        student@example.com
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        Register Number
+                    </td>
+
+                    <td>
+                        Optional / Required
+                    </td>
+
+                    <td>
+                        24CS001
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        Department
+                    </td>
+
+                    <td>
+                        Optional / Required
+                    </td>
+
+                    <td>
+                        Computer Science
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        College
+                    </td>
+
+                    <td>
+                        Optional / Required
+                    </td>
+
+                    <td>
+                        ABC College
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        Phone Number
+                    </td>
+
+                    <td>
+                        Optional / Required
+                    </td>
+
+                    <td>
+                        9876543210
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+    <h3>
+        Add Custom Field
+    </h3>
+
+
+    <p>
+
+        Use <strong>Add Field</strong> to create additional
+        student information fields. Each custom field can be
+        configured as required or optional.
+
+    </p>
+
+
+</section>
+
+
+<!-- =========================================================
+     STEP 6 SCHEDULE
+========================================================= -->
+
+<section id="schedule">
+
+    <h2>
+        6. Schedule
+    </h2>
+
+
+    <p>
+
+        The Schedule step determines when students can access
+        the test.
+
+    </p>
+
+
+    <h3>
+        Start Date & Time
+    </h3>
+
+
+    <p>
+
+        Select the date and time when the test becomes available
+        to students.
+
+    </p>
+
+
+    <h3>
+        End Date & Time
+    </h3>
+
+
+    <p>
+
+        Select the date and time when the test stops being
+        available to students.
+
+    </p>
+
+
+    <h3>
+        Test Duration
+    </h3>
+
+
+    <p>
+
+        Set the amount of time a student receives after starting
+        the test.
+
+    </p>
+
+
+    <div class="code-box">
+
+        <div class="code-header">
+
+            <span>
+                Example Schedule
+            </span>
+
+        </div>
+
+
+<pre>Test Name:
+NPTEL Practice Test
+
+Start:
+10 October 2026 - 10:00 AM
+
+End:
+10 October 2026 - 01:00 PM
+
+Duration:
+60 Minutes</pre>
+
+    </div>
+
+
+    <p>
+
+        After the configured availability period ends, the test
+        should no longer be shown as an available test to students.
+
+    </p>
+
+</section>
+
+
+<!-- =========================================================
+     STEP 7 INSTRUCTIONS
+========================================================= -->
+
+<section id="instructions">
+
+    <h2>
+        7. Instructions
+    </h2>
+
+
+    <p>
+
+        The Instructions section allows the test creator to
+        provide rules that students should read before starting
+        the examination.
+
+    </p>
+
+
+    <h3>
+        Example
+    </h3>
+
+
+    <div class="code-box">
+
+        <div class="code-header">
+
+            <span>
+                Test Instructions
+            </span>
+
+            <button
+                class="copy-btn"
+                onclick="copyText('instructionsExample')">
+
+                Copy
+
+            </button>
+
+        </div>
+
+
+<pre id="instructionsExample">1. Read every question carefully.
+
+2. Select one answer for each question.
+
+3. Do not refresh the browser during the test.
+
+4. Make sure your internet connection is stable.
+
+5. Submit the test before the timer reaches zero.
+
+6. Once the test is submitted, answers cannot be changed.</pre>
+
+    </div>
+
+
+    <p>
+
+        These instructions can be displayed to students before
+        they enter the examination.
+
+    </p>
+
+</section>
+
+
+<!-- =========================================================
+     STEP 8 PREVIEW
+========================================================= -->
+
+<section id="preview-publish">
+
+    <h2>
+        8. Preview & Publish
+    </h2>
+
+
+    <p>
+
+        Preview & Publish is the final stage of the Test Creator workflow.
+        Before publishing, review the complete test configuration to ensure
+        all settings are correct.
+
+    </p>
+
+
+    <h3>
+        Final Review
+    </h3>
+
+
+    <ul class="checklist">
+
+        <li>
+            Test name
+        </li>
+
+        <li>
+            Subject
+        </li>
+
+        <li>
+            Number of questions
+        </li>
+
+        <li>
+            Total marks
+        </li>
+
+        <li>
+            Marks per question
+        </li>
+
+        <li>
+            Student information fields
+        </li>
+
+        <li>
+            Start date and time
+        </li>
+
+        <li>
+            End date and time
+        </li>
+
+        <li>
+            Test duration
+        </li>
+
+        <li>
+            Instructions
+        </li>
+
+        <li>
+            Test settings
+        </li>
+
+    </ul>
+
+
+    <h3>
+        Publish
+    </h3>
+
+
+    <p>
+
+        After verifying all information is correct,
+        click <strong>Publish Test</strong> to make the test available.
+
+    </p>
+
+
+    <p>
+
+        The test will become available to students automatically
+        based on the configured start date and time.
+        Students can access the test during the scheduled availability period.
+
+    </p>
+
+
+    <div class="success-box">
+
+        <div class="success-box-title">
+            Published Test
+        </div>
+
+        <p>
+
+            Once published, the test appears in the student portal
+            during its scheduled availability period (from start date/time to end date/time).
+            Students can only access the test within this time window.
+
+        </p>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     COMPLETE FLOW
+========================================================= -->
+
+<section id="complete-flow">
+
+    <h2>
+        Complete Test Creation Flow
+    </h2>
+
+
+    <p>
+
+        The complete Quizora Test Creator workflow follows
+        the sequence below.
+
+    </p>
+
+
+    <div class="code-box">
+
+        <div class="code-header">
+
+            <span>
+                Quizora Test Creation Workflow
+            </span>
+
+            <button
+                class="copy-btn"
+                onclick="copyText('workflowExample')">
+
+                Copy
+
+            </button>
+
+        </div>
+
+
+<pre id="workflowExample">Step 1: Test Information
+Enter test name, subject, category, description
+        ↓
+Step 2: Import Questions
+Prepare Excel file with Question, Options A-D, Answer
+        ↓
+Upload Questions & Answers Excel
+        ↓
+Automatic Validation
+        ↓
+Review Imported Questions
+        ↓
+Step 3: Review Questions
+Verify all questions, options, and answers
+        ↓
+Step 4: Marks & Settings
+Configure marks per question and test settings
+        ↓
+Step 5: Student Details
+Define required student information fields
+        ↓
+Step 6: Schedule
+Set start time, end time, and test duration
+        ↓
+Step 7: Instructions
+Add test instructions for students
+        ↓
+Step 8: Preview & Publish
+Final review and publish test
+        ↓
+Published Test → Available to Students</pre>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     BEFORE PUBLISHING
+========================================================= -->
+
+<section id="checklist">
+
+    <h2>
+        Before Publishing
+    </h2>
+
+
+    <p>
+
+        Use this checklist to verify the complete test before
+        publishing it.
+
+    </p>
+
+
+    <ul class="checklist">
+
+        <li>
+            Test information is complete.
+        </li>
+
+        <li>
+            All questions have been imported correctly.
+        </li>
+
+        <li>
+            Every question has four answer options.
+        </li>
+
+        <li>
+            Correct answers have been checked.
+        </li>
+
+        <li>
+            Marks per question are correct.
+        </li>
+
+        <li>
+            Test settings are correct.
+        </li>
+
+        <li>
+            All required student fields are configured.
+        </li>
+
+        <li>
+            Start and end times are correct.
+        </li>
+
+        <li>
+            Test duration is correct.
+        </li>
+
+        <li>
+            Instructions have been added.
+        </li>
+
+        <li>
+            Final preview has been checked.
+        </li>
+
+    </ul>
+
+
+    <div class="success-box">
+
+        <div class="success-box-title">
+            Ready to publish
+        </div>
+
+        <p>
+
+            When every item has been verified, the test can be
+            published and made available to students according
+            to the schedule.
+
+        </p>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     PLATFORM FEATURES
+========================================================= -->
+
+<section id="platform-features">
+
+    <h2>
+        Platform Features
+    </h2>
+
+
+    <p>
+
+        Quizora provides comprehensive test management and monitoring features
+        to help educators create, manage, and track student assessments effectively.
+
+    </p>
+
+
+    <h3>
+        Student Assignment & Management
+    </h3>
+
+
+    <p>
+
+        Assign tests to specific students using their email addresses.
+        The platform supports two assignment methods:
+
+    </p>
+
+
+    <ul class="checklist">
+
+        <li>
+            <strong>Email Assignment:</strong> Add specific student email addresses to assign the test
+            only to those students. Only assigned students can access the test.
+        </li>
+
+        <li>
+            <strong>Access Code Assignment:</strong> Generate a unique code that any student
+            can use to access the test.
+        </li>
+
+    </ul>
+
+
+    <div class="notice">
+
+        <div class="notice-title">
+            Adding Students to Published Tests
+        </div>
+
+        <p>
+
+            In the Published Tests page, select a test and view its assigned students.
+            You can add or remove student email addresses even after publishing.
+            Students receive access based on their email registration in the system.
+
+        </p>
+
+    </div>
+
+
+    <h3>
+        Malpractice Detection & Prevention
+    </h3>
+
+
+    <p>
+
+        Quizora includes built-in malpractice detection to ensure test integrity.
+        The system monitors student behavior during the exam and flags suspicious activity.
+
+    </p>
+
+
+    <div class="notice">
+
+        <div class="notice-title">
+            🚫 Malpractice Monitoring
+        </div>
+
+        <p>
+
+            <strong>What is monitored:</strong><br>
+            • Tab switching or window changes during the test<br>
+            • Extended periods away from the test window<br>
+            • Copy/paste attempts<br>
+            • Multiple violations trigger automatic test suspension
+
+        </p>
+
+        <p style="margin-top:12px">
+
+            <strong>Teacher Actions:</strong><br>
+            • View list of students flagged for malpractice<br>
+            • See specific violation reasons and timestamps<br>
+            • Option to resume test for students (allows them to continue)<br>
+            • Malpractice incidents recorded in final reports
+
+        </p>
+
+    </div>
+
+
+    <h3>
+        Student Results & Reports
+    </h3>
+
+
+    <p>
+
+        Track student performance with detailed reports and analytics.
+        Access comprehensive data for all students who completed the test.
+
+    </p>
+
+
+    <h4>
+        View Completed Student Information
+    </h4>
+
+
+    <ul class="checklist">
+
+        <li>
+            <strong>Student Profile:</strong> Name, email, registration number, school/college
+        </li>
+
+        <li>
+            <strong>Test Performance:</strong> Score, total marks, percentage, correct/wrong/unanswered counts
+        </li>
+
+        <li>
+            <strong>Status:</strong> Completed, in progress, not started, or malpractice flagged
+        </li>
+
+        <li>
+            <strong>Timestamps:</strong> When student started, submitted, or was flagged
+        </li>
+
+    </ul>
+
+
+    <h4>
+        Filter & Sort Results
+    </h4>
+
+
+    <p>
+
+        In the Published Tests page, click <strong>View Report</strong> on any test
+        to see detailed student statistics. Click on statistic cards to filter by:
+
+    </p>
+
+
+    <ul class="checklist">
+
+        <li>
+            <strong>All Assigned Students:</strong> Complete list with status for each student
+        </li>
+
+        <li>
+            <strong>Completed:</strong> Students who submitted the test with their scores
+        </li>
+
+        <li>
+            <strong>Malpractice:</strong> Students flagged for exam violations
+        </li>
+
+        <li>
+            <strong>Not Completed:</strong> Students who started but didn't submit, or never started
+        </li>
+
+    </ul>
+
+
+    <h3>
+        📥 Download Excel Reports
+    </h3>
+
+
+    <p>
+
+        Export student data to Excel for offline analysis, record-keeping, or sharing with administrators.
+
+    </p>
+
+
+    <div style="border:1px solid var(--line);border-radius:16px;padding:24px;background:#f0fdf4;margin:24px 0">
+
+        <h4 style="margin:0 0 16px;font-size:15px;color:#16a34a">
+            Available Excel Downloads
+        </h4>
+
+
+        <div style="display:grid;gap:16px">
+
+            <div style="background:#fff;padding:16px;border-radius:12px;border:1px solid #dcfce7">
+                <div style="font-weight:800;font-size:12px;color:#15803d;margin-bottom:6px">
+                    📥 Download All Students
+                </div>
+                <div style="font-size:10px;color:#6b7280;line-height:1.6">
+                    Complete list of all assigned students with their status, scores, and profile information.
+                    Includes completed, in progress, malpractice, and not started students.
+                </div>
+            </div>
+
+            <div style="background:#fff;padding:16px;border-radius:12px;border:1px solid #dcfce7">
+                <div style="font-weight:800;font-size:12px;color:#15803d;margin-bottom:6px">
+                    📥 Download Completed Students
+                </div>
+                <div style="font-size:10px;color:#6b7280;line-height:1.6">
+                    Only students who submitted the test. Includes name, email, score, total marks,
+                    percentage, correct/wrong/unanswered counts, school, registration number, and custom fields.
+                    Shows if student had malpractice but later resumed and completed.
+                </div>
+            </div>
+
+            <div style="background:#fff;padding:16px;border-radius:12px;border:1px solid #dcfce7">
+                <div style="font-weight:800;font-size:12px;color:#15803d;margin-bottom:6px">
+                    📥 Download Malpractice Students
+                </div>
+                <div style="font-size:10px;color:#6b7280;line-height:1.6">
+                    Students flagged for exam violations. Includes student details, malpractice reason,
+                    and timestamp of the violation. Use this to review and take appropriate action.
+                </div>
+            </div>
+
+            <div style="background:#fff;padding:16px;border-radius:12px;border:1px solid #dcfce7">
+                <div style="font-weight:800;font-size:12px;color:#15803d;margin-bottom:6px">
+                    📥 Download Not Completed Students
+                </div>
+                <div style="font-size:10px;color:#6b7280;line-height:1.6">
+                    Students who didn't complete the test. Includes those who started but didn't submit,
+                    and those who never started. Use this to follow up with students.
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <h4>
+        Excel File Contents
+    </h4>
+
+
+    <p>
+
+        Each Excel file contains organized sheets with the following columns:
+
+    </p>
+
+
+    <div class="table-wrapper">
+
+        <table>
+
+            <thead>
+                <tr>
+                    <th>Column</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                <tr>
+                    <td>Name</td>
+                    <td>Student's full name</td>
+                </tr>
+
+                <tr>
+                    <td>Email</td>
+                    <td>Student's email address (unique identifier)</td>
+                </tr>
+
+                <tr>
+                    <td>School</td>
+                    <td>Student's school or institution name</td>
+                </tr>
+
+                <tr>
+                    <td>Registration No</td>
+                    <td>Student's registration or roll number</td>
+                </tr>
+
+                <tr>
+                    <td>Score</td>
+                    <td>Marks obtained (for completed students)</td>
+                </tr>
+
+                <tr>
+                    <td>Total Marks</td>
+                    <td>Maximum possible marks for the test</td>
+                </tr>
+
+                <tr>
+                    <td>Percentage</td>
+                    <td>Score percentage (Score ÷ Total × 100)</td>
+                </tr>
+
+                <tr>
+                    <td>Correct</td>
+                    <td>Number of correct answers</td>
+                </tr>
+
+                <tr>
+                    <td>Wrong</td>
+                    <td>Number of incorrect answers</td>
+                </tr>
+
+                <tr>
+                    <td>Unanswered</td>
+                    <td>Number of questions left blank</td>
+                </tr>
+
+                <tr>
+                    <td>Status</td>
+                    <td>Completed, In Progress, Not Started, or Malpractice</td>
+                </tr>
+
+                <tr>
+                    <td>Custom Fields</td>
+                    <td>Any additional student information fields you configured</td>
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+    <h3>
+        How It All Works Together
+    </h3>
+
+
+    <div style="border-left:4px solid #635bff;padding:20px;background:#fafbff;border-radius:0 12px 12px 0;margin:24px 0">
+
+        <div style="font-weight:800;font-size:14px;color:#635bff;margin-bottom:16px">
+            Complete Workflow
+        </div>
+
+        <ol style="font-size:11px;line-height:2;color:#4b5563">
+            <li>
+                <strong>Create Test:</strong> Add questions manually or import from Excel,
+                configure marks, duration, and settings.
+            </li>
+            <li>
+                <strong>Assign Students:</strong> Add student email addresses or generate access code.
+                Set start/end dates and test instructions.
+            </li>
+            <li>
+                <strong>Publish Test:</strong> Review all settings and click Publish.
+                Test becomes available at scheduled time.
+            </li>
+            <li>
+                <strong>Monitor Progress:</strong> Track how many students started, completed,
+                or were flagged for malpractice in real-time.
+            </li>
+            <li>
+                <strong>Handle Malpractice:</strong> Review flagged students, check violation reasons,
+                and decide whether to resume their test or keep it suspended.
+            </li>
+            <li>
+                <strong>View Results:</strong> Click View Report to see detailed statistics.
+                Click on stat cards to filter by completion status.
+            </li>
+            <li>
+                <strong>Download Reports:</strong> Export filtered student lists to Excel
+                for record-keeping, analysis, or sharing with administration.
+            </li>
+            <li>
+                <strong>Follow Up:</strong> Use "Not Completed" list to identify and contact
+                students who didn't finish the test.
+            </li>
+        </ol>
+
+    </div>
+
+
+    <div class="notice">
+
+        <div class="notice-title">
+            💡 Best Practices
+        </div>
+
+        <p>
+
+            <strong>Before Publishing:</strong><br>
+            • Double-check all student email addresses are correct<br>
+            • Test the exam yourself using a test account<br>
+            • Review all questions and answers in the preview<br>
+            • Verify start/end times match your schedule<br><br>
+
+            <strong>During the Test:</strong><br>
+            • Monitor the Published Tests page for live updates<br>
+            • Check for malpractice alerts periodically<br>
+            • Be available to resume tests if needed<br><br>
+
+            <strong>After the Test:</strong><br>
+            • Download Excel reports for permanent records<br>
+            • Review malpractice cases individually<br>
+            • Follow up with students who didn't complete<br>
+            • Archive test data before creating next assessment
+
+        </p>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     KEY PLATFORM FEATURES
+========================================================= -->
+
+<section id="key-features" style="padding:60px 5%;background:#fafbff">
+
+    <div style="max-width:1200px;margin:0 auto">
+
+    <h1 style="font-size:36px;font-weight:900;margin-bottom:16px;color:#1f2937">
+        Quizora — Smart Online Examination Platform
+    </h1>
+
+    <p style="font-size:14px;line-height:1.8;color:#4b5563;margin-bottom:40px">
+        Quizora is an online examination management platform designed to simplify test creation,
+        student management, secure assessments, and performance analysis. It provides teachers
+        with powerful tools to conduct and monitor examinations while giving students a structured
+        and reliable testing experience.
+    </p>
+
+
+    <h2 style="font-size:24px;font-weight:800;margin:40px 0 16px;color:#1f2937">
+        ✍️ Test Creation & Question Management
+    </h2>
+
+    <p style="font-size:13px;line-height:1.8;color:#6b7280;margin-bottom:16px">
+        Create and manage assessments with flexible question-building tools. Teachers can prepare
+        questions manually, import them in bulk, configure marks, and export question data for reuse.
+    </p>
+
+    <ul style="font-size:13px;line-height:1.9;color:#6b7280;margin:0 0 32px 20px">
+        <li>Manual question entry with rich-text formatting</li>
+        <li>Bulk Excel import with automatic validation</li>
+        <li>Edit and delete questions whenever needed</li>
+        <li>Configure marks for individual questions</li>
+        <li>Export questions in JSON format</li>
+    </ul>
+
+    <div style="border:1px solid #e5e7eb;border-radius:12px;overflow:hidden;margin-bottom:40px;box-shadow:0 4px 12px rgba(0,0,0,0.08)">
+        <img src="test-creater.html" alt="Test Creator Interface" style="width:100%;height:auto;display:block"
+             onerror="this.style.display='none';this.parentElement.innerHTML='<div style=padding:40px;text-align:center;color:#9ca3af;background:#f9fafb>📸 Screenshot: Test Creator Interface with question management tools</div>'">
+    </div>
+
+
+    <h2 style="font-size:24px;font-weight:800;margin:40px 0 16px;color:#1f2937">
+        👥 Student Management & Enrollment
+    </h2>
+
+    <p style="font-size:13px;line-height:1.8;color:#6b7280;margin-bottom:16px">
+        Manage student participation efficiently with flexible enrollment options. Teachers can assign
+        students individually, allow open enrollment using access codes, and maintain student registration details.
+    </p>
+
+    <ul style="font-size:13px;line-height:1.9;color:#6b7280;margin:0 0 32px 20px">
+        <li>Assign students using their email addresses</li>
+        <li>Generate access codes for open enrollment</li>
+        <li>Configure custom student profile fields</li>
+        <li>Add or remove students after publishing</li>
+        <li>View student lists and registration information</li>
+    </ul>
+
+
+    <h2 style="font-size:24px;font-weight:800;margin:40px 0 16px;color:#1f2937">
+        🚫 Malpractice Detection & Exam Integrity
+    </h2>
+
+    <p style="font-size:13px;line-height:1.8;color:#6b7280;margin-bottom:16px">
+        Help maintain examination integrity through browser activity monitoring and configurable security controls.
+        Potential malpractice events can trigger alerts and suspend an examination according to the platform's rules.
+    </p>
+
+    <ul style="font-size:13px;line-height:1.9;color:#6b7280;margin:0 0 32px 20px">
+        <li>Monitor tab switching during examinations</li>
+        <li>Detect browser window focus loss</li>
+        <li>Restrict copy-and-paste actions where supported</li>
+        <li>Automatically suspend tests when configured rules are triggered</li>
+        <li>Allow teachers to review incidents and resume suspended tests</li>
+    </ul>
+
+
+    <h2 style="font-size:24px;font-weight:800;margin:40px 0 16px;color:#1f2937">
+        📅 Examination Scheduling & Time Management
+    </h2>
+
+    <p style="font-size:13px;line-height:1.8;color:#6b7280;margin-bottom:16px">
+        Schedule examinations around your requirements with precise start times, end times, and duration settings.
+        Automatic availability controls help ensure that students can access tests only during the permitted period.
+    </p>
+
+    <ul style="font-size:13px;line-height:1.9;color:#6b7280;margin:0 0 32px 20px">
+        <li>Set examination start and end dates and times</li>
+        <li>Configure the duration of each test</li>
+        <li>Automatically control test availability</li>
+        <li>Display a live countdown of the remaining time</li>
+        <li>Update schedules after publishing, subject to access and attempt rules</li>
+    </ul>
+
+
+    <h2 style="font-size:24px;font-weight:800;margin:40px 0 16px;color:#1f2937">
+        📊 Results, Reports & Performance Analytics
+    </h2>
+
+    <p style="font-size:13px;line-height:1.8;color:#6b7280;margin-bottom:16px">
+        Understand student performance through organized results and detailed reports. Teachers can track completion,
+        evaluate scores, identify performance trends, and export examination data for further analysis.
+    </p>
+
+    <ul style="font-size:13px;line-height:1.9;color:#6b7280;margin:0 0 32px 20px">
+        <li>Track examination completion in real time</li>
+        <li>Calculate scores, percentages, and statistics</li>
+        <li>Filter students by completion status</li>
+        <li>Export Excel reports for all, completed, malpractice, and not-completed attempts</li>
+        <li>Analyze individual student performance</li>
+    </ul>
+
+    <div style="border:1px solid #e5e7eb;border-radius:12px;overflow:hidden;margin-bottom:40px;box-shadow:0 4px 12px rgba(0,0,0,0.08)">
+        <img src="published-tests.html" alt="Published Tests Dashboard" style="width:100%;height:auto;display:block"
+             onerror="this.style.display='none';this.parentElement.innerHTML='<div style=padding:40px;text-align:center;color:#9ca3af;background:#f9fafb>📸 Screenshot: Published Tests Dashboard with live monitoring and reports</div>'">
+    </div>
+
+
+    <h2 style="font-size:24px;font-weight:800;margin:40px 0 16px;color:#1f2937">
+        🔐 Security & Authentication
+    </h2>
+
+    <p style="font-size:13px;line-height:1.8;color:#6b7280;margin-bottom:16px">
+        Protect examination access through Firebase Authentication, role-based login, and student profile verification.
+        Secure access controls help ensure that students and teachers can use only the features permitted for their roles.
+    </p>
+
+    <ul style="font-size:13px;line-height:1.9;color:#6b7280;margin:0 0 32px 20px">
+        <li>Firebase Authentication integration</li>
+        <li>Separate teacher and student login experiences</li>
+        <li>Verify student profile completion before examination access</li>
+        <li>Control access to scheduled and assigned tests</li>
+        <li>Protect routes and data with appropriate authorization rules</li>
+    </ul>
+
+
+    <h2 style="font-size:24px;font-weight:800;margin:40px 0 16px;color:#1f2937">
+        ⚙️ Test Configuration & Settings
+    </h2>
+
+    <p style="font-size:13px;line-height:1.8;color:#6b7280;margin-bottom:16px">
+        Customize each examination to match its subject, instructions, and assessment requirements.
+        Teachers can configure the test before publishing and preview the student experience.
+    </p>
+
+    <ul style="font-size:13px;line-height:1.9;color:#6b7280;margin:0 0 32px 20px">
+        <li>Set the test name and subject</li>
+        <li>Add custom examination instructions</li>
+        <li>Configure marks and scoring rules</li>
+        <li>Define required student information fields</li>
+        <li>Preview the examination before publishing</li>
+    </ul>
+
+
+    <h2 style="font-size:24px;font-weight:800;margin:40px 0 16px;color:#1f2937">
+        📡 Live Monitoring & Examination Dashboard
+    </h2>
+
+    <p style="font-size:13px;line-height:1.8;color:#6b7280;margin-bottom:16px">
+        Monitor ongoing examinations through a live dashboard that presents student progress and examination statistics.
+        Automatic refresh and immediate alerts help teachers identify issues and respond during active tests.
+    </p>
+
+    <ul style="font-size:13px;line-height:1.9;color:#6b7280;margin:0 0 32px 20px">
+        <li>Track student progress in real time</li>
+        <li>View live examination statistics</li>
+        <li>Refresh monitoring data every 30 seconds</li>
+        <li>Display remaining examination time</li>
+        <li>Receive instant malpractice alerts when events are detected</li>
+    </ul>
+
+
+    <h2 style="font-size:24px;font-weight:800;margin:40px 0 16px;color:#1f2937">
+        🎯 The Quizora Advantage
+    </h2>
+
+    <p style="font-size:13px;line-height:1.8;color:#6b7280;margin-bottom:40px">
+        Quizora brings examination creation, enrollment, scheduling, monitoring, security, and reporting together
+        in one organized platform. Its goal is to make online assessments easier to manage for teachers and more
+        structured for students.
+    </p>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     CREATED BY
+========================================================= -->
+
+<section
+    id="created-by"
+    class="creator-section">
+
+
+    <div class="creator-header">
+
+        <div class="creator-label">
+            Created & Developed By
+        </div>
+
+
+        <h2>
+            About the Creator
+        </h2>
+
+
+        <p>
+
+            The developer behind the Quizora Test Creator
+            documentation and web-based application projects.
+
+        </p>
+
+    </div>
+
+
+    <!-- PROFILE -->
+
+    <div class="creator-profile">
+
+
+        <div class="creator-photo-wrapper">
+
+            <img
+                src="image.jpeg"
+                alt="Muthukrishnan J"
+                class="creator-photo"
+                onerror="this.onerror=null;this.src='data:image/svg+xml;charset=UTF-8,' + encodeURIComponent('<svg xmlns=&quot;http://www.w3.org/2000/svg&quot; width=&quot;145&quot; height=&quot;145&quot; viewBox=&quot;0 0 145 145&quot;><rect width=&quot;145&quot; height=&quot;145&quot; fill=&quot;#e5e7eb&quot;/><circle cx=&quot;72.5&quot; cy=&quot;55&quot; r=&quot;25&quot; fill=&quot;#9ca3af&quot;/><path d=&quot;M25 130c5-30 23-45 47-45s42 15 48 45&quot; fill=&quot;#9ca3af&quot;/></svg>')"
+            >
+
+        </div>
+
+
+        <div class="creator-info">
+
+
+            <h3>
+                Muthukrishnan J
+            </h3>
+
+
+            <div class="creator-role">
+                Web Developer & Project Creator
+            </div>
+
+
+            <div class="creator-contact">
+
+                <a
+                    href="mailto:muthukrishnan11028@gmail.com">
+
+                    ✉
+                    muthukrishnan11028@gmail.com
+
+                </a>
+
+
+                <a
+                    href="tel:+918459075088">
+
+                    ☎
+                    +91 8459075088
+
+                </a>
+
+            </div>
+
+
+            <div class="creator-links">
+
+
+                <a
+                    class="creator-link"
+                    href="https://linkedin.com/in/muthu-krishnan-j-89a002370"
+                    target="_blank"
+                    rel="noopener noreferrer">
+
+                    LinkedIn
+
+                </a>
+
+
+                <a
+                    class="creator-link"
+                    href="https://github.com/muthu200826"
+                    target="_blank"
+                    rel="noopener noreferrer">
+
+                    GitHub
+
+                </a>
+
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- PROJECTS -->
+
+    <h3 class="projects-title">
+        Completed Projects
+    </h3>
+
+
+    <div class="project-grid">
+
+
+        <!-- PROJECT 1 -->
+
+        <article class="project-card">
+
+
+            <div class="project-number">
+                01
+            </div>
+
+
+            <h4>
+                COVAI Scrap Hub – Online Scrap Selling Platform
+            </h4>
+
+
+            <ul>
+
+                <li>
+
+                    Developed an online scrap-selling platform that enables users to submit
+                    scrap details and request pickups for household and industrial recyclable materials.
+
+                </li>
+
+
+                <li>
+
+                    Organized scrap categories, including Paper, Plastic, Iron, Steel, Copper,
+                    Aluminium, E-Waste, Batteries, and Vehicle Scrap, to simplify scrap selection
+                    and pickup requests.
+
+                </li>
+
+
+                <li>
+
+                    Engineered an Admin Panel to manage scrap categories, update rate cards,
+                    monitor pickup requests, and handle user enquiries through a centralized dashboard.
+
+                </li>
+
+
+                <li>
+
+                    Built a responsive and intuitive user interface using modern web technologies,
+                    ensuring smooth navigation, mobile accessibility, and efficient scrap-selling
+                    interactions across different devices.
+
+                </li>
+
+            </ul>
+
+
+            <a
+                href="https://covaiscraphup.vercel.app/"
+                target="_blank"
+                rel="noopener noreferrer"
+                style="display:inline-block;margin-top:16px;padding:10px 20px;background:linear-gradient(135deg,#635bff,#5148e8);color:#fff;text-decoration:none;border-radius:10px;font-size:11px;font-weight:800;box-shadow:0 4px 12px rgba(99,91,255,0.3);transition:all 0.2s"
+                onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 6px 16px rgba(99,91,255,0.4)'"
+                onmouseout="this.style.transform='';this.style.boxShadow='0 4px 12px rgba(99,91,255,0.3)'"
+            >
+                🌐 View Project
+            </a>
+
+        </article>
+
+
+        <!-- PROJECT 2 -->
+
+        <article class="project-card">
+
+
+            <div class="project-number">
+                02
+            </div>
+
+
+            <h4>
+                A TO Z SERVICES – Service Booking & Management Platform
+            </h4>
+
+
+            <ul>
+
+                <li>
+
+                    Developed a web-based service booking platform connecting customers with local
+                    service providers for electrician, plumbing, AC repair, vehicle maintenance,
+                    and other essential services.
+
+                </li>
+
+
+                <li>
+
+                    Designed responsive customer and admin dashboards to simplify service booking,
+                    manage customer enquiries, and track service requests efficiently.
+
+                </li>
+
+
+                <li>
+
+                    Integrated Firebase for data management and authentication features, along with
+                    EmailJS for automated booking confirmations and email notifications.
+
+                </li>
+
+
+                <li>
+
+                    Implemented a user-friendly interface with responsive layouts and intuitive
+                    navigation to provide a smooth experience across desktop and mobile devices.
+
+                </li>
+
+            </ul>
+
+
+            <a
+                href="https://thisaiatoz.vercel.app/"
+                target="_blank"
+                rel="noopener noreferrer"
+                style="display:inline-block;margin-top:16px;padding:10px 20px;background:linear-gradient(135deg,#635bff,#5148e8);color:#fff;text-decoration:none;border-radius:10px;font-size:11px;font-weight:800;box-shadow:0 4px 12px rgba(99,91,255,0.3);transition:all 0.2s"
+                onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 6px 16px rgba(99,91,255,0.4)'"
+                onmouseout="this.style.transform='';this.style.boxShadow='0 4px 12px rgba(99,91,255,0.3)'"
+            >
+                🌐 View Project
+            </a>
+
+        </article>
+
+
+    </div>
+
+
+    <div class="creator-footer-note">
+
+        Designed and developed with a focus on responsive,
+        user-friendly web applications.
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     FOOTER
+========================================================= -->
+
+<footer class="footer">
+
+
+    <p>
+        Quizora Test Creator Documentation
+    </p>
+
+
+    <p>
+
+        This guide explains how to create, configure,
+        schedule, review, and publish a test.
+
+    </p>
+
+
+    <a
+        class="dashboard-button"
+        href="test-creator-dashboard.html">
+
+        ← Back to Test Creator Dashboard
+
+    </a>
+
+
+</footer>
+
+
+</main>
+
+
+<!-- =========================================================
+     RIGHT TABLE OF CONTENTS
+========================================================= -->
+
+<aside class="right-toc">
+
+
+    <div class="toc-title">
+        On this page
+    </div>
+
+
+    <div class="toc">
+
+        <a href="#overview">
+            Overview
+        </a>
+
+
+        <a href="#test-information">
+            1. Test Information
+        </a>
+
+
+        <a href="#import-questions">
+            2. Import Questions
+        </a>
+
+
+        <a href="#questions-excel">
+            Excel File Format
+        </a>
+
+
+        <a href="#answers-excel">
+            Manual Question Entry
+        </a>
+
+
+        <a href="#uploading-files">
+            Uploading Files
+        </a>
+
+
+        <a href="#validation">
+            Validation
+        </a>
+
+
+        <a href="#review-questions">
+            Review Imported Questions
+        </a>
+
+
+        <a href="#review">
+            3. Review Questions
+        </a>
+
+
+        <a href="#marks-settings">
+            4. Marks & Settings
+        </a>
+
+
+        <a href="#student-details">
+            5. Student Details
+        </a>
+
+
+        <a href="#schedule">
+            6. Schedule
+        </a>
+
+
+        <a href="#instructions">
+            7. Instructions
+        </a>
+
+
+        <a href="#preview-publish">
+            8. Preview & Publish
+        </a>
+
+
+        <a href="#complete-flow">
+            Complete Flow
+        </a>
+
+
+        <a href="#checklist">
+            Before Publishing
+        </a>
+
+
+        <a href="#platform-features">
+            Platform Features
+        </a>
+
+
+        <a href="#key-features">
+            Key Features
+        </a>
+
+
+        <a href="#created-by">
+            Created By
+        </a>
+
+    </div>
+
+</aside>
+
+
+</div>
+
+
+<!-- =========================================================
+     JAVASCRIPT
+========================================================= -->
+
+<script>
+
+/* =========================================================
+   MOBILE MENU
+========================================================= */
+
+const mobileMenu =
+    document.getElementById("mobileMenu");
+
+const sidebar =
+    document.getElementById("sidebar");
+
+
+mobileMenu.addEventListener(
+    "click",
+    function () {
+
+        sidebar.classList.toggle("open");
+
+    }
+);
+
+
+/* Close sidebar after clicking navigation */
+
+document
+    .querySelectorAll(".sidebar a")
+    .forEach(function (link) {
+
+        link.addEventListener(
+            "click",
+            function () {
+
+                if (
+                    window.innerWidth <= 760
+                ) {
+
+                    sidebar.classList.remove(
+                        "open"
+                    );
+
+                }
+
+            }
+        );
+
+    });
+
+
+/* =========================================================
+   COPY BUTTON
+========================================================= */
+
+function copyText(elementId) {
+
+    const element =
+        document.getElementById(elementId);
+
+    if (!element) {
+
+        return;
+
+    }
+
+
+    const text =
+        element.innerText;
+
+
+    if (
+        navigator.clipboard &&
+        navigator.clipboard.writeText
+    ) {
+
+        navigator.clipboard
+            .writeText(text)
+            .then(function () {
+
+                showToast(
+                    "Copied to clipboard"
+                );
+
+            })
+            .catch(function () {
+
+                fallbackCopy(text);
+
+            });
+
+    } else {
+
+        fallbackCopy(text);
+
+    }
+
+}
+
+
+/* Fallback copy */
+
+function fallbackCopy(text) {
+
+    const textarea =
+        document.createElement("textarea");
+
+    textarea.value = text;
+
+    textarea.style.position = "fixed";
+
+    textarea.style.left = "-9999px";
+
+    document.body.appendChild(
+        textarea
+    );
+
+    textarea.select();
+
+    try {
+
+        document.execCommand("copy");
+
+        showToast(
+            "Copied to clipboard"
+        );
+
+    } catch (error) {
+
+        alert(
+            "Unable to copy the text."
+        );
+
+    }
+
+    document.body.removeChild(
+        textarea
+    );
+
+}
+
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+function showToast(message) {
+
+    let toast =
+        document.getElementById(
+            "quizoraToast"
+        );
+
+
+    if (!toast) {
+
+        toast =
+            document.createElement("div");
+
+        toast.id =
+            "quizoraToast";
+
+        toast.style.position =
+            "fixed";
+
+        toast.style.bottom =
+            "25px";
+
+        toast.style.left =
+            "50%";
+
+        toast.style.transform =
+            "translateX(-50%)";
+
+        toast.style.background =
+            "#111827";
+
+        toast.style.color =
+            "#ffffff";
+
+        toast.style.padding =
+            "10px 16px";
+
+        toast.style.borderRadius =
+            "7px";
+
+        toast.style.fontSize =
+            "13px";
+
+        toast.style.zIndex =
+            "9999";
+
+        toast.style.boxShadow =
+            "0 5px 20px rgba(0,0,0,.2)";
+
+        document.body.appendChild(
+            toast
+        );
+
+    }
+
+
+    toast.textContent =
+        message;
+
+    toast.style.display =
+        "block";
+
+
+    clearTimeout(
+        window.quizoraToastTimer
+    );
+
+
+    window.quizoraToastTimer =
+        setTimeout(
+            function () {
+
+                toast.style.display =
+                    "none";
+
+            },
+            1800
+        );
+
+}
+
+
+/* =========================================================
+   SEARCH
+========================================================= */
+
+const searchInput =
+    document.getElementById(
+        "searchInput"
+    );
+
+const searchResults =
+    document.getElementById(
+        "searchResults"
+    );
+
+
+const searchableSections =
+    Array.from(
+        document.querySelectorAll(
+            "main section"
+        )
+    );
+
+
+searchInput.addEventListener(
+    "input",
+    function () {
+
+        const query =
+            this.value
+                .toLowerCase()
+                .trim();
+
+
+        searchResults.innerHTML =
+            "";
+
+
+        if (!query) {
+
+            searchResults.style.display =
+                "none";
+
+            searchableSections
+                .forEach(function(section) {
+
+                    section.style.display =
+                        "";
+
+                });
+
+            return;
+
+        }
+
+
+        let matches = [];
+
+
+        searchableSections
+            .forEach(function(section) {
+
+                const text =
+                    section.innerText
+                        .toLowerCase();
+
+
+                if (
+                    text.includes(query)
+                ) {
+
+                    matches.push(
+                        section
+                    );
+
+                }
+
+            });
+
+
+        if (
+            matches.length === 0
+        ) {
+
+            searchResults.innerHTML =
+                '<div class="search-result">' +
+                '<div class="search-result-title">' +
+                'No results found' +
+                '</div>' +
+                '<div class="search-result-text">' +
+                'Try another search term.' +
+                '</div>' +
+                '</div>';
+
+            searchResults.style.display =
+                "block";
+
+            return;
+
+        }
+
+
+        matches
+            .slice(0, 10)
+            .forEach(function(section) {
+
+                const id =
+                    section.id;
+
+
+                const heading =
+                    section.querySelector(
+                        "h1, h2"
+                    );
+
+
+                const title =
+                    heading
+                        ? heading.innerText
+                        : "Documentation";
+
+
+                const result =
+                    document.createElement(
+                        "a"
+                    );
+
+
+                result.href =
+                    "#" + id;
+
+
+                result.className =
+                    "search-result";
+
+
+                result.innerHTML =
+                    '<div class="search-result-title">' +
+                    escapeHtml(title) +
+                    '</div>' +
+                    '<div class="search-result-text">' +
+                    'Open this documentation section' +
+                    '</div>';
+
+
+                result.addEventListener(
+                    "click",
+                    function () {
+
+                        searchResults.style.display =
+                            "none";
+
+                        searchInput.value =
+                            "";
+
+                    }
+                );
+
+
+                searchResults.appendChild(
+                    result
+                );
+
+            });
+
+
+        searchResults.style.display =
+            "block";
+
+    }
+);
+
+
+/* =========================================================
+   ESCAPE HTML
+========================================================= */
+
+function escapeHtml(text) {
+
+    const div =
+        document.createElement("div");
+
+    div.textContent =
+        text;
+
+    return div.innerHTML;
+
+}
+
+
+/* =========================================================
+   SEARCH ESC KEY
+========================================================= */
+
+document.addEventListener(
+    "keydown",
+    function (event) {
+
+        if (
+            event.key === "Escape"
+        ) {
+
+            searchResults.style.display =
+                "none";
+
+            sidebar.classList.remove(
+                "open"
+            );
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   "/" SEARCH SHORTCUT
+========================================================= */
+
+document.addEventListener(
+    "keydown",
+    function (event) {
+
+        if (
+            event.key === "/" &&
+            document.activeElement.tagName !==
+                "INPUT" &&
+            document.activeElement.tagName !==
+                "TEXTAREA"
+        ) {
+
+            event.preventDefault();
+
+            searchInput.focus();
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   ACTIVE LEFT NAV
+========================================================= */
+
+const navLinks =
+    document.querySelectorAll(
+        '.sidebar a[href^="#"]'
+    );
+
+
+const sections =
+    document.querySelectorAll(
+        "main section"
+    );
+
+
+const sectionObserver =
+    new IntersectionObserver(
+        function (entries) {
+
+            entries.forEach(
+                function (entry) {
+
+                    if (
+                        entry.isIntersecting
+                    ) {
+
+                        const id =
+                            entry.target.id;
+
+
+                        navLinks
+                            .forEach(
+                                function (link) {
+
+                                    link.classList
+                                        .remove(
+                                            "active"
+                                        );
+
+
+                                    if (
+                                        link.getAttribute(
+                                            "href"
+                                        ) ===
+                                        "#" + id
+                                    ) {
+
+                                        link.classList
+                                            .add(
+                                                "active"
+                                            );
+
+                                    }
+
+                                }
+                            );
+
+                    }
+
+                }
+            );
+
+        },
+        {
+            rootMargin:
+                "-100px 0px -65% 0px"
+        }
+    );
+
+
+sections.forEach(
+    function (section) {
+
+        sectionObserver.observe(
+            section
+        );
+
+    }
+);
+
+
+/* =========================================================
+   RIGHT TOC ACTIVE
+========================================================= */
+
+const tocLinks =
+    document.querySelectorAll(
+        ".toc a"
+    );
+
+
+const tocObserver =
+    new IntersectionObserver(
+        function (entries) {
+
+            entries.forEach(
+                function (entry) {
+
+                    if (
+                        entry.isIntersecting
+                    ) {
+
+                        const id =
+                            entry.target.id;
+
+
+                        tocLinks
+                            .forEach(
+                                function (link) {
+
+                                    link.classList
+                                        .remove(
+                                            "active"
+                                        );
+
+
+                                    if (
+                                        link.getAttribute(
+                                            "href"
+                                        ) ===
+                                        "#" + id
+                                    ) {
+
+                                        link.classList
+                                            .add(
+                                                "active"
+                                            );
+
+                                    }
+
+                                }
+                            );
+
+                    }
+
+                }
+            );
+
+        },
+        {
+            rootMargin:
+                "-100px 0px -65% 0px"
+        }
+    );
+
+
+sections.forEach(
+    function (section) {
+
+        tocObserver.observe(
+            section
+        );
+
+    }
+);
+
+
+/* =========================================================
+   CLOSE SEARCH WHEN CLICKING OUTSIDE
+========================================================= */
+
+document.addEventListener(
+    "click",
+    function (event) {
+
+        const searchArea =
+            document.querySelector(
+                ".search-area"
+            );
+
+
+        if (
+            !searchArea.contains(
+                event.target
+            ) &&
+            !searchResults.contains(
+                event.target
+            )
+        ) {
+
+            searchResults.style.display =
+                "none";
+
+        }
+
+    }
+);
+
+</script>
+
+</body>
+</html>

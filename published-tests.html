@@ -1,0 +1,2767 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Quizora | Published Tests</title>
+
+<style>
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+:root{
+  --primary:#635bff;
+  --primary2:#5148e8;
+  --ink:#15162a;
+  --text:#25263a;
+  --muted:#7b7f95;
+  --bg:#f4f6fb;
+  --card:#fff;
+  --line:#e7e9f1;
+  --soft:#f6f6ff;
+  --green:#159c68;
+  --greenbg:#e9faf2;
+  --orange:#b86b00;
+  --orangebg:#fff6e4;
+  --red:#d92d3a;
+  --redbg:#fff0f1;
+  --shadow:0 18px 50px rgba(30,35,80,.08);
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Arial,sans-serif;
+  background:
+  radial-gradient(circle at 5% -5%,rgba(99,91,255,.12),transparent 27%),
+  radial-gradient(circle at 100% 10%,rgba(130,124,255,.10),transparent 24%),
+  var(--bg);
+  color:var(--text);
+  min-height:100vh;
+}
+
+button,input,textarea,select{
+  font:inherit;
+}
+
+button{
+  cursor:pointer;
+}
+
+header{
+  height:80px;
+  background:#000;
+  border-bottom:3px solid #635bff;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 5%;
+  position:sticky;
+  top:0;
+  z-index:1000;
+  box-shadow:0 8px 32px rgba(0,0,0,.5);
+}
+
+.brand{
+  display:flex;
+  gap:14px;
+  align-items:center;
+  text-decoration:none;
+  color:#fff;
+}
+
+.logo{
+  width:52px;
+  height:52px;
+  border-radius:50%;
+  background-image:url('logo.jpeg');
+  background-size:cover;
+  background-position:center;
+  box-shadow:0 8px 24px rgba(99,91,255,.4),0 0 0 3px rgba(99,91,255,.5);
+  transition:transform .3s ease;
+}
+
+.logo:hover{
+  transform:scale(1.08);
+}
+
+.brand b{
+  font-size:22px;
+  font-weight:800;
+  letter-spacing:2px;
+  text-shadow:0 2px 8px rgba(99,91,255,.4);
+}
+
+.brand small{
+  display:block;
+  color:rgba(255,255,255,.75);
+  font-size:11px;
+  font-weight:600;
+  letter-spacing:0.5px;
+  margin-top:2px;
+}
+
+.header-right{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.btn{
+  border:0;
+  border-radius:11px;
+  padding:10px 14px;
+  font-size:10px;
+  font-weight:850;
+  transition:.2s;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:7px;
+  text-decoration:none;
+}
+
+.btn:hover{
+  transform:translateY(-1px);
+}
+
+.primary{
+  background:linear-gradient(135deg,#726bff,#5148e8);
+  color:#fff;
+  box-shadow:0 8px 20px rgba(99,91,255,.18);
+}
+
+.ghost{
+  background:#fff;
+  border:1px solid var(--line);
+  color:var(--text);
+}
+
+.secondary{
+  background:#efeeff;
+  color:var(--primary2);
+}
+
+header .btn.ghost{
+  background:rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.25);
+  color:#fff;
+  font-size:11px;
+  padding:9px 16px;
+  font-weight:700;
+}
+
+header .btn.ghost:hover{
+  background:rgba(255,255,255,.15);
+  border-color:rgba(255,255,255,.4);
+  box-shadow:0 4px 12px rgba(255,255,255,.1);
+}
+
+header .btn.secondary{
+  background:rgba(96,165,250,.12);
+  color:#60a5fa;
+  border:1px solid rgba(96,165,250,.35);
+  font-size:11px;
+  padding:9px 16px;
+  font-weight:700;
+}
+
+header .btn.secondary:hover{
+  background:rgba(96,165,250,.2);
+  border-color:rgba(96,165,250,.6);
+  color:#93c5fd;
+  box-shadow:0 4px 12px rgba(96,165,250,.3);
+}
+
+header .btn.primary{
+  background:linear-gradient(135deg,#635bff,#7b74ff);
+  color:#fff;
+  font-size:11px;
+  padding:9px 16px;
+  font-weight:700;
+  box-shadow:0 4px 14px rgba(99,91,255,.4);
+}
+
+header .btn.primary:hover{
+  background:linear-gradient(135deg,#5148e8,#635bff);
+  box-shadow:0 6px 20px rgba(99,91,255,.6);
+}
+
+.danger{
+  background:var(--redbg);
+  color:var(--red);
+}
+
+.success{
+  background:var(--greenbg);
+  color:var(--green);
+}
+
+main{
+  width:92%;
+  max-width:1380px;
+  margin:auto;
+  padding:28px 0 70px;
+}
+
+.hero{
+  position:relative;
+  overflow:hidden;
+  background:linear-gradient(120deg,#5750ee,#7a72ff 55%,#5148e8);
+  color:#fff;
+  border-radius:28px;
+  padding:34px 36px;
+  margin-bottom:18px;
+  box-shadow:0 25px 60px rgba(99,91,255,.22);
+}
+
+.hero-inner{
+  position:relative;
+  z-index:1;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:25px;
+}
+
+.hero h1{
+  font-size:32px;
+  letter-spacing:-1.2px;
+  margin-bottom:8px;
+}
+
+.hero p{
+  font-size:10px;
+  color:rgba(255,255,255,.85);
+  line-height:1.75;
+  max-width:750px;
+}
+
+.hero-pill{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  padding:7px 10px;
+  border-radius:20px;
+  background:rgba(255,255,255,.13);
+  border:1px solid rgba(255,255,255,.15);
+  font-size:8px;
+  font-weight:850;
+  margin-bottom:13px;
+}
+
+.hero-art{
+  width:125px;
+  height:125px;
+  border-radius:32px;
+  background:rgba(255,255,255,.11);
+  border:1px solid rgba(255,255,255,.15);
+  display:grid;
+  place-items:center;
+  font-size:49px;
+  flex:none;
+}
+
+.card{
+  background:rgba(255,255,255,.97);
+  border:1px solid var(--line);
+  border-radius:20px;
+  box-shadow:var(--shadow);
+  padding:21px;
+  margin-bottom:18px;
+}
+
+.card h2{
+  font-size:15px;
+  margin-bottom:5px;
+}
+
+.sub{
+  font-size:9px;
+  color:var(--muted);
+  line-height:1.65;
+  margin-bottom:16px;
+}
+
+.section-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:10px;
+  margin-bottom:18px;
+}
+
+.section-icon{
+  width:35px;
+  height:35px;
+  border-radius:11px;
+  background:var(--soft);
+  display:grid;
+  place-items:center;
+  font-size:16px;
+}
+
+.published-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:12px;
+}
+
+.published-card{
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:15px;
+  background:#fff;
+  box-shadow:0 8px 25px rgba(30,32,70,.035);
+}
+
+.published-card h3{
+  font-size:12px;
+  margin-bottom:5px;
+}
+
+.published-card .meta{
+  font-size:8px;
+  color:var(--muted);
+  line-height:1.7;
+}
+
+.published-card .time-badge{
+  display:inline-flex;
+  margin:9px 0 10px;
+  padding:6px 9px;
+  border-radius:8px;
+  background:var(--greenbg);
+  color:var(--green);
+  font-size:8px;
+  font-weight:900;
+}
+
+.published-card.expired .time-badge{
+  background:var(--redbg);
+  color:var(--red);
+}
+
+.published-card .published-actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:6px;
+  margin-top:10px;
+}
+
+.published-card .published-actions .btn{
+  font-size:8px;
+  padding:8px 9px;
+}
+
+.published-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:8px;
+}
+
+.published-status{
+  font-size:7px;
+  font-weight:900;
+  padding:5px 7px;
+  border-radius:7px;
+  background:var(--greenbg);
+  color:var(--green);
+  white-space:nowrap;
+}
+
+.published-status.expired{
+  background:var(--redbg);
+  color:var(--red);
+}
+
+.empty{
+  text-align:center;
+  padding:45px 20px;
+  color:var(--muted);
+  font-size:10px;
+  grid-column:1/-1;
+}
+
+.empty-icon{
+  font-size:30px;
+  margin-bottom:9px;
+}
+
+.empty b{
+  display:block;
+  color:var(--text);
+  font-size:12px;
+  margin-bottom:5px;
+}
+
+.success-banner{
+  display:none;
+  margin-bottom:18px;
+  padding:16px 20px;
+  border-radius:16px;
+  background:var(--greenbg);
+  border:2px solid var(--green);
+  color:var(--green);
+  font-size:11px;
+  font-weight:800;
+  align-items:center;
+  gap:12px;
+  animation:slideDown 0.4s ease-out;
+}
+
+.success-banner.show{
+  display:flex;
+}
+
+.success-icon{
+  width:36px;
+  height:36px;
+  border-radius:50%;
+  background:var(--green);
+  color:#fff;
+  display:grid;
+  place-items:center;
+  font-size:18px;
+  flex:none;
+}
+
+@keyframes slideDown{
+  from{
+    opacity:0;
+    transform:translateY(-20px);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+
+@media(max-width:1000px){
+  .published-grid{
+    grid-template-columns:1fr 1fr;
+  }
+}
+
+.modal-backdrop{
+  position:fixed;
+  inset:0;
+  background:rgba(15,16,35,.5);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:18px;
+  z-index:500;
+  backdrop-filter:blur(7px);
+}
+
+.modal-backdrop.show{
+  display:flex;
+}
+
+.modal{
+  width:min(720px,100%);
+  max-height:90vh;
+  overflow-y:auto;
+  background:#fff;
+  border-radius:22px;
+  padding:23px;
+  box-shadow:0 30px 90px rgba(0,0,0,.25);
+}
+
+.modal h3{
+  font-size:17px;
+  margin-bottom:8px;
+}
+
+.modal p{
+  font-size:9px;
+  color:var(--muted);
+  line-height:1.6;
+  margin:0 0 15px;
+}
+
+.modal-actions{
+  display:flex;
+  justify-content:flex-end;
+  gap:8px;
+  margin-top:15px;
+  flex-wrap:wrap;
+}
+
+.stats-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:11px;
+  margin:17px 0;
+}
+
+.stat{
+  padding:16px;
+  border:1px solid var(--line);
+  border-radius:16px;
+  background:#fff;
+  box-shadow:0 8px 25px rgba(30,32,70,.035);
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.stat-icon{
+  width:39px;
+  height:39px;
+  border-radius:12px;
+  display:grid;
+  place-items:center;
+  font-size:16px;
+  background:var(--soft);
+}
+
+.stat span{
+  display:block;
+  color:var(--muted);
+  font-size:8px;
+}
+
+.stat strong{
+  font-size:21px;
+  margin-top:4px;
+  display:block;
+}
+
+.student-list{
+  margin-top:18px;
+}
+
+.student-list h4{
+  font-size:12px;
+  margin-bottom:12px;
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+.student-item{
+  padding:12px;
+  border:1px solid var(--line);
+  border-radius:12px;
+  margin-bottom:8px;
+  font-size:9px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+}
+
+.student-email{
+  font-weight:700;
+}
+
+.student-status{
+  padding:5px 8px;
+  border-radius:7px;
+  font-size:7px;
+  font-weight:900;
+  white-space:nowrap;
+}
+
+.student-status.completed{
+  background:var(--greenbg);
+  color:var(--green);
+}
+
+.student-status.not-completed{
+  background:var(--orangebg);
+  color:var(--orange);
+}
+
+.toast{
+  position:fixed;
+  right:20px;
+  bottom:20px;
+  background:#171827;
+  color:#fff;
+  padding:12px 15px;
+  border-radius:12px;
+  font-size:9px;
+  display:none;
+  z-index:999;
+  box-shadow:0 15px 35px rgba(0,0,0,.2);
+}
+
+.toast.show{
+  display:block;
+}
+
+@media(max-width:1000px){
+  .stats-grid{
+    grid-template-columns:1fr 1fr;
+  }
+}
+
+@media(max-width:900px){
+  header{
+    padding:0 3%;
+  }
+
+  .header-right{
+    gap:7px;
+  }
+
+  header .btn{
+    font-size:10px;
+    padding:8px 11px;
+  }
+
+  .brand b{
+    font-size:20px;
+    letter-spacing:1.5px;
+  }
+}
+
+@media(max-width:600px){
+  .published-grid{
+    grid-template-columns:1fr;
+  }
+
+  header{
+    padding:0 14px;
+    height:70px;
+  }
+
+  .logo{
+    width:46px;
+    height:46px;
+  }
+
+  .brand b{
+    font-size:17px;
+    letter-spacing:1px;
+  }
+
+  .brand small{
+    display:none;
+  }
+
+  header .btn{
+    font-size:9px;
+    padding:7px 9px;
+  }
+
+  main{
+    width:calc(100% - 20px);
+    padding-top:15px;
+  }
+
+  .hero{
+    padding:23px 20px;
+    border-radius:21px;
+  }
+
+  .hero h1{
+    font-size:24px;
+  }
+
+  .hero-art{
+    display:none;
+  }
+
+  .stats-grid{
+    grid-template-columns:1fr;
+  }
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+
+  <a href="test-creater.html" class="brand">
+    <div class="logo"></div>
+
+    <div>
+      <b><span style="color:#fff;text-shadow:0 2px 8px rgba(99,91,255,.5)">Quiz</span><span style="color:#60a5fa;text-shadow:0 2px 8px rgba(96,165,250,.5)">ora</span></b>
+      <small>Test Creator Studio</small>
+    </div>
+  </a>
+
+  <div class="header-right">
+
+    <a href="test-creater.html" class="btn ghost">
+      ← Back to Creator
+    </a>
+
+    <a href="report.html" class="btn primary">
+      📊 Assessment Score
+    </a>
+
+  </div>
+
+</header>
+
+<main>
+
+<section class="hero">
+
+  <div class="hero-inner">
+
+    <div>
+
+      <div class="hero-pill">
+        ✦ QUIZORA EXAMINER WORKSPACE
+      </div>
+
+      <h1>Published Tests</h1>
+
+      <p>
+        Manage your active MCQ tests.
+        Active tests are automatically disabled when their live time ends.
+      </p>
+
+    </div>
+
+    <div class="hero-art">
+      📡
+    </div>
+
+  </div>
+
+</section>
+
+<div class="success-banner" id="successBanner">
+  <div class="
+  -icon">✓</div>
+  <div>Test published successfully!</div>
+</div>
+
+<section class="card">
+
+  <div class="section-head">
+
+    <div>
+
+      <h2>Active Published Tests</h2>
+
+      <p class="sub">
+        Tests automatically disappear here after their live time ends.
+      </p>
+
+    </div>
+
+    <div class="section-icon">📡</div>
+
+  </div>
+
+  <div class="published-grid" id="publishedGrid">
+
+    <div class="empty">
+
+      <div class="empty-icon">📚</div>
+
+      <b>Loading published tests...</b>
+
+      Please wait.
+
+    </div>
+
+  </div>
+
+</section>
+
+</main>
+
+<div class="toast" id="toast"></div>
+
+<div class="modal-backdrop" id="reportModal">
+  <div class="modal">
+    <h3 id="reportTitle">Test Report</h3>
+    <p id="reportSubtitle">Loading report data...</p>
+
+    <div class="stats-grid" id="reportStats"></div>
+
+    <div class="student-list" id="studentList"></div>
+
+    <div class="modal-actions">
+      <button
+        class="btn primary"
+        id="downloadReportBtn"
+        onclick="downloadReportExcel()"
+      >
+        📥 Download Excel
+      </button>
+      <button
+        class="btn ghost"
+        onclick="closeReportModal()"
+      >
+        Close
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+
+const API_BASE =
+  "https://yh5j21oonb.execute-api.eu-north-1.amazonaws.com/prod";
+
+const CORS_ORIGIN = "*";
+
+let publishedTests = [];
+
+let currentReportData = null;
+
+const $ = id =>
+  document.getElementById(id);
+
+function escapeHTML(value){
+  return String(
+    value == null ? "" : value
+  )
+  .replace(/&/g,"&amp;")
+  .replace(/</g,"&lt;")
+  .replace(/>/g,"&gt;")
+  .replace(/"/g,"&quot;")
+  .replace(/'/g,"&#039;");
+}
+
+async function apiRequest(
+  path,
+  options = {}
+){
+  const url =
+    API_BASE.replace(/\/$/,"") +
+    "/" +
+    String(path || "")
+      .replace(/^\//,"");
+
+  const fetchOptions = {
+    method:
+      options.method || "GET",
+
+    mode:"cors",
+
+    cache:"no-store",
+
+    headers:{
+      Accept:
+        "application/json",
+      ...(options.headers || {})
+    }
+  };
+
+  if(options.body !== undefined){
+    fetchOptions.body =
+      options.body;
+
+    fetchOptions.headers[
+      "Content-Type"
+    ] =
+      "application/json";
+  }
+
+  let response;
+
+  try{
+    response =
+      await fetch(
+        url,
+        fetchOptions
+      );
+  }catch(error){
+    throw new Error(
+      "Unable to connect to AWS API: " +
+      error.message
+    );
+  }
+
+  const text =
+    await response.text();
+
+  let data = null;
+
+  if(text){
+    try{
+      data =
+        JSON.parse(text);
+    }catch(error){
+      data = {
+        raw:text
+      };
+    }
+  }
+
+  if(!response.ok){
+    let message =
+      data?.message ||
+      data?.error ||
+      data?.raw ||
+      "";
+
+    if(response.status === 404){
+      message =
+        message ||
+        "API route not found.";
+    }
+
+    if(response.status === 403){
+      message =
+        message ||
+        "AWS API returned 403 Forbidden.";
+    }
+
+    if(response.status >= 500){
+      message =
+        message ||
+        "AWS Lambda returned a server error.";
+    }
+
+    throw new Error(
+      `HTTP ${response.status}: ${message}`
+    );
+  }
+
+  return data ?? {};
+}
+
+function formatRemaining(seconds){
+  const sec =
+    Math.max(
+      0,
+      Number(seconds) || 0
+    );
+
+  const hours =
+    Math.floor(
+      sec / 3600
+    );
+
+  const minutes =
+    Math.floor(
+      (sec % 3600) / 60
+    );
+
+  const secs =
+    sec % 60;
+
+  if(hours > 0){
+    return `${hours}h ${minutes}m remaining`;
+  }
+
+  if(minutes > 0){
+    return `${minutes}m ${secs}s remaining`;
+  }
+
+  if(secs > 0){
+    return `${secs}s remaining`;
+  }
+
+  return "Ending soon";
+}
+
+function formatDateTime(value){
+  if(!value)
+    return "—";
+
+  const d =
+    new Date(value);
+
+  if(
+    Number.isNaN(
+      d.getTime()
+    )
+  ){
+    return "—";
+  }
+
+  return d.toLocaleString(
+    [],
+    {
+      dateStyle:"medium",
+      timeStyle:"short"
+    }
+  );
+}
+
+function extractTests(data){
+  if(
+    Array.isArray(data)
+  ){
+    return data;
+  }
+
+  if(
+    Array.isArray(data?.tests)
+  ){
+    return data.tests;
+  }
+
+  if(
+    Array.isArray(data?.items)
+  ){
+    return data.items;
+  }
+
+  if(
+    Array.isArray(data?.data)
+  ){
+    return data.data;
+  }
+
+  if(
+    Array.isArray(data?.data?.tests)
+  ){
+    return data.data.tests;
+  }
+
+  return [];
+}
+
+async function loadPublishedTests(){
+  const grid =
+    $("publishedGrid");
+
+  if(!grid)
+    return;
+
+  try{
+    const data =
+      await apiRequest(
+        "/tests",
+        {
+          method:"GET"
+        }
+      );
+
+    const list =
+      extractTests(data);
+
+    const now =
+      Date.now();
+
+    publishedTests =
+      list.filter(
+        test => {
+          const end =
+            Date.parse(
+              test.endTime || ""
+            );
+
+          const notExpired =
+            !Number.isFinite(end) ||
+            end > now;
+
+          return notExpired;
+        }
+      );
+
+    renderPublishedTests();
+
+  }catch(error){
+    console.error(
+      "Published tests error:",
+      error
+    );
+
+    grid.innerHTML = `
+      <div class="empty">
+        <div class="empty-icon">
+          ⚠️
+        </div>
+        <b>
+          Unable to load published tests
+        </b>
+        <div
+          style="
+            margin-top:8px;
+            line-height:1.7;
+          "
+        >
+          ${escapeHTML(
+            error.message
+          )}
+        </div>
+        <button
+          type="button"
+          class="btn secondary"
+          style="margin-top:12px;"
+          onclick="loadPublishedTests()"
+        >
+          🔄 Retry
+        </button>
+      </div>
+    `;
+  }
+}
+
+window.loadPublishedTests =
+  loadPublishedTests;
+
+function renderPublishedTests(){
+  const grid =
+    $("publishedGrid");
+
+  if(!grid)
+    return;
+
+  const now =
+    Date.now();
+
+  publishedTests =
+    publishedTests.filter(
+      test => {
+        const end =
+          Date.parse(
+            test.endTime || ""
+          );
+
+        if(
+          Number.isFinite(end)
+        ){
+          return end > now;
+        }
+
+        return true;
+      }
+    );
+
+  if(!publishedTests.length){
+    grid.innerHTML = `
+      <div class="empty">
+        <div class="empty-icon">
+          📚
+        </div>
+        <b>
+          No active published tests
+        </b>
+        <div
+          style="
+            margin-top:8px;
+            line-height:1.7;
+          "
+        >
+          Tests automatically disappear here
+          after their live time ends.
+        </div>
+      </div>
+    `;
+
+    return;
+  }
+
+  grid.innerHTML =
+    publishedTests
+      .map(
+        test => {
+          const testId =
+            String(
+              test.testId ||
+              test.id ||
+              ""
+            );
+
+          if(!testId)
+            return "";
+
+          const end =
+            Date.parse(
+              test.endTime || ""
+            );
+
+          const remaining =
+            Number.isFinite(end)
+              ? Math.max(
+                  0,
+                  Math.ceil(
+                    (end - now) /
+                    1000
+                  )
+                )
+              : 0;
+
+          const expired =
+            Number.isFinite(end) &&
+            end <= now;
+
+          const questionCount =
+            Number(
+              test.questionCount ||
+              (
+                Array.isArray(
+                  test.questions
+                )
+                ? test.questions.length
+                : 0
+              )
+            );
+
+          const duration =
+            Number(
+              test.duration ||
+              test.durationMinutes ||
+              0
+            );
+
+          const liveHours =
+            Number(
+              test.liveHours || 0
+            );
+
+          const assignmentType =
+            String(
+              test.assignmentType || ""
+            )
+            .toLowerCase();
+
+          const assignedCount =
+            Array.isArray(
+              test.assignedEmails
+            )
+            ? test.assignedEmails.length
+            : 0;
+
+          const serverCode =
+            test.accessCode ||
+            test.testCode ||
+            "";
+
+          const safeId =
+            encodeURIComponent(
+              testId
+            );
+
+          return `
+            <article
+              class="published-card ${
+                expired
+                  ? "expired"
+                  : ""
+              }"
+            >
+              <div class="published-top">
+                <div>
+                  <h3>
+                    ${escapeHTML(
+                      test.testName ||
+                      test.title ||
+                      "Untitled Test"
+                    )}
+                  </h3>
+                  <div class="meta">
+                    ${escapeHTML(
+                      test.subject ||
+                      "General"
+                    )}
+                  </div>
+                </div>
+                <span
+                  class="published-status ${
+                    expired
+                      ? "expired"
+                      : ""
+                  }"
+                >
+                  ${
+                    expired
+                      ? "EXPIRED"
+                      : "LIVE"
+                  }
+                </span>
+              </div>
+
+              <div
+                class="time-badge"
+              >
+                ⏱
+                ${
+                  expired
+                    ? "Test live time ended"
+                    : formatRemaining(
+                        remaining
+                      )
+                }
+              </div>
+
+              <div class="meta">
+                📝
+                ${questionCount}
+                question(s)
+                <br>
+                🎯
+                ${duration}
+                minute attempt
+                <br>
+                📡
+                Live for
+                ${liveHours || "—"}
+                hour(s)
+                <br>
+                ${
+                  assignmentType ===
+                  "email"
+                    ? `
+                      📧 Assigned to
+                      ${assignedCount}
+                      student(s)
+                    `
+                    : `
+                      🔑 Access Code:
+                      ${escapeHTML(
+                        serverCode ||
+                        "—"
+                      )}
+                    `
+                }
+                <br>
+                🟢
+                Published:
+                ${formatDateTime(
+                  test.startTime ||
+                  test.publishedAt ||
+                  test.createdAt
+                )}
+                <br>
+                🔴
+                Ends:
+                ${formatDateTime(
+                  test.endTime
+                )}
+              </div>
+
+              <div class="published-actions">
+                <button
+                  type="button"
+                  class="btn ghost"
+                  onclick="editTestTime('${safeId}')"
+                >
+                  ⏱ Edit Time
+                </button>
+                <button
+                  type="button"
+                  class="btn danger"
+                  onclick="deleteTest('${safeId}')"
+                >
+                  🗑 Delete
+                </button>
+                <button
+                  type="button"
+                  class="btn success"
+                  onclick="viewReport('${safeId}')"
+                >
+                  📊 View Report
+                </button>
+              </div>
+            </article>
+          `;
+        }
+      )
+      .join("");
+}
+
+// Check for success parameter
+const urlParams = new URLSearchParams(
+  window.location.search
+);
+
+if(
+  urlParams.get("success") === "true"
+){
+  const banner =
+    $("successBanner");
+
+  if(banner){
+    banner.classList.add("show");
+
+    setTimeout(
+      () => {
+        banner.classList.remove("show");
+      },
+      5000
+    );
+  }
+
+  // Clean URL
+  window.history.replaceState(
+    {},
+    "",
+    window.location.pathname
+  );
+}
+
+// Load tests
+loadPublishedTests();
+
+// Auto refresh
+setInterval(
+  loadPublishedTests,
+  30000
+);
+
+// Live countdown
+setInterval(
+  function(){
+    if(
+      publishedTests.length
+    ){
+      renderPublishedTests();
+    }
+  },
+  1000
+);
+
+function toast(message){
+  const el = $("toast");
+
+  if(!el) return;
+
+  el.textContent =
+    String(message || "");
+
+  el.classList.add("show");
+
+  clearTimeout(
+    toast.timer
+  );
+
+  toast.timer =
+    setTimeout(
+      () => {
+        el.classList.remove("show");
+      },
+      2600
+    );
+}
+
+async function editTestTime(testId){
+  testId =
+    decodeURIComponent(
+      String(testId || "")
+    );
+
+  const test =
+    publishedTests.find(
+      item =>
+        String(
+          item.testId ||
+          item.id ||
+          ""
+        ) ===
+        String(testId)
+    );
+
+  if(!test){
+    alert(
+      "Published test not found."
+    );
+    return;
+  }
+
+  const current =
+    Number(
+      test.liveHours || 1
+    );
+
+  const value =
+    prompt(
+      "How many hours should this test remain live from now?",
+      String(current)
+    );
+
+  if(value === null){
+    return;
+  }
+
+  const liveHours =
+    Number(value);
+
+  if(
+    !Number.isFinite(
+      liveHours
+    ) ||
+    liveHours < 0.5 ||
+    liveHours > 168
+  ){
+    alert(
+      "Enter a value between 0.5 and 168 hours."
+    );
+    return;
+  }
+
+  try{
+    const startTime =
+      new Date().toISOString();
+
+    const data =
+      await apiRequest(
+        "/tests/" +
+        encodeURIComponent(
+          testId
+        ),
+        {
+          method:"PUT",
+
+          body:
+            JSON.stringify({
+              liveHours:
+                liveHours,
+
+              startTime:
+                startTime,
+
+              published:
+                true,
+
+              active:
+                true
+            })
+        }
+      );
+
+    if(
+      data &&
+      data.success === false
+    ){
+      throw new Error(
+        data.message ||
+        data.error ||
+        "Could not update test time."
+      );
+    }
+
+    toast(
+      `Test live time updated for ${liveHours} hour(s)`
+    );
+
+    await loadPublishedTests();
+
+  }catch(error){
+    console.error(
+      "Edit test time error:",
+      error
+    );
+
+    alert(
+      "Could not update test time.\n\n" +
+      error.message
+    );
+  }
+}
+
+window.editTestTime =
+  editTestTime;
+
+async function deleteTest(testId){
+  testId =
+    decodeURIComponent(
+      String(testId || "")
+    );
+
+  if(!testId){
+    alert(
+      "Test ID is missing."
+    );
+    return;
+  }
+
+  const confirmed =
+    confirm(
+      "Delete this test?\n\nThis action cannot be undone."
+    );
+
+  if(!confirmed)
+    return;
+
+  try{
+    const data =
+      await apiRequest(
+        "/tests/" +
+        encodeURIComponent(
+          testId
+        ),
+        {
+          method:"DELETE"
+        }
+      );
+
+    if(
+      data &&
+      data.success === false
+    ){
+      throw new Error(
+        data.message ||
+        data.error ||
+        "Could not delete test."
+      );
+    }
+
+    publishedTests =
+      publishedTests.filter(
+        test =>
+          String(
+            test.testId ||
+            test.id ||
+            ""
+          ) !==
+          String(testId)
+      );
+
+    renderPublishedTests();
+
+    toast(
+      "Test deleted successfully"
+    );
+
+  }catch(error){
+    console.error(
+      "Delete test error:",
+      error
+    );
+
+    alert(
+      "Could not delete the test.\n\n" +
+      error.message
+    );
+  }
+}
+
+window.deleteTest =
+  deleteTest;
+
+async function viewReport(testId){
+  testId =
+    decodeURIComponent(
+      String(testId || "")
+    );
+
+  const test =
+    publishedTests.find(
+      item =>
+        String(
+          item.testId ||
+          item.id ||
+          ""
+        ) ===
+        String(testId)
+    );
+
+  if(!test){
+    alert(
+      "Test not found."
+    );
+    return;
+  }
+
+  const modal =
+    $("reportModal");
+
+  const title =
+    $("reportTitle");
+
+  const subtitle =
+    $("reportSubtitle");
+
+  const statsEl =
+    $("reportStats");
+
+  const studentList =
+    $("studentList");
+
+  if(!modal)
+    return;
+
+  modal.classList.add("show");
+
+  title.textContent =
+    test.testName ||
+    test.title ||
+    "Test Report";
+
+  subtitle.textContent =
+    "Loading report data...";
+
+  statsEl.innerHTML = "";
+  studentList.innerHTML = "";
+
+  const downloadBtn =
+    $("downloadReportBtn");
+
+  if(downloadBtn){
+    downloadBtn.style.display =
+      "none";
+  }
+
+  try{
+    const data =
+      await apiRequest(
+        "/results?testId=" +
+        encodeURIComponent(testId),
+        {
+          method:"GET"
+        }
+      );
+
+    let results =
+      Array.isArray(data?.results)
+        ? data.results
+        : Array.isArray(data)
+        ? data
+        : [];
+
+    const emailMap =
+      new Map();
+
+    results.forEach(
+      r => {
+        const email =
+          String(
+            r.studentEmail ||
+            r.email ||
+            ""
+          )
+          .toLowerCase()
+          .trim();
+
+        if(!email)
+          return;
+
+        if(
+          !emailMap.has(email) ||
+          (
+            r.status === "COMPLETED" ||
+            r.submittedAt
+          )
+        ){
+          emailMap.set(
+            email,
+            r
+          );
+        }
+      }
+    );
+
+    results =
+      Array.from(
+        emailMap.values()
+      );
+
+    const assignmentType =
+      String(
+        test.assignmentType || ""
+      )
+      .toLowerCase();
+
+    const assignedEmails =
+      Array.isArray(
+        test.assignedEmails
+      )
+      ? test.assignedEmails.map(
+          e => String(e || "").toLowerCase().trim()
+        )
+      : [];
+
+    const attemptStatuses =
+      new Map();
+
+    try{
+      for(const result of results){
+        const email =
+          String(
+            result.studentEmail ||
+            result.email ||
+            ""
+          )
+          .toLowerCase()
+          .trim();
+
+        if(!email)
+          continue;
+
+        try{
+          const attemptData =
+            await apiRequest(
+              `/attempt/status?testId=${encodeURIComponent(testId)}&studentEmail=${encodeURIComponent(email)}`,
+              {method:"GET"}
+            );
+
+          attemptStatuses.set(
+            email,
+            {
+              status: attemptData.status || "ACTIVE",
+              malpracticeReason: attemptData.malpracticeReason || null,
+              malpracticeTimestamp: attemptData.malpracticeTimestamp || null
+            }
+          );
+        }catch(e){}
+      }
+
+      if(assignmentType === "email" && assignedEmails.length > 0){
+        for(const email of assignedEmails){
+          if(attemptStatuses.has(email)){
+            continue;
+          }
+
+          try{
+            const attemptData =
+              await apiRequest(
+                `/attempt/status?testId=${encodeURIComponent(testId)}&studentEmail=${encodeURIComponent(email)}`,
+                {method:"GET"}
+              );
+
+            attemptStatuses.set(
+              email,
+              {
+                status: attemptData.status || "ACTIVE",
+                malpracticeReason: attemptData.malpracticeReason || null,
+                malpracticeTimestamp: attemptData.malpracticeTimestamp || null
+              }
+            );
+          }catch(e){}
+        }
+      }
+    }catch(e){
+      console.error("Failed to fetch attempt statuses:",e);
+    }
+
+    if(
+      assignmentType === "email" &&
+      assignedEmails.length > 0
+    ){
+      results =
+        results.filter(
+          r => {
+            const email =
+              String(
+                r.studentEmail ||
+                r.email ||
+                ""
+              )
+              .toLowerCase()
+              .trim();
+
+            return assignedEmails.includes(email);
+          }
+        );
+    }
+
+    const totalAssigned =
+      assignmentType === "email"
+        ? assignedEmails.length
+        : 0;
+
+    const totalAttended =
+      results.length;
+
+    for(const r of results){
+      const email = String(r.studentEmail || r.email || "").toLowerCase().trim();
+      if(email){
+        try{
+          const profileData = await apiRequest(`/students?studentEmail=${encodeURIComponent(email)}`, {method:"GET"});
+          if(profileData && profileData.student){
+            r.school = r.school || profileData.student.school;
+            r.regNo = r.regNo || profileData.student.regNo;
+            Object.keys(profileData.student).forEach(key => {
+              if(key.startsWith("custom_") && !r[key]){
+                r[key] = profileData.student[key];
+              }
+            });
+          }
+        }catch(e){
+          console.error("Failed to fetch profile for",email,e);
+        }
+      }
+    }
+
+    const completed =
+      results.filter(
+        r =>
+          r.status === "COMPLETED" ||
+          (r.submittedAt && r.submittedAt.length > 0)
+      );
+
+    let notCompleted =
+      results.filter(
+        r =>
+          r.status !== "COMPLETED" &&
+          (!r.submittedAt || r.submittedAt.length === 0)
+      );
+
+    const malpracticeStudents = [];
+    const resultsByEmail = new Map();
+    results.forEach(r => {
+      const email = String(r.studentEmail || r.email || "").toLowerCase().trim();
+      if(email){
+        resultsByEmail.set(email, r);
+      }
+    });
+
+    for(const [email, attemptStatus] of attemptStatuses.entries()){
+      if(attemptStatus?.status === "MALPRACTICE"){
+        let student = resultsByEmail.get(email);
+        if(!student){
+          try{
+            const profileData = await apiRequest(
+              `/students?studentEmail=${encodeURIComponent(email)}`,
+              {method:"GET"}
+            );
+            if(profileData && profileData.student){
+              student = {
+                studentEmail: email,
+                email: email,
+                studentName: profileData.student.studentName || "",
+                name: profileData.student.studentName || "",
+                school: profileData.student.school || "",
+                regNo: profileData.student.regNo || ""
+              };
+              Object.keys(profileData.student).forEach(key => {
+                if(key.startsWith("custom_")){
+                  student[key] = profileData.student[key];
+                }
+              });
+            }else{
+              student = {
+                studentEmail: email,
+                email: email,
+                studentName: "",
+                name: ""
+              };
+            }
+          }catch(e){
+            console.error("Failed to fetch student profile:",e);
+            student = {
+              studentEmail: email,
+              email: email,
+              studentName: "",
+              name: ""
+            };
+          }
+        }
+        malpracticeStudents.push(student);
+      }
+    }
+
+    const notCompletedCount =
+      assignmentType === "email"
+        ? totalAssigned - completed.length - malpracticeStudents.length
+        : notCompleted.length;
+
+    subtitle.innerHTML =
+      assignmentType === "email"
+        ? `📧 Email Assignment: ${totalAssigned} assigned, ${completed.length} completed, ${malpracticeStudents.length} malpractice, ${notCompletedCount} not completed<br><small style="font-size:8px;color:var(--muted);font-weight:400;">💡 Click on any statistic below to view detailed list</small>`
+        : `🔑 Access Code Assignment: ${completed.length} students completed${malpracticeStudents.length > 0 ? `, ${malpracticeStudents.length} malpractice` : ''}<br><small style="font-size:8px;color:var(--muted);font-weight:400;">💡 Click on any statistic below to view detailed list</small>`;
+
+    if(assignmentType === "email"){
+      statsEl.style.gridTemplateColumns =
+        "repeat(4,1fr)";
+
+      statsEl.innerHTML = `
+        <div class="stat" data-section="all" style="cursor:pointer;transition:transform 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+          <div class="stat-icon">📧</div>
+          <div>
+            <span>Total Assigned</span>
+            <strong>${totalAssigned}</strong>
+          </div>
+        </div>
+
+        <div class="stat" data-section="completed" style="cursor:pointer;transition:transform 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+          <div class="stat-icon">✓</div>
+          <div>
+            <span>Completed</span>
+            <strong>${completed.length}</strong>
+          </div>
+        </div>
+
+        <div class="stat" data-section="malpractice" style="cursor:pointer;transition:transform 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+          <div class="stat-icon">🚫</div>
+          <div>
+            <span>Malpractice</span>
+            <strong style="color:var(--red);">${malpracticeStudents.length}</strong>
+          </div>
+        </div>
+
+        <div class="stat" data-section="notcompleted" style="cursor:pointer;transition:transform 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+          <div class="stat-icon">⏳</div>
+          <div>
+            <span>Not Completed</span>
+            <strong>${notCompletedCount}</strong>
+          </div>
+        </div>
+      `;
+    }else{
+      statsEl.style.gridTemplateColumns =
+        malpracticeStudents.length > 0 ? "repeat(2,1fr)" : "1fr";
+
+      statsEl.innerHTML = `
+        <div class="stat" data-section="completed" style="cursor:pointer;transition:transform 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+          <div class="stat-icon">✓</div>
+          <div>
+            <span>Completed Students</span>
+            <strong>${completed.length}</strong>
+          </div>
+        </div>
+        ${malpracticeStudents.length > 0 ? `
+        <div class="stat" data-section="malpractice" style="cursor:pointer;transition:transform 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+          <div class="stat-icon">🚫</div>
+          <div>
+            <span>Malpractice</span>
+            <strong style="color:var(--red);">${malpracticeStudents.length}</strong>
+          </div>
+        </div>
+        ` : ''}
+      `;
+    }
+
+    if(
+      assignmentType === "email" &&
+      totalAttended === 0 &&
+      malpracticeStudents.length === 0
+    ){
+      studentList.innerHTML = `
+        <div class="empty">
+          <div class="empty-icon">📭</div>
+          <b>No students have started yet</b>
+        </div>
+      `;
+      return;
+    }
+
+    if(
+      assignmentType === "code" &&
+      completed.length === 0 &&
+      malpracticeStudents.length === 0
+    ){
+      studentList.innerHTML = `
+        <div class="empty">
+          <div class="empty-icon">📭</div>
+          <b>No completed students yet</b>
+        </div>
+      `;
+      return;
+    }
+
+    const attendedEmails = results.map(r =>
+      String(r.studentEmail || r.email || "").toLowerCase().trim()
+    );
+
+    const notStartedEmails = assignmentType === "email"
+      ? assignedEmails.filter(email => !attendedEmails.includes(email) && !attemptStatuses.has(email))
+      : [];
+
+    const allStudents = [];
+    if(assignmentType === "email"){
+      for(const email of assignedEmails){
+        let student = resultsByEmail.get(email);
+        if(!student){
+          student = { studentEmail: email, email: email, studentName: "", name: "" };
+          try{
+            const profileData = await apiRequest(`/students?studentEmail=${encodeURIComponent(email)}`, {method:"GET"});
+            if(profileData && profileData.student){
+              student.studentName = student.studentName || profileData.student.name;
+              student.name = student.name || profileData.student.name;
+              student.school = profileData.student.school;
+              student.regNo = profileData.student.regNo;
+              Object.keys(profileData.student).forEach(key => {
+                if(key.startsWith("custom_")){
+                  student[key] = profileData.student[key];
+                }
+              });
+            }
+          }catch(e){
+            console.error("Failed to fetch profile for",email,e);
+          }
+        }
+        allStudents.push(student);
+      }
+    }
+
+    const renderStudentDetails = (result) => {
+      const name = result.studentName || result.name || "";
+      const email = result.studentEmail || result.email || "Unknown";
+      let details = "";
+      if(name) details += `<div style="font-size:10px;font-weight:700;">${escapeHTML(name)}</div>`;
+      details += `<div style="font-size:8px;color:var(--muted);">${escapeHTML(email)}</div>`;
+      if(result.school) details += `<div style="font-size:8px;color:var(--muted);">🏫 ${escapeHTML(result.school)}</div>`;
+      if(result.regNo) details += `<div style="font-size:8px;color:var(--muted);">🔖 ${escapeHTML(result.regNo)}</div>`;
+      Object.keys(result).forEach(key => {
+        if(key.startsWith("custom_")){
+          const label = key.substring(7);
+          const value = result[key];
+          if(value) details += `<div style="font-size:8px;color:var(--muted);">📋 ${escapeHTML(label)}: ${escapeHTML(value)}</div>`;
+        }
+      });
+      return details;
+    };
+
+    const renderSection = (section) => {
+      let html = "";
+
+      if(section === "all" && assignmentType === "email" && allStudents.length > 0){
+      html += `
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;background:var(--primarybg);padding:14px;border-radius:8px;">
+          <h4 style="margin:0;">
+            <span style="color:var(--primary);">📧</span>
+            All Assigned Students (${allStudents.length})
+          </h4>
+          <button class="btn-download-all" style="background:var(--primary);color:#fff;border:0;padding:8px 14px;border-radius:8px;font-size:8px;font-weight:800;cursor:pointer;">
+            📥 Download All
+          </button>
+        </div>
+        <div>
+      `;
+      allStudents.forEach(student => {
+        const email = String(student.studentEmail || student.email || "").toLowerCase().trim();
+        const attemptStatus = attemptStatuses.get(email);
+        const completedResult = completed.find(c => String(c.studentEmail || c.email || "").toLowerCase().trim() === email);
+        const isCompleted = !!completedResult;
+        const isMalpractice = attemptStatus?.status === "MALPRACTICE";
+        const isNotStarted = !attendedEmails.includes(email) && !attemptStatus;
+
+        let statusBadge = "";
+        let scoreInfo = "";
+        if(isCompleted){
+          const score = Number(completedResult.score || 0);
+          const total = Number(completedResult.totalMarks || test.totalMarks || 0);
+          const percentage = completedResult.percentage || 0;
+          statusBadge = `<span class="student-status completed">✓ Completed</span>`;
+          scoreInfo = `<div style="font-size:9px;color:var(--green);font-weight:700;">${score}/${total} (${percentage}%)</div>`;
+        }else if(isMalpractice){
+          statusBadge = `<span class="student-status" style="background:var(--redbg);color:var(--red);">🚫 Malpractice</span>`;
+        }else if(isNotStarted){
+          statusBadge = `<span class="student-status" style="background:#f5f5f5;color:var(--muted);">⏳ Not Started</span>`;
+        }else{
+          statusBadge = `<span class="student-status not-completed">⏳ In Progress</span>`;
+        }
+
+        html += `
+          <div class="student-item" style="padding:12px 0;border-bottom:1px solid var(--line);">
+            <div style="flex:1;min-width:0;">${renderStudentDetails(student)}</div>
+            <div style="text-align:right;">
+              ${scoreInfo}
+              ${statusBadge}
+            </div>
+          </div>
+        `;
+      });
+      html += `</div>`;
+      }else if(section === "completed" && completed.length > 0){
+      html += `
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;background:var(--greenbg);padding:14px;border-radius:8px;">
+          <h4 style="margin:0;">
+            <span style="color:var(--green);">✓</span>
+            Completed (${completed.length})
+          </h4>
+          <button class="btn-download-completed" style="background:var(--green);color:#fff;border:0;padding:8px 14px;border-radius:8px;font-size:8px;font-weight:800;cursor:pointer;">
+            📥 Download Completed
+          </button>
+        </div>
+        <div>
+      `;
+
+      completed.forEach(result => {
+        const email = String(result.studentEmail || result.email || "").toLowerCase().trim();
+        const score = Number(result.score || 0);
+        const total = Number(result.totalMarks || test.totalMarks || 0);
+        const percentage = result.percentage || 0;
+        const attemptStatus = attemptStatuses?.get?.(email);
+        const hadMalpractice = attemptStatus?.malpracticeTimestamp || attemptStatus?.resumedAt;
+
+        let detailsHtml = renderStudentDetails(result);
+        if(hadMalpractice && attemptStatus?.malpracticeTimestamp){
+          const malpracticeTime = new Date(attemptStatus.malpracticeTimestamp).toLocaleString();
+          detailsHtml += `<div style="background:#fff0f1;border-left:3px solid var(--red);padding:6px 8px;margin-top:6px;border-radius:4px;font-size:8px;color:var(--red);font-weight:600;">⚠️ Had malpractice at ${escapeHTML(malpracticeTime)}<br><span style="font-weight:400;color:#666;">Resumed by teacher and completed successfully</span></div>`;
+        }
+
+        html += `
+          <div class="student-item" style="padding:12px 0;border-bottom:1px solid var(--line);">
+            <div style="flex:1;min-width:0;">${detailsHtml}</div>
+            <div style="display:flex;gap:10px;align-items:center;">
+              <div style="text-align:right;">
+                <div style="font-weight:700;color:var(--green);font-size:13px;">${score}/${total}</div>
+                <div style="font-size:8px;color:var(--muted);">${percentage}%</div>
+              </div>
+              <span class="student-status completed">✓</span>
+            </div>
+          </div>
+        `;
+      });
+      html += `</div>`;
+      }else if(section === "malpractice" && malpracticeStudents.length > 0){
+      html += `
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;background:var(--redbg);padding:14px;border-radius:8px;">
+          <h4 style="margin:0;">
+            <span style="color:var(--red);">🚫</span>
+            Malpractice Students (${malpracticeStudents.length})
+          </h4>
+          <button class="btn-download-malpractice" style="background:var(--red);color:#fff;border:0;padding:8px 14px;border-radius:8px;font-size:8px;font-weight:800;cursor:pointer;">
+            📥 Download Malpractice
+          </button>
+        </div>
+        <div>
+      `;
+
+      malpracticeStudents.forEach(result => {
+        const email = String(result.studentEmail || result.email || "").toLowerCase().trim();
+        const attemptStatus = attemptStatuses.get(email);
+        const malpracticeReason = attemptStatus?.malpracticeReason || "Exam security violation";
+        const malpracticeTime = attemptStatus?.malpracticeTimestamp
+          ? new Date(attemptStatus.malpracticeTimestamp).toLocaleString()
+          : "";
+
+        html += `
+          <div class="student-item" style="padding:14px;border-bottom:1px solid var(--line);background:#fff9f9;border-left:4px solid var(--red);">
+            <div style="flex:1;min-width:0;">
+              ${renderStudentDetails(result)}
+              <div style="background:#fff0f1;border-radius:6px;padding:8px;margin-top:8px;">
+                <div style="font-size:9px;color:var(--red);font-weight:700;margin-bottom:4px;">🚫 Malpractice Reason:</div>
+                <div style="font-size:8px;color:#666;">${escapeHTML(malpracticeReason)}</div>
+                ${malpracticeTime ? `<div style="font-size:8px;color:var(--muted);margin-top:4px;">⏰ ${escapeHTML(malpracticeTime)}</div>` : ''}
+              </div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:8px;align-items:flex-end;">
+              <button class="btn-resume" data-testid="${escapeHTML(testId)}" data-email="${escapeHTML(email)}" style="background:var(--green);color:#fff;border:0;padding:10px 16px;border-radius:8px;font-size:9px;font-weight:800;cursor:pointer;box-shadow:0 2px 8px rgba(19,155,102,0.2);transition:all 0.2s;" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 4px 12px rgba(19,155,102,0.3)'" onmouseout="this.style.transform='';this.style.boxShadow='0 2px 8px rgba(19,155,102,0.2)'">
+                ↻ Resume Test
+              </button>
+            </div>
+          </div>
+        `;
+      });
+      html += `</div>`;
+      }else if(section === "notcompleted" && assignmentType === "email" && notCompletedCount > 0){
+        const notAttended = assignedEmails.filter(email => !attendedEmails.includes(email));
+
+      html += `
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;background:#fff9e6;padding:14px;border-radius:8px;">
+          <h4 style="margin:0;">
+            <span style="color:#ff9800;">⏳</span>
+            Not Completed (${notCompletedCount})
+          </h4>
+          <button class="btn-download-notcompleted" style="background:#ff9800;color:#fff;border:0;padding:8px 14px;border-radius:8px;font-size:8px;font-weight:800;cursor:pointer;">
+            📥 Download Not Completed
+          </button>
+        </div>
+        <div>
+      `;
+
+      notCompleted.forEach(result => {
+        const email = result.studentEmail || result.email || "Unknown";
+        html += `
+          <div class="student-item" style="padding:12px 0;border-bottom:1px solid var(--line);">
+            <div style="flex:1;min-width:0;">${renderStudentDetails(result)}</div>
+            <span class="student-status not-completed">⏳ In Progress</span>
+          </div>
+        `;
+      });
+
+      notAttended.forEach(email => {
+        html += `
+          <div class="student-item" style="padding:12px 0;border-bottom:1px solid var(--line);">
+            <div style="flex:1;min-width:0;">
+              <div style="font-size:10px;font-weight:700;">No profile data</div>
+              <div style="font-size:8px;color:var(--muted);">${escapeHTML(email)}</div>
+            </div>
+            <span class="student-status" style="background:#f5f5f5;color:var(--muted);">⏳ Not Started</span>
+          </div>
+        `;
+      });
+      html += `</div>`;
+      }
+
+      return html;
+    };
+
+    studentList.innerHTML = `<div style="text-align:center;padding:40px;color:var(--muted);font-size:10px;">👆 Click on a statistic above to view details</div>`;
+
+    statsEl.querySelectorAll(".stat").forEach(stat => {
+      stat.addEventListener("click", () => {
+        const section = stat.dataset.section;
+        const html = renderSection(section);
+        studentList.innerHTML = html;
+
+        const downloadAllBtn = studentList.querySelector(".btn-download-all");
+        if(downloadAllBtn){
+          downloadAllBtn.addEventListener("click", () => downloadCategoryExcel("all"));
+        }
+
+        const downloadCompletedBtn = studentList.querySelector(".btn-download-completed");
+        if(downloadCompletedBtn){
+          downloadCompletedBtn.addEventListener("click", () => downloadCategoryExcel("completed"));
+        }
+
+        const downloadMalpracticeBtn = studentList.querySelector(".btn-download-malpractice");
+        if(downloadMalpracticeBtn){
+          downloadMalpracticeBtn.addEventListener("click", () => downloadCategoryExcel("malpractice"));
+        }
+
+        const downloadNotCompletedBtn = studentList.querySelector(".btn-download-notcompleted");
+        if(downloadNotCompletedBtn){
+          downloadNotCompletedBtn.addEventListener("click", () => downloadCategoryExcel("notcompleted"));
+        }
+
+        studentList.querySelectorAll(".btn-resume").forEach(btn => {
+          btn.addEventListener("click", async(e) => {
+            const testId = e.target.dataset.testid;
+            const email = e.target.dataset.email;
+            if(!testId || !email) return;
+            if(!confirm(`Resume exam for ${email}?\n\nThis will allow the student to start the exam again.`)) return;
+
+            try{
+              e.target.disabled = true;
+              e.target.textContent = "Resuming...";
+              await apiRequest("/attempt/resume", {
+                method:"POST",
+                body:JSON.stringify({testId, studentEmail:email, teacherId:"teacher"})
+              });
+              alert("Exam resumed successfully.\nStudent can now start the exam again.");
+              stat.click();
+            }catch(error){
+              console.error("Resume error:",error);
+              alert(`Failed to resume exam:\n${error.message}`);
+              e.target.disabled = false;
+              e.target.textContent = "↻ Resume";
+            }
+          });
+        });
+      });
+    });
+
+    currentReportData = {
+      test,
+      results,
+      completed,
+      notCompleted,
+      malpracticeStudents,
+      allStudents,
+      assignmentType,
+      assignedEmails,
+      totalAssigned,
+      attemptStatuses
+    };
+
+    if(downloadBtn){
+      downloadBtn.style.display =
+        "inline-block";
+    }
+
+  }catch(error){
+    console.error(
+      "Load report error:",
+      error
+    );
+
+    currentReportData = null;
+
+    if(downloadBtn){
+      downloadBtn.style.display =
+        "none";
+    }
+
+    subtitle.textContent =
+      "Failed to load report data.";
+
+    statsEl.innerHTML = "";
+    studentList.innerHTML = `
+      <div class="empty">
+        <div class="empty-icon">⚠️</div>
+        <b>Unable to load report</b>
+        <div style="margin-top:8px;">
+          ${escapeHTML(error.message)}
+        </div>
+      </div>
+    `;
+  }
+}
+
+window.viewReport =
+  viewReport;
+
+function closeReportModal(){
+  const modal =
+    $("reportModal");
+
+  if(modal){
+    modal.classList.remove("show");
+  }
+}
+
+window.closeReportModal =
+  closeReportModal;
+
+function downloadReportExcel(){
+  if(!currentReportData){
+    alert("No report data available");
+    return;
+  }
+
+  const {
+    test,
+    completed,
+    notCompleted,
+    assignmentType,
+    assignedEmails
+  } = currentReportData;
+
+  const testName =
+    test.testName ||
+    test.title ||
+    "Test";
+
+  const workbook =
+    XLSX.utils.book_new();
+
+  const completedData = [];
+  const notCompletedData = [];
+
+  completed.forEach(
+    result => {
+      const row = {
+        "Name":
+          result.studentName ||
+          result.name ||
+          "",
+        "Email":
+          result.studentEmail ||
+          result.email ||
+          "",
+        "Score":
+          result.score || 0,
+        "Total Marks":
+          result.totalMarks ||
+          test.totalMarks ||
+          0,
+        "Percentage":
+          result.percentage ||
+          0,
+        "Correct":
+          result.correct || 0,
+        "Wrong":
+          result.wrong || 0,
+        "Unanswered":
+          result.unanswered || 0,
+        "Status": "Completed"
+      };
+
+      if(result.school){
+        row["School"] =
+          result.school;
+      }
+
+      if(result.regNo){
+        row["Registration No"] =
+          result.regNo;
+      }
+
+      Object.keys(result).forEach(
+        key => {
+          if(
+            key.startsWith("custom_")
+          ){
+            const label =
+              key.substring(7);
+
+            row[label] =
+              result[key];
+          }
+        }
+      );
+
+      completedData.push(row);
+    }
+  );
+
+  if(
+    assignmentType === "email"
+  ){
+    notCompleted.forEach(
+      result => {
+        const row = {
+          "Name":
+            result.studentName ||
+            result.name ||
+            "",
+          "Email":
+            result.studentEmail ||
+            result.email ||
+            "",
+          "Status": "In Progress"
+        };
+
+        if(result.school){
+          row["School"] =
+            result.school;
+        }
+
+        if(result.regNo){
+          row["Registration No"] =
+            result.regNo;
+        }
+
+        Object.keys(result).forEach(
+          key => {
+            if(
+              key.startsWith("custom_")
+            ){
+              const label =
+                key.substring(7);
+
+              row[label] =
+                result[key];
+            }
+          }
+        );
+
+        notCompletedData.push(row);
+      }
+    );
+
+    const attendedEmails =
+      [
+        ...completed,
+        ...notCompleted
+      ].map(
+        r =>
+          String(
+            r.studentEmail ||
+            r.email ||
+            ""
+          )
+          .toLowerCase()
+          .trim()
+      );
+
+    assignedEmails.filter(
+      email =>
+        !attendedEmails.includes(email)
+    ).forEach(
+      email => {
+        notCompletedData.push({
+          "Name": "",
+          "Email": email,
+          "Status": "Not Started"
+        });
+      }
+    );
+  }
+
+  const completedSheet =
+    XLSX.utils.json_to_sheet(
+      completedData
+    );
+
+  XLSX.utils.book_append_sheet(
+    workbook,
+    completedSheet,
+    "Completed"
+  );
+
+  if(
+    assignmentType === "email" &&
+    notCompletedData.length > 0
+  ){
+    const notCompletedSheet =
+      XLSX.utils.json_to_sheet(
+        notCompletedData
+      );
+
+    XLSX.utils.book_append_sheet(
+      workbook,
+      notCompletedSheet,
+      "Not Completed"
+    );
+  }
+
+  const fileName =
+    testName.replace(
+      /[^a-zA-Z0-9]/g,
+      "_"
+    ) +
+    "_Report_" +
+    new Date()
+      .toISOString()
+      .split("T")[0] +
+    ".xlsx";
+
+  XLSX.writeFile(
+    workbook,
+    fileName
+  );
+}
+
+window.downloadReportExcel =
+  downloadReportExcel;
+
+function downloadCategoryExcel(category){
+  if(!currentReportData){
+    alert("No report data available");
+    return;
+  }
+
+  const {test, allStudents, completed, malpracticeStudents, notCompleted, assignedEmails, attemptStatuses} = currentReportData;
+  const testName = test.testName || test.title || "Test";
+  const workbook = XLSX.utils.book_new();
+
+  let data = [];
+  let sheetName = "";
+  let fileNameSuffix = "";
+
+  if(category === "all"){
+    sheetName = "All Students";
+    fileNameSuffix = "All_Students";
+    allStudents.forEach(result => {
+      const email = String(result.studentEmail || result.email || "").toLowerCase().trim();
+      const attemptStatus = attemptStatuses?.get?.(email);
+      const completedResult = completed.find(c => String(c.studentEmail || c.email || "").toLowerCase().trim() === email);
+
+      const row = {
+        "Name": result.studentName || result.name || "",
+        "Email": result.studentEmail || result.email || "",
+        "Status": attemptStatus?.status === "MALPRACTICE" ? "Malpractice" : completedResult ? "Completed" : "Not Started"
+      };
+
+      if(result.school) row["School"] = result.school;
+      if(result.regNo) row["Registration No"] = result.regNo;
+      Object.keys(result).forEach(key => {
+        if(key.startsWith("custom_")) row[key.substring(7)] = result[key];
+      });
+
+      data.push(row);
+    });
+  }else if(category === "completed"){
+    sheetName = "Completed";
+    fileNameSuffix = "Completed";
+    completed.forEach(result => {
+      const email = String(result.studentEmail || result.email || "").toLowerCase().trim();
+      const attemptStatus = attemptStatuses?.get?.(email);
+
+      const row = {
+        "Name": result.studentName || result.name || "",
+        "Email": result.studentEmail || result.email || "",
+        "Score": result.score || 0,
+        "Total Marks": result.totalMarks || test.totalMarks || 0,
+        "Percentage": result.percentage || 0,
+        "Correct": result.correct || 0,
+        "Wrong": result.wrong || 0,
+        "Unanswered": result.unanswered || 0
+      };
+
+      if(result.school) row["School"] = result.school;
+      if(result.regNo) row["Registration No"] = result.regNo;
+
+      if(attemptStatus?.malpracticeTimestamp){
+        row["Had Malpractice"] = "Yes";
+        row["Malpractice Time"] = new Date(attemptStatus.malpracticeTimestamp).toLocaleString();
+        row["Malpractice Reason"] = attemptStatus.malpracticeReason || "";
+      }else{
+        row["Had Malpractice"] = "No";
+      }
+
+      Object.keys(result).forEach(key => {
+        if(key.startsWith("custom_")) row[key.substring(7)] = result[key];
+      });
+
+      data.push(row);
+    });
+  }else if(category === "malpractice"){
+    sheetName = "Malpractice";
+    fileNameSuffix = "Malpractice";
+    malpracticeStudents.forEach(result => {
+      const email = String(result.studentEmail || result.email || "").toLowerCase().trim();
+      const attemptStatus = attemptStatuses?.get?.(email);
+
+      const row = {
+        "Name": result.studentName || result.name || "",
+        "Email": result.studentEmail || result.email || "",
+        "Malpractice Reason": attemptStatus?.malpracticeReason || "Exam security violation",
+        "Timestamp": attemptStatus?.malpracticeTimestamp ? new Date(attemptStatus.malpracticeTimestamp).toLocaleString() : ""
+      };
+
+      if(result.school) row["School"] = result.school;
+      if(result.regNo) row["Registration No"] = result.regNo;
+      Object.keys(result).forEach(key => {
+        if(key.startsWith("custom_")) row[key.substring(7)] = result[key];
+      });
+
+      data.push(row);
+    });
+  }else if(category === "notcompleted"){
+    sheetName = "Not Completed";
+    fileNameSuffix = "Not_Completed";
+    notCompleted.forEach(result => {
+      const row = {
+        "Name": result.studentName || result.name || "",
+        "Email": result.studentEmail || result.email || "",
+        "Status": "In Progress"
+      };
+
+      if(result.school) row["School"] = result.school;
+      if(result.regNo) row["Registration No"] = result.regNo;
+      Object.keys(result).forEach(key => {
+        if(key.startsWith("custom_")) row[key.substring(7)] = result[key];
+      });
+
+      data.push(row);
+    });
+
+    const attendedEmails = [...completed, ...notCompleted].map(r => String(r.studentEmail || r.email || "").toLowerCase().trim());
+    assignedEmails.filter(email => !attendedEmails.includes(email)).forEach(email => {
+      data.push({
+        "Name": "",
+        "Email": email,
+        "Status": "Not Started"
+      });
+    });
+  }
+
+  if(data.length === 0){
+    alert("No data to download");
+    return;
+  }
+
+  const sheet = XLSX.utils.json_to_sheet(data);
+  XLSX.utils.book_append_sheet(workbook, sheet, sheetName);
+
+  const fileName = testName.replace(/[^a-zA-Z0-9]/g, "_") + "_" + fileNameSuffix + "_" + new Date().toISOString().split("T")[0] + ".xlsx";
+  XLSX.writeFile(workbook, fileName);
+}
+
+window.downloadCategoryExcel = downloadCategoryExcel;
+
+$("reportModal").onclick =
+  function(e){
+    if(
+      e.target ===
+      $("reportModal")
+    ){
+      closeReportModal();
+    }
+  };
+
+</script>
+
+<script type="module">
+import{initializeApp}from'https://www.gstatic.com/firebasejs/11.2.0/firebase-app.js';
+import{getAuth,onAuthStateChanged}from'https://www.gstatic.com/firebasejs/11.2.0/firebase-auth.js';
+
+const firebaseConfig={apiKey:"AIzaSyDtzQlc-9UyuPMoHjBT_12oSLgSYdceJFw",authDomain:"mcq-test-platform-eb2b5.firebaseapp.com",projectId:"mcq-test-platform-eb2b5",storageBucket:"mcq-test-platform-eb2b5.firebasestorage.app",messagingSenderId:"609604711611",appId:"1:609604711611:web:df16e391dc17cfea17659e",measurementId:"G-62ZX6HKWDP"};
+const app=initializeApp(firebaseConfig);
+const auth=getAuth(app);
+
+onAuthStateChanged(auth,user=>{
+  if(!user){
+    const returnUrl=encodeURIComponent(location.pathname+location.search);
+    location.replace('examiner-login.html?redirect='+returnUrl);
+  }
+});
+</script>
+
+<script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>
+
+</body>
+</html>

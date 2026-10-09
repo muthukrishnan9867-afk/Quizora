@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Quizora | Creator Login</title>
+<style>
+:root{--purple:#635bff;--purple2:#5148e8;--ink:#191a31;--muted:#777b94;--line:#e8e8f2;--bg:#f5f5ff;--white:#fff;--danger:#c6283d;--green:#14845f}*{box-sizing:border-box}body{margin:0;min-height:100vh;font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;background:radial-gradient(circle at 15% 10%,#e4e1ff 0,transparent 32%),radial-gradient(circle at 90% 85%,#e5e1ff 0,transparent 30%),#f7f7fc;color:var(--ink);display:flex;align-items:center;justify-content:center;padding:22px}.shell{width:min(100%,1020px);min-height:650px;background:#fff;border:1px solid #eeeefa;border-radius:28px;box-shadow:0 28px 90px #29205d1c;display:grid;grid-template-columns:.92fr 1.08fr;overflow:hidden}.brand{position:relative;padding:48px 42px;background:linear-gradient(145deg,#4e46dc,#776cff 60%,#978fff);color:#fff;display:flex;flex-direction:column;justify-content:space-between;overflow:hidden;isolation:isolate}.brand-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2;pointer-events:none}.brand-shade{position:absolute;inset:0;z-index:-1;background:linear-gradient(145deg,rgba(40,38,95,.85),rgba(76,67,191,.75) 48%,rgba(120,111,255,.68));pointer-events:none}.brand:before,.brand:after{content:"";position:absolute;border:1px solid #ffffff28;border-radius:50%;width:340px;height:340px;right:-180px;top:60px}.brand:after{width:250px;height:250px;right:-125px;top:105px}.logo{display:flex;align-items:center;gap:12px;font-size:20px;font-weight:900;letter-spacing:-.5px;position:relative;z-index:1}.logo-mark{height:43px;width:43px;border-radius:50%;background:#ffffff22;border:1px solid #ffffff55;display:grid;place-items:center;font-size:23px;overflow:hidden}.brand-name{font-weight:850;font-size:23px;letter-spacing:-.7px}.brand-name .quiz{color:#fff;letter-spacing:1px}.brand-name .ora{color:#42a5ff}.brand-copy{position:relative;z-index:1;margin:60px 0 auto}.eyebrow{font-size:11px;font-weight:900;letter-spacing:2px;text-transform:uppercase;opacity:.8}.brand h1{font-size:clamp(32px,4vw,47px);line-height:1.08;letter-spacing:-1.8px;margin:15px 0}.brand p{font-size:14px;line-height:1.8;color:#f0efff;max-width:340px}.features{display:grid;gap:13px;position:relative;z-index:1}.feature{display:flex;align-items:center;gap:11px;font-size:12px;font-weight:650}.feature-icon{height:29px;width:29px;display:grid;place-items:center;border-radius:10px;background:#ffffff22}.brand-foot{font-size:10px;color:#e4e2ff;position:relative;z-index:1}.main{padding:45px clamp(24px,5vw,58px);display:flex;align-items:center;justify-content:center}.inner{width:100%;max-width:430px}.mini-logo{display:none;align-items:center;gap:9px;font-weight:900;color:var(--purple);margin-bottom:28px}.heading{margin-bottom:26px}.heading .eyebrow{color:var(--purple);opacity:1;letter-spacing:1.4px}.heading h2{font-size:29px;letter-spacing:-.9px;margin:10px 0 8px}.heading p{margin:0;color:var(--muted);font-size:13px;line-height:1.6}.tabs{display:grid;grid-template-columns:1fr 1fr;background:#f3f3fb;padding:5px;border-radius:13px;margin-bottom:23px}.tab{border:0;border-radius:10px;padding:11px;background:transparent;color:#777b94;font-weight:800;font-size:12px;cursor:pointer}.tab.active{background:#fff;color:var(--purple);box-shadow:0 3px 12px #26235d12}.form{display:grid;gap:14px}.field{display:flex;flex-direction:column;gap:7px}.field label{font-size:11px;font-weight:800;color:#34354e}.field input,.field select{width:100%;min-height:45px;border:1px solid #e2e3ef;border-radius:11px;padding:11px 13px;background:#fcfcff;color:var(--ink);font:inherit;font-size:12px;outline:none;transition:.18s}.field input:focus,.field select:focus{border-color:#827bff;box-shadow:0 0 0 3px #635bff1b;background:white}.field input::placeholder{color:#a4a6b7}.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}.password-wrap{position:relative}.password-wrap input{padding-right:68px}.show-pass{position:absolute;right:10px;top:50%;transform:translateY(-50%);border:0;background:transparent;color:var(--purple);font-size:10px;font-weight:800;cursor:pointer}.primary{border:0;border-radius:12px;min-height:47px;padding:13px 16px;background:linear-gradient(100deg,var(--purple2),#8178ff);color:#fff;font-size:12px;font-weight:900;cursor:pointer;box-shadow:0 8px 18px #635bff30;transition:.2s}.primary:hover{transform:translateY(-1px);box-shadow:0 11px 23px #635bff3b}.primary:disabled{opacity:.6;cursor:not-allowed}.subnote{font-size:10px;color:#8a8da1;line-height:1.6;text-align:center}.message{display:none;padding:11px 12px;border-radius:10px;font-size:11px;line-height:1.5}.message.show{display:block}.message.error{background:#fff0f1;color:var(--danger)}.message.success{background:#eafaf3;color:var(--green)}.profile-step{display:none}.profile-step.active{display:block}.progress{display:flex;gap:7px;align-items:center;margin-bottom:18px;font-size:10px;font-weight:900;color:#7a7d95}.progress span{height:4px;background:#e9e7ff;border-radius:5px;flex:1;overflow:hidden}.progress span:before{content:"";display:block;width:100%;height:100%;background:linear-gradient(90deg,var(--purple),#9d96ff)}.profile-grid{display:grid;gap:13px}.profile-title{font-size:25px;letter-spacing:-.8px;margin:0 0 7px}.profile-desc{font-size:12px;line-height:1.6;color:var(--muted);margin:0 0 21px}.hidden{display:none!important}.divider{display:flex;align-items:center;gap:10px;color:#a1a3b4;font-size:10px;margin:16px 0}.divider:before,.divider:after{content:"";height:1px;background:#ededf4;flex:1}.profile-foot{font-size:10px;color:#8589a0;line-height:1.6;text-align:center;margin-top:15px}.step-back{border:0;background:transparent;color:#777b94;font-weight:800;font-size:11px;cursor:pointer;padding:8px}@media(max-width:760px){body{padding:10px;align-items:flex-start}.shell{grid-template-columns:1fr;min-height:0;border-radius:22px}.brand{display:none}.main{padding:30px 22px 28px}.mini-logo{display:flex}.heading h2{font-size:27px}.two{grid-template-columns:1fr 1fr}}@media(max-width:390px){.two{grid-template-columns:1fr}.main{padding:25px 17px}}
+</style>
+</head>
+<body>
+<div class="shell">
+ <aside class="brand"><video class="brand-video" autoplay muted loop playsinline preload="metadata" aria-hidden="true"><source src="quizora-animation.mp4" type="video/mp4">Your browser does not support background video.</video><div class="brand-shade" aria-hidden="true"></div><div class="logo"><div class="logo-mark"><img src="logo.jpeg" alt="Quizora logo" style="width:100%;height:100%;object-fit:cover;border-radius:14px"></div><div><div class="brand-name"><span class="quiz">Quiz</span><span class="ora">ora</span></div><div style="font-size:10px;font-weight:700;letter-spacing:1px;margin-top:3px;color:rgba(255,255,255,.7)">CREATOR</div></div></div><div class="brand-copy"><div class="eyebrow">Your classroom, upgraded</div><h1>Create tests.<br>Track progress.<br>Grow together.</h1><p>One simple workspace to build assessments, organize students, and understand every result.</p></div><div class="brand-foot">© 2026 Quizora · Made for better learning</div></aside>
+ <main class="main"><div class="inner">
+  <div class="mini-logo"><span class="logo-mark" style="background:#635bff;color:#fff;width:34px;height:34px;border-radius:50%;overflow:hidden"><img src="logo.jpeg" alt="Quizora logo" style="width:100%;height:100%;object-fit:cover"></span><span style="font-weight:850;font-size:17px"><span style="color:#635bff;letter-spacing:1px">Quiz</span><span style="color:#42a5ff">ora</span></span><span style="font-size:9px;color:#8a8da1;margin-left:4px">CREATOR</span></div>
+  <section id="authStep">
+   <div class="heading"><div class="eyebrow">CREATOR WORKSPACE</div><h2 id="authTitle">Welcome back</h2><p id="authDesc">Sign in to continue to your test creator dashboard.</p></div>
+   <div class="tabs"><button class="tab active" id="loginTab" type="button">Log in</button><button class="tab" id="signupTab" type="button">Create account</button></div>
+   <form id="authForm" class="form" novalidate>
+    <div class="field hidden" id="nameWrap"><label for="accountName">Full name</label><input id="accountName" autocomplete="name" maxlength="100" placeholder="Enter your full name"></div>
+    <div class="field"><label for="email">Email address</label><input id="email" type="email" autocomplete="email" maxlength="160" placeholder="you@example.com" required></div>
+    <div class="field"><label for="password">Password</label><div class="password-wrap"><input id="password" type="password" autocomplete="current-password" minlength="8" placeholder="At least 8 characters" required><button class="show-pass" id="togglePass" type="button">Show</button></div></div>
+    <div class="field hidden" id="confirmWrap"><label for="confirmPassword">Confirm password</label><input id="confirmPassword" type="password" autocomplete="new-password" minlength="8" placeholder="Re-enter your password"></div>
+    <div id="authMessage" class="message" role="status"></div>
+    <button class="primary" id="authSubmit" type="submit">Log in to dashboard&nbsp; →</button>
+    <div class="subnote" id="authNote">By continuing, you agree to use Quizora responsibly.</div>
+   </form>
+  </section>
+  <section id="profileStep" class="profile-step">
+   <div class="progress">PROFILE SETUP <span></span> <b>1 OF 1</b></div>
+   <div class="eyebrow" style="color:var(--purple);margin-bottom:10px">LET'S GET YOU SET UP</div><h2 class="profile-title">Tell us about your work</h2><p class="profile-desc">Complete your creator profile. This data is saved to AWS DynamoDB.</p>
+   <form id="profileForm" class="form" novalidate>
+    <div class="profile-grid">
+     <div class="field"><label for="profileName">Full name *</label><input id="profileName" required maxlength="100" autocomplete="name" placeholder="e.g. Muthukrishnan J"></div>
+     <div class="field"><label for="profileEmail">Email address *</label><input id="profileEmail" type="email" required readonly></div>
+     <div class="two"><div class="field"><label for="phone">Phone number *</label><input id="phone" type="tel" inputmode="tel" autocomplete="tel" required maxlength="20" placeholder="Phone number"></div><div class="field"><label for="orgType">You are a… *</label><select id="orgType" required><option value="">Select role</option><option value="School">School</option><option value="College">College</option><option value="Coaching centre">Coaching centre</option><option value="Individual teacher">Individual teacher</option></select></div></div>
+     <div class="field"><label for="orgName">Organization / institution name *</label><input id="orgName" required maxlength="160" placeholder="School, college, centre, or teaching name"></div>
+     <div class="field"><label for="studentCount">Approximate number of students *</label><select id="studentCount" required><option value="">Choose student capacity</option><option value="1–50">1–50 students</option><option value="51–100">51–100 students</option><option value="101–500">101–500 students</option><option value="501–1,000">501–1,000 students</option><option value="1,001–5,000">1,001–5,000 students</option><option value="5,000+">5,000+ students</option></select></div>
+    </div>
+    <div id="profileMessage" class="message" role="status"></div><button class="primary" id="profileSubmit" type="submit">Save profile &amp; open dashboard&nbsp; →</button><div class="profile-foot">Your profile is stored in AWS DynamoDB.</div>
+   </form>
+  </section>
+ </div></main>
+</div>
+<script type="module">
+import{initializeApp}from'https://www.gstatic.com/firebasejs/11.2.0/firebase-app.js';
+import{getAuth,signInWithEmailAndPassword,createUserWithEmailAndPassword,updateProfile,onAuthStateChanged,setPersistence,browserLocalPersistence,browserSessionPersistence}from'https://www.gstatic.com/firebasejs/11.2.0/firebase-auth.js';
+
+const firebaseConfig={apiKey:"AIzaSyDtzQlc-9UyuPMoHjBT_12oSLgSYdceJFw",authDomain:"mcq-test-platform-eb2b5.firebaseapp.com",projectId:"mcq-test-platform-eb2b5",storageBucket:"mcq-test-platform-eb2b5.firebasestorage.app",messagingSenderId:"609604711611",appId:"1:609604711611:web:df16e391dc17cfea17659e",measurementId:"G-62ZX6HKWDP"};
+const app=initializeApp(firebaseConfig);
+const auth=getAuth(app);
+const API_BASE_URL='https://yh5j21oonb.execute-api.eu-north-1.amazonaws.com/prod';
+const DASHBOARD='test-creater.html';
+const $=id=>document.getElementById(id);
+let currentUser=null;
+let checkingAuth=true;
+
+function setStage(stage){
+  $('authStep').classList.toggle('hidden',stage!=='auth');
+  $('profileStep').classList.toggle('active',stage==='profile');
+}
+
+function setMode(mode){
+  const signup=mode==='signup';
+  $('loginTab').classList.toggle('active',!signup);
+  $('signupTab').classList.toggle('active',signup);
+  $('nameWrap').classList.toggle('hidden',!signup);
+  $('confirmWrap').classList.toggle('hidden',!signup);
+  $('authTitle').textContent=signup?'Create your creator account':'Welcome back';
+  $('authDesc').textContent=signup?'Create account, then complete your profile.':'Sign in to continue to your test creator dashboard.';
+  $('authSubmit').textContent=signup?'Create account & continue →':'Log in to dashboard →';
+  $('authNote').textContent=signup?'Your account uses Firebase Authentication.':'By continuing, you agree to use Quizora responsibly.';
+  $('password').autocomplete=signup?'new-password':'current-password';
+  hideAlert('authMessage');
+}
+
+function showAlert(id,message,type='error'){const el=$(id);el.textContent=message;el.className='message show '+type;}
+function hideAlert(id){$(id).textContent='';$(id).className='message';}
+
+function busy(btn,state,text){
+  if(state){
+    btn.disabled=true;
+    btn.dataset.original=btn.textContent;
+    btn.textContent=text||'Loading...';
+  }else{
+    btn.disabled=false;
+    btn.textContent=btn.dataset.original||btn.textContent;
+  }
+}
+
+function errorMessage(error){
+  const code=error?.code||'';
+  const map={
+    'auth/invalid-credential':'Email or password is incorrect.',
+    'auth/wrong-password':'Email or password is incorrect.',
+    'auth/user-not-found':'No account found. Please sign up first.',
+    'auth/email-already-in-use':'Account exists with this email. Please log in.',
+    'auth/weak-password':'Password must be at least 6 characters.',
+    'auth/invalid-email':'Please enter a valid email address.',
+    'auth/too-many-requests':'Too many attempts. Please wait and try again.',
+    'auth/network-request-failed':'Network error. Check your internet connection.'
+  };
+  return map[code]||error?.message||'Something went wrong. Please try again.';
+}
+
+async function profileStatus(user){
+  try{
+    const r=await fetch(`${API_BASE_URL}/creators?creatorEmail=${encodeURIComponent(user.email||'')}`);
+    if(!r.ok)return false;
+    const d=await r.json();
+    if(d.success&&d.creator&&d.creator.profileComplete){
+      return true;
+    }
+  }catch(e){
+    console.warn('Could not verify profile status:',e);
+  }
+  return false;
+}
+
+async function continueForUser(user,isSignup=false){
+  currentUser=user;
+  if(!user)return;
+
+  // Store email for other pages
+  localStorage.setItem('creatorEmail',user.email||'');
+
+  const complete=await profileStatus(user);
+  if(complete||!isSignup){
+    const params=new URLSearchParams(location.search);
+    const redirect=params.get('redirect');
+    location.replace(redirect||DASHBOARD);
+    return;
+  }
+  $('profileEmail').value=user.email||'';
+  $('profileName').value=user.displayName||$('accountName').value.trim()||'';
+  setStage('profile');
+}
+
+onAuthStateChanged(auth,async user=>{
+  checkingAuth=false;
+  if(user){
+    await continueForUser(user);
+  }
+});
+
+$('loginTab').addEventListener('click',()=>setMode('login'));
+$('signupTab').addEventListener('click',()=>setMode('signup'));
+$('togglePass').addEventListener('click',()=>{
+  const p=$('password');
+  p.type=p.type==='password'?'text':'password';
+  $('togglePass').textContent=p.type==='password'?'Show':'Hide';
+});
+
+$('authForm').addEventListener('submit',async e=>{
+  e.preventDefault();
+  hideAlert('authMessage');
+  const email=$('email').value.trim().toLowerCase();
+  const password=$('password').value;
+  const mode=$('signupTab').classList.contains('active')?'signup':'login';
+
+  if(!email||!/^\S+@\S+\.\S+$/.test(email)){
+    showAlert('authMessage','Please enter a valid email address.');
+    return;
+  }
+  if(password.length<6){
+    showAlert('authMessage','Password must be at least 6 characters.');
+    return;
+  }
+
+  const btn=$('authSubmit');
+  busy(btn,true,mode==='signup'?'Creating account…':'Signing in…');
+
+  try{
+    await setPersistence(auth,browserLocalPersistence);
+
+    if(mode==='signup'){
+      const name=$('accountName').value.trim();
+      const confirm=$('confirmPassword').value;
+      if(name.length<2){
+        showAlert('authMessage','Please enter your full name.');
+        return;
+      }
+      if(password!==confirm){
+        showAlert('authMessage','The passwords do not match.');
+        $('confirmPassword').focus();
+        return;
+      }
+      const result=await createUserWithEmailAndPassword(auth,email,password);
+      await updateProfile(result.user,{displayName:name});
+      $('profileName').value=name;
+      await continueForUser(result.user,true);
+    }else{
+      const result=await signInWithEmailAndPassword(auth,email,password);
+      await continueForUser(result.user,false);
+    }
+  }catch(err){
+    showAlert('authMessage',errorMessage(err));
+  }finally{
+    busy(btn,false);
+  }
+});
+
+$('profileForm').addEventListener('submit',async e=>{
+  e.preventDefault();
+  hideAlert('profileMessage');
+
+  if(!currentUser){
+    showAlert('profileMessage','Your session is missing. Please sign in again.');
+    setStage('auth');
+    return;
+  }
+
+  const name=$('profileName').value.trim();
+  const phone=$('phone').value.trim();
+  const orgType=$('orgType').value;
+  const orgName=$('orgName').value.trim();
+  const studentCount=$('studentCount').value;
+
+  if(!name||name.length<2){
+    showAlert('profileMessage','Please enter your full name.');
+    return;
+  }
+  if(!phone||phone.replace(/\D/g,'').length<7){
+    showAlert('profileMessage','Please enter a valid phone number.');
+    return;
+  }
+  if(!orgType){
+    showAlert('profileMessage','Please select your role.');
+    return;
+  }
+  if(!orgName){
+    showAlert('profileMessage','Please enter organization name.');
+    return;
+  }
+  if(!studentCount){
+    showAlert('profileMessage','Please select student capacity.');
+    return;
+  }
+
+  const btn=$('profileSubmit');
+  busy(btn,true,'Saving your profile…');
+
+  const formData={
+    creatorId:currentUser.uid,
+    name,
+    creatorName:name,
+    email:currentUser.email||'',
+    creatorEmail:currentUser.email||'',
+    phone,
+    orgType,
+    orgName,
+    studentCount,
+    profileComplete:true
+  };
+
+  console.log('Saving creator profile:',formData);
+
+  try{
+    const response=await fetch(`${API_BASE_URL}/creators`,{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify(formData)
+    });
+
+    let data={};
+    try{
+      data=await response.json();
+    }catch{}
+
+    if(!response.ok||!data.success){
+      throw new Error(data.message||`Could not save profile (HTTP ${response.status}).`);
+    }
+
+    console.log('Creator profile saved:',data);
+
+    showAlert('profileMessage','Profile saved successfully. Opening dashboard…','success');
+    const params=new URLSearchParams(location.search);
+    const redirect=params.get('redirect');
+    setTimeout(()=>location.assign(redirect||DASHBOARD),650);
+  }catch(err){
+    console.error('Profile save error:',err);
+    showAlert('profileMessage','Profile could not be saved: '+(err.message||'Please try again.'));
+  }finally{
+    busy(btn,false);
+  }
+});
+</script>
+</body>
+</html>

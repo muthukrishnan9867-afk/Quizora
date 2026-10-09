@@ -1,0 +1,7189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Quizora | Test Creator</title>
+
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+
+<style>
+
+*{
+  box-sizing:border-box;
+  
+  margin:0;
+  padding:0;
+}
+
+:root{
+  --primary:#635bff;
+  --primary2:#5148e8;
+  --ink:#15162a;
+  --text:#25263a;
+  --muted:#7b7f95;
+  --bg:#f4f6fb;
+  --card:#fff;
+  --line:#e7e9f1;
+  --soft:#f6f6ff;
+  --green:#159c68;
+  --greenbg:#e9faf2;
+  --orange:#b86b00;
+  --orangebg:#fff6e4;
+  --red:#d92d3a;
+  --redbg:#fff0f1;
+  --shadow:0 18px 50px rgba(30,35,80,.08);
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+section[id],
+.card[id],
+.step-content[id]{
+  scroll-margin-top:95px;
+}
+
+body{
+  font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Arial,sans-serif;
+  background:
+  radial-gradient(circle at 5% -5%,rgba(99,91,255,.12),transparent 27%),
+  radial-gradient(circle at 100% 10%,rgba(130,124,255,.10),transparent 24%),
+  var(--bg);
+  color:var(--text);
+  min-height:100vh;
+}
+
+button,input,textarea,select{
+  font:inherit;
+}
+
+button{
+  cursor:pointer;
+}
+
+header{
+  height:80px;
+  background:#000;
+  border-bottom:3px solid #635bff;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 5%;
+  position:sticky;
+  top:0;
+  z-index:1000;
+  box-shadow:0 8px 32px rgba(0,0,0,.5);
+}
+
+.brand{
+  display:flex;
+  gap:14px;
+  align-items:center;
+  text-decoration:none;
+  color:#fff;
+}
+
+.logo{
+  width:52px;
+  height:52px;
+  border-radius:50%;
+  background-image:url('logo.jpeg');
+  background-size:cover;
+  background-position:center;
+  box-shadow:0 8px 24px rgba(99,91,255,.4),0 0 0 3px rgba(99,91,255,.5);
+  transition:transform .3s ease;
+}
+
+.logo:hover{
+  transform:scale(1.08);
+}
+
+.brand b{
+  font-size:22px;
+  font-weight:800;
+  letter-spacing:2px;
+  text-shadow:0 2px 8px rgba(99,91,255,.4);
+}
+
+.brand small{
+  display:block;
+  color:var(--muted);
+  font-size:8px;
+  margin-top:3px;
+}
+
+.header-right{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+header .brand small{
+  display:block;
+  margin-top:2px;
+}
+
+.btn{
+  border:0;
+  border-radius:11px;
+  padding:10px 14px;
+  font-size:10px;
+  font-weight:850;
+  transition:.2s;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:7px;
+}
+
+.btn:hover{
+  transform:translateY(-1px);
+}
+
+.hidden{
+  display:none !important;
+}
+
+.btn:disabled{
+  opacity:.55;
+  cursor:not-allowed;
+  transform:none;
+}
+
+.primary{
+  background:linear-gradient(135deg,#726bff,#5148e8);
+  color:#fff;
+  box-shadow:0 8px 20px rgba(99,91,255,.18);
+}
+
+.secondary{
+  background:#efeeff;
+  color:var(--primary2);
+}
+
+.ghost{
+  background:#fff;
+  border:1px solid var(--line);
+  color:var(--text);
+}
+
+/* Header button overrides */
+header .btn.ghost{
+  background:rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.25);
+  color:#fff;
+  font-size:11px;
+  padding:9px 16px;
+  font-weight:700;
+}
+
+header .btn.ghost:hover{
+  background:rgba(255,255,255,.15);
+  border-color:rgba(255,255,255,.4);
+  transform:translateY(-1px);
+  box-shadow:0 4px 12px rgba(255,255,255,.1);
+}
+
+header .btn.secondary{
+  background:rgba(96,165,250,.12);
+  color:#60a5fa;
+  border:1px solid rgba(96,165,250,.35);
+  font-size:11px;
+  padding:9px 16px;
+  font-weight:700;
+}
+
+header .btn.secondary:hover{
+  background:rgba(96,165,250,.2);
+  border-color:rgba(96,165,250,.6);
+  color:#93c5fd;
+  transform:translateY(-1px);
+  box-shadow:0 4px 12px rgba(96,165,250,.3);
+}
+
+header .btn.primary{
+  background:linear-gradient(135deg,#635bff,#7b74ff);
+  color:#fff;
+  font-size:11px;
+  padding:9px 16px;
+  font-weight:700;
+  box-shadow:0 4px 14px rgba(99,91,255,.4);
+}
+
+header .btn.primary:hover{
+  background:linear-gradient(135deg,#5148e8,#635bff);
+  box-shadow:0 6px 20px rgba(99,91,255,.6);
+  transform:translateY(-2px);
+}
+
+.danger{
+  background:var(--redbg);
+  color:var(--red);
+}
+
+.success{
+  background:var(--greenbg);
+  color:var(--green);
+}
+
+main{
+  width:92%;
+  max-width:1380px;
+  margin:auto;
+  padding:28px 0 70px;
+}
+
+.hero{
+  position:relative;
+  overflow:hidden;
+  background:linear-gradient(120deg,#5750ee,#7a72ff 55%,#5148e8);
+  color:#fff;
+  border-radius:28px;
+  padding:34px 36px;
+  margin-bottom:18px;
+  box-shadow:0 25px 60px rgba(99,91,255,.22);
+}
+
+.hero-inner{
+  position:relative;
+  z-index:1;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:25px;
+}
+
+.hero h1{
+  font-size:32px;
+  letter-spacing:-1.2px;
+  margin-bottom:8px;
+}
+
+.hero p{
+  font-size:10px;
+  color:rgba(255,255,255,.85);
+  line-height:1.75;
+  max-width:750px;
+}
+
+.hero-pill{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  padding:7px 10px;
+  border-radius:20px;
+  background:rgba(255,255,255,.13);
+  border:1px solid rgba(255,255,255,.15);
+  font-size:8px;
+  font-weight:850;
+  margin-bottom:13px;
+}
+
+.hero-art{
+  width:125px;
+  height:125px;
+  border-radius:32px;
+  background:rgba(255,255,255,.11);
+  border:1px solid rgba(255,255,255,.15);
+  display:grid;
+  place-items:center;
+  font-size:49px;
+  flex:none;
+}
+
+.stepbar{
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:9px;
+  margin-bottom:32px;
+  position:relative;
+  padding:0 32px;
+}
+
+.stepbar:before{
+  content:"";
+  position:absolute;
+  top:20px;
+  left:calc(12.5% + 32px);
+  right:calc(12.5% + 32px);
+  height:3px;
+  background:var(--line);
+  z-index:0;
+  transition:.3s;
+}
+
+.stepbar:after{
+  content:"";
+  position:absolute;
+  top:20px;
+  left:calc(12.5% + 32px);
+  height:3px;
+  background:linear-gradient(90deg,var(--green),var(--primary));
+  z-index:0;
+  transition:width .6s ease-in-out;
+}
+
+.stepbar[data-step="1"]:after{
+  width:0%;
+}
+
+.stepbar[data-step="2"]:after{
+  width:calc(25% - 16px);
+}
+
+.stepbar[data-step="3"]:after{
+  width:calc(50% - 16px);
+}
+
+.stepbar[data-step="4"]:after{
+  width:calc(75% - 16px);
+}
+
+.stepbar[data-step="5"]:after{
+  width:calc(100% - 64px);
+}
+
+.step{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:8px;
+  cursor:pointer;
+  position:relative;
+  z-index:1;
+  flex:1;
+  max-width:150px;
+  transition:.2s;
+}
+
+.step.disabled{
+  cursor:not-allowed;
+  pointer-events:none;
+}
+
+.step:not(.disabled):hover .step-num{
+  transform:scale(1.08);
+}
+
+.step:not(.disabled):hover b{
+  color:var(--primary);
+  transform:translateY(-2px);
+}
+
+.step.active:hover .step-num{
+  transform:scale(1.1);
+}
+
+.step-num{
+  width:40px;
+  height:40px;
+  border-radius:50%;
+  background:#fff;
+  border:3px solid var(--line);
+  color:var(--muted);
+  display:grid;
+  place-items:center;
+  font-size:13px;
+  font-weight:950;
+  transition:.3s;
+  position:relative;
+}
+
+.step.completed .step-num{
+  background:var(--green);
+  border-color:var(--green);
+  color:#fff;
+  font-size:20px;
+  text-indent:-9999px;
+}
+
+.step.completed .step-num:before{
+  content:"✓";
+  position:absolute;
+  text-indent:0;
+}
+
+.step.active .step-num{
+  background:var(--primary);
+  border-color:var(--primary);
+  color:#fff;
+  box-shadow:0 0 0 4px rgba(99,91,255,.15);
+  transform:scale(1.1);
+  font-size:18px;
+  text-indent:-9999px;
+}
+
+.step.active .step-num:before{
+  content:"●";
+  position:absolute;
+  text-indent:0;
+}
+
+.step.disabled .step-num{
+  background:#fafafa;
+  border-color:#e0e0e0;
+  color:#bbb;
+}
+
+.step-label{
+  text-align:center;
+}
+
+.step b{
+  font-size:10px;
+  display:block;
+  margin-bottom:2px;
+  color:var(--text);
+  transition:color .2s, transform .2s;
+}
+
+.step.active b{
+  color:var(--primary);
+  font-weight:900;
+}
+
+.step.completed b{
+  color:var(--green);
+}
+
+.step span{
+  display:block;
+  color:var(--muted);
+  font-size:8px;
+  line-height:1.4;
+}
+
+.step-content{
+  display:none;
+  margin-bottom:32px;
+  padding-bottom:32px;
+}
+
+.step-header{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  margin-bottom:22px;
+  padding:16px 20px;
+  background:linear-gradient(135deg,#f8f8ff,#fff);
+  border:1px solid #e6e5ff;
+  border-radius:16px;
+}
+
+.step-header-num{
+  width:42px;
+  height:42px;
+  border-radius:12px;
+  background:linear-gradient(135deg,#726bff,#5148e8);
+  color:#fff;
+  display:grid;
+  place-items:center;
+  font-size:18px;
+  font-weight:950;
+  flex:none;
+  box-shadow:0 8px 20px rgba(99,91,255,.2);
+}
+
+.step-header h2{
+  font-size:19px;
+  margin:0;
+  color:var(--ink);
+  letter-spacing:-0.5px;
+}
+
+.step-header p{
+  font-size:9px;
+  color:var(--muted);
+  margin:4px 0 0 0;
+  line-height:1.5;
+}
+
+.step-content.active,
+.step-content.completed{
+  display:block;
+}
+
+.step-content.completed{
+  border-bottom:2px dashed var(--line);
+  padding-bottom:32px;
+}
+
+.step-content.completed .step-header{
+  opacity:0.7;
+}
+
+.step-content.completed .step-header-num{
+  background:var(--green);
+  box-shadow:0 8px 20px rgba(21,156,104,.2);
+}
+
+.step-content.completed .step-header-num:after{
+  content:"✓";
+  font-size:22px;
+}
+
+.step-content.active{
+  animation:fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn{
+  from{
+    opacity:0;
+    transform:translateY(10px);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+
+@keyframes pulse{
+  0%, 100%{
+    box-shadow:0 0 0 4px rgba(99,91,255,.15);
+  }
+  50%{
+    box-shadow:0 0 0 8px rgba(99,91,255,.08);
+  }
+}
+
+.step.active .step-num{
+  animation:pulse 2s infinite;
+}
+
+.step-actions{
+  display:flex;
+  justify-content:flex-end;
+  gap:9px;
+  margin-top:24px;
+  padding-top:20px;
+  border-top:2px solid var(--line);
+  flex-wrap:wrap;
+}
+
+.step-actions .btn.primary{
+  font-size:11px;
+  padding:12px 20px;
+  font-weight:900;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:1.06fr .94fr;
+  gap:17px;
+}
+
+.card{
+  background:rgba(255,255,255,.97);
+  border:1px solid var(--line);
+  border-radius:20px;
+  box-shadow:var(--shadow);
+  padding:21px;
+}
+
+.card h2{
+  font-size:15px;
+  margin-bottom:5px;
+}
+
+.sub{
+  font-size:9px;
+  color:var(--muted);
+  line-height:1.65;
+  margin-bottom:16px;
+}
+
+.section-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:10px;
+  margin-bottom:3px;
+}
+
+.section-icon{
+  width:35px;
+  height:35px;
+  border-radius:11px;
+  background:var(--soft);
+  display:grid;
+  place-items:center;
+  font-size:16px;
+}
+
+.upload-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
+
+.upload{
+  border:1px dashed #cfd1df;
+  border-radius:15px;
+  padding:17px;
+  background:linear-gradient(145deg,#fbfbff,#f7f7fd);
+}
+
+.upload b{
+  font-size:11px;
+}
+
+.upload p{
+  font-size:8px;
+  color:var(--muted);
+  margin:7px 0 12px;
+  line-height:1.55;
+}
+
+.file-label{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  width:100%;
+  border:1px solid var(--line);
+  background:#fff;
+  border-radius:10px;
+  padding:9px 10px;
+  font-size:8px;
+  font-weight:800;
+  color:var(--primary2);
+  cursor:pointer;
+}
+
+.file-label input{
+  display:none;
+}
+
+.file-name{
+  display:block;
+  color:var(--muted);
+  font-size:7px;
+  margin-top:7px;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+input,
+textarea,
+select{
+  width:100%;
+  border:1px solid var(--line);
+  border-radius:10px;
+  padding:11px 12px;
+  outline:none;
+  font-size:10px;
+  background:#fff;
+  color:var(--text);
+  transition:.18s;
+}
+
+textarea{
+  min-height:78px;
+  resize:vertical;
+}
+
+input:focus,
+textarea:focus,
+select:focus{
+  border-color:var(--primary);
+  box-shadow:0 0 0 4px rgba(99,91,255,.08);
+}
+
+.form-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:9px;
+}
+
+.full{
+  grid-column:1/-1;
+}
+
+.field{
+  margin-bottom:9px;
+}
+
+.field label{
+  display:block;
+  font-size:8px;
+  font-weight:850;
+  margin-bottom:5px;
+  color:#5f6376;
+}
+
+.manual-actions,
+.setting-actions{
+  display:flex;
+  gap:8px;
+  margin-top:8px;
+  flex-wrap:wrap;
+}
+
+.notice{
+  padding:11px;
+  border-radius:11px;
+  background:#f7f7fb;
+  color:#666b7d;
+  font-size:8px;
+  line-height:1.6;
+  margin-top:11px;
+  border:1px solid #ececf4;
+}
+
+.stats{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:11px;
+  margin:17px 0;
+}
+
+.stat{
+  padding:16px;
+  border:1px solid var(--line);
+  border-radius:16px;
+  background:#fff;
+  box-shadow:0 8px 25px rgba(30,32,70,.035);
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.stat-icon{
+  width:39px;
+  height:39px;
+  border-radius:12px;
+  display:grid;
+  place-items:center;
+  font-size:16px;
+  background:var(--soft);
+}
+
+.stat span{
+  display:block;
+  color:var(--muted);
+  font-size:8px;
+}
+
+.stat strong{
+  font-size:21px;
+  margin-top:4px;
+  display:block;
+}
+
+.toolbar{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin:20px 0 10px;
+  gap:10px;
+}
+
+.toolbar h2{
+  font-size:15px;
+}
+
+.toolbar p{
+  font-size:8px;
+  color:var(--muted);
+  margin-top:4px;
+}
+
+.toolbar-right{
+  display:flex;
+  gap:7px;
+  flex-wrap:wrap;
+}
+
+.table-card{
+  padding:0;
+  overflow:hidden;
+}
+
+.table-wrap{
+  overflow:auto;
+  max-height:570px;
+}
+
+table{
+  border-collapse:separate;
+  border-spacing:0;
+  width:100%;
+  min-width:950px;
+}
+
+th,
+td{
+  padding:12px 11px;
+  border-bottom:1px solid #f0f1f5;
+  text-align:left;
+  vertical-align:top;
+  font-size:9px;
+}
+
+th{
+  background:#fafaff;
+  font-size:8px;
+  color:#666b7b;
+  position:sticky;
+  top:0;
+  z-index:2;
+}
+
+td.q{
+  font-weight:750;
+  min-width:310px;
+  line-height:1.55;
+}
+
+td.options{
+  white-space:pre-line;
+  color:#505568;
+  line-height:1.55;
+}
+
+.status{
+  display:inline-flex;
+  align-items:center;
+  gap:4px;
+  padding:5px 8px;
+  border-radius:7px;
+  font-size:7px;
+  font-weight:900;
+  white-space:nowrap;
+}
+
+.matched{
+  background:var(--greenbg);
+  color:var(--green);
+}
+
+.unmatched{
+  background:var(--orangebg);
+  color:var(--orange);
+}
+
+.empty{
+  text-align:center;
+  padding:45px 20px;
+  color:var(--muted);
+  font-size:10px;
+}
+
+.empty-icon{
+  font-size:30px;
+  margin-bottom:9px;
+}
+
+.empty b{
+  display:block;
+  color:var(--text);
+  font-size:12px;
+  margin-bottom:5px;
+}
+
+.settings-card{
+  margin-top:17px;
+}
+
+.settings-layout{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:14px;
+}
+
+.publish-box{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:14px;
+  background:linear-gradient(135deg,#f8f8ff,#fff);
+  border:1px solid #e6e5ff;
+  border-radius:16px;
+  padding:14px;
+}
+
+.publish-box b{
+  font-size:10px;
+}
+
+.publish-box p{
+  font-size:8px;
+  color:var(--muted);
+  margin-top:4px;
+}
+
+.total-mark-display{
+  margin-top:8px;
+  font-size:9px;
+  font-weight:850;
+  color:var(--primary2);
+}
+
+.code{
+  font-size:20px;
+  font-weight:950;
+  letter-spacing:3px;
+  color:var(--primary2);
+  background:#f0efff;
+  border:1px solid #e4e2ff;
+  border-radius:12px;
+  padding:12px;
+  text-align:center;
+  min-height:47px;
+}
+
+.assignment{
+  margin-top:18px;
+  border-top:1px solid var(--line);
+  padding-top:18px;
+}
+
+.assignment-title{
+  font-size:12px;
+  font-weight:900;
+  margin-bottom:5px;
+}
+
+.assignment-sub{
+  font-size:8px;
+  color:var(--muted);
+  line-height:1.6;
+  margin-bottom:12px;
+}
+
+.assignment-options{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+
+.assignment-option{
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:14px;
+  cursor:pointer;
+  background:#fff;
+  transition:.2s;
+}
+
+.assignment-option:hover{
+  border-color:#bcb8ff;
+}
+
+.assignment-option.active{
+  border-color:var(--primary);
+  background:#f7f6ff;
+  box-shadow:0 0 0 3px rgba(99,91,255,.07);
+}
+
+.assignment-option input{
+  display:none;
+}
+
+.assignment-option-head{
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+.assignment-radio{
+  width:17px;
+  height:17px;
+  border-radius:50%;
+  border:2px solid #cfd1df;
+  display:grid;
+  place-items:center;
+  flex:none;
+}
+
+.assignment-option.active .assignment-radio{
+  border-color:var(--primary);
+}
+
+.assignment-option.active .assignment-radio:after{
+  content:"";
+  width:7px;
+  height:7px;
+  border-radius:50%;
+  background:var(--primary);
+}
+
+.assignment-option b{
+  font-size:10px;
+}
+
+.assignment-option p{
+  margin-top:6px;
+  font-size:8px;
+  color:var(--muted);
+  line-height:1.5;
+}
+
+.assignment-panel{
+  display:none;
+  margin-top:12px;
+  padding:14px;
+  border:1px solid var(--line);
+  border-radius:14px;
+  background:#fafaff;
+}
+
+.assignment-panel.active{
+  display:block;
+}
+
+.email-add{
+  display:grid;
+  grid-template-columns:1fr auto;
+  gap:8px;
+}
+
+.email-list{
+  display:flex;
+  flex-wrap:wrap;
+  gap:7px;
+  margin-top:12px;
+}
+
+.email-chip{
+  display:flex;
+  align-items:center;
+  gap:7px;
+  padding:7px 9px;
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:9px;
+  font-size:8px;
+}
+
+.email-chip button{
+  border:0;
+  background:transparent;
+  color:var(--red);
+  font-weight:900;
+  cursor:pointer;
+}
+
+.email-actions{
+  display:flex;
+  gap:7px;
+  margin-top:10px;
+  flex-wrap:wrap;
+}
+
+.email-count{
+  font-size:8px;
+  color:var(--muted);
+  margin-top:9px;
+}
+
+.access-code-area{
+  display:grid;
+  grid-template-columns:1fr auto auto;
+  gap:8px;
+  align-items:center;
+}
+
+.access-code-area .code{
+  width:100%;
+}
+
+.toast{
+  position:fixed;
+  right:20px;
+  bottom:20px;
+  background:#171827;
+  color:#fff;
+  padding:12px 15px;
+  border-radius:12px;
+  font-size:9px;
+  display:none;
+  z-index:999;
+  box-shadow:0 15px 35px rgba(0,0,0,.2);
+}
+
+.toast.show{
+  display:block;
+}
+
+.modal-backdrop{
+  position:fixed;
+  inset:0;
+  background:rgba(15,16,35,.5);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:18px;
+  z-index:500;
+  backdrop-filter:blur(7px);
+}
+
+.modal{
+  width:min(520px,100%);
+  background:#fff;
+  border-radius:22px;
+  padding:23px;
+  box-shadow:0 30px 90px rgba(0,0,0,.25);
+}
+
+.modal h3{
+  font-size:17px;
+}
+
+.modal p{
+  font-size:9px;
+  color:var(--muted);
+  line-height:1.6;
+  margin:7px 0 15px;
+}
+
+.modal-actions{
+  display:flex;
+  justify-content:flex-end;
+  gap:8px;
+  margin-top:15px;
+  flex-wrap:wrap;
+}
+
+.edit-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+
+.edit-grid .full{
+  grid-column:1/-1;
+}
+
+.edit-grid label{
+  display:block;
+  font-size:8px;
+  font-weight:850;
+  margin-bottom:5px;
+  color:#5f6376;
+}
+
+.edit-grid textarea{
+  min-height:90px;
+}
+
+.edit-title{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+}
+
+.edit-number{
+  font-size:8px;
+  color:var(--muted);
+  background:var(--soft);
+  padding:6px 9px;
+  border-radius:20px;
+  font-weight:800;
+}
+published-grid{   display:grid;   grid-template-columns:repeat(3,1fr);   gap:12px; } .published-card{   border:1px solid var(--line);   border-radius:16px;   padding:15px;   background:#fff;   box-shadow:0 8px 25px rgba(30,32,70,.035); } .published-card h3{   font-size:12px;   margin-bottom:5px; } .published-card .meta{   font-size:8px;   color:var(--muted);   line-height:1.7; } .published-card .time-badge{   display:inline-flex;   margin:9px 0 10px;   padding:6px 9px;   border-radius:8px;   background:var(--greenbg);   color:var(--green);   font-size:8px;   font-weight:900; } .published-card.expired .time-badge{   background:var(--redbg);   color:var(--red); } .published-card .published-actions{   display:flex;   flex-wrap:wrap;   gap:6px;   margin-top:10px; } .published-card .published-actions .btn{   font-size:8px;   padding:8px 9px; } .published-top{   display:flex;   justify-content:space-between;   align-items:flex-start;   gap:8px; } .published-status{   font-size:7px;   font-weight:900;   padding:5px 7px;   border-radius:7px;   background:var(--greenbg);   color:var(--green);   white-space:nowrap; } .published-status.expired{   background:var(--redbg);   color:var(--red); } .editing-banner{   display:none;   margin-bottom:14px;   padding:10px 12px;   border-radius:11px;   background:#f0efff;   border:1px solid #dfddff;   color:var(--primary2);   font-size:9px;   font-weight:800;   align-items:center;   justify-content:space-between;   gap:10px; } .editing-banner.show{   display:flex; } @media(max-width:1000px){   .published-grid{     grid-template-columns:1fr 1fr;   }   .grid{     grid-template-columns:1fr;   }   .stepbar{     padding:0 16px;   grid-template-columns:repeat(3,1fr);   }   .stepbar:before,   .stepbar:after{     left:calc(16% + 16px);     right:calc(16% + 16px);   }   .step{     max-width:120px;   }   .step b{     font-size:9px;   }   .step span{     font-size:7px;   }   .step:nth-child(4),   .step:nth-child(5){     display:none;   } } @media(max-width:600px){   .published-grid{     grid-template-columns:1fr;   }   header{     padding:0 14px;   }   .brand small{     display:none;   }   .header-right .ghost{     display:none;   }   main{     width:calc(100% - 20px);     padding-top:15px;   }   .hero{     padding:23px 20px;     border-radius:21px;   }   .hero h1{     font-size:24px;   }   .hero-art{     display:none;   }   .stepbar{     padding:0 8px;   }   .stepbar:before,   .stepbar:after{     left:calc(12.5% + 8px);     right:calc(12.5% + 8px);   }   .step{     max-width:80px;   }   .step-num{     width:32px;     height:32px;     font-size:14px;   }   .step b{     font-size:8px;   }   .step span{     display:none;   }   .form-grid{     grid-template-columns:1fr;   }   .full{     grid-column:auto;   }   .toolbar{     align-items:flex-start;     flex-direction:column;   }   .toolbar-right{     width:100%;   }   .toolbar-right .btn{     flex:1;   }   .card{     padding:17px;   }   .access-code-area{     grid-template-columns:1fr;   }   .email-add{     grid-template-columns:1fr;   }   .editing-banner{     align-items:flex-start;     flex-direction:column;   }   .stats{     grid-template-columns:1fr 1fr;   }   .upload-grid{     grid-template-columns:1fr;   }   .publish-box{     align-items:flex-start;     flex-direction:column;   }   .assignment-options{     grid-template-columns:1fr;   }   .step-actions{     flex-direction:column;   }   .step-actions .btn{     width:100%;   }   .step-header{     flex-direction:column;     align-items:flex-start;     gap:10px;     padding:14px;   }   .step-header h2{     font-size:16px;   } } @media(max-width:380px){   .stats{     grid-template-columns:1fr;   }   .stepbar{     grid-template-columns:1fr;   }
+}
+
+/* PROFILE MODAL */
+.creator-profile-modal{
+  width:min(820px,96%);
+  background:#fff;
+  border-radius:16px;
+  box-shadow:0 20px 60px rgba(0,0,0,.2);
+  max-height:92vh;
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
+}
+
+.profile-modal-header{
+  padding:24px 28px;
+  background:linear-gradient(135deg,#726bff 0%,#5148e8 100%);
+  color:#fff;
+  display:flex;
+  align-items:center;
+  gap:16px;
+  position:relative;
+}
+
+.profile-modal-avatar{
+  width:56px;
+  height:56px;
+  border-radius:50%;
+  background:rgba(255,255,255,.25);
+  border:3px solid rgba(255,255,255,.4);
+  color:#fff;
+  display:grid;
+  place-items:center;
+  font-size:24px;
+  font-weight:800;
+  flex-shrink:0;
+}
+
+.profile-modal-header h3{
+  margin:0;
+  font-size:20px;
+  font-weight:700;
+}
+
+.profile-close-btn{
+  position:absolute;
+  right:20px;
+  top:50%;
+  transform:translateY(-50%);
+  width:36px;
+  height:36px;
+  border-radius:8px;
+  border:0;
+  background:rgba(255,255,255,.15);
+  color:#fff;
+  font-size:20px;
+  cursor:pointer;
+  display:grid;
+  place-items:center;
+  transition:.2s;
+}
+
+.profile-close-btn:hover{
+  background:rgba(255,255,255,.25);
+}
+
+.profile-detail-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:16px;
+  padding:24px 28px;
+  overflow-y:auto;
+}
+
+.detail-card{
+  background:#fafbfc;
+  border:1px solid #e8e9f0;
+  border-radius:12px;
+  padding:18px;
+  transition:.2s;
+}
+
+.detail-card:hover{
+  border-color:#d1d5db;
+  box-shadow:0 2px 8px rgba(0,0,0,.05);
+}
+
+.detail-card-icon{
+  width:40px;
+  height:40px;
+  border-radius:10px;
+  display:grid;
+  place-items:center;
+  font-size:18px;
+  margin-bottom:12px;
+}
+
+.detail-card-label{
+  font-size:10px;
+  color:#6b7280;
+  font-weight:800;
+  text-transform:uppercase;
+  letter-spacing:.5px;
+  margin-bottom:8px;
+}
+
+.detail-card-value{
+  font-size:15px;
+  font-weight:700;
+  color:#1a1d2e;
+  word-break:break-word;
+  line-height:1.4;
+}
+
+.detail-card.highlight{
+  background:linear-gradient(135deg,#f0f9ff 0%,#e0f2fe 100%);
+  border-color:#bae6fd;
+}
+
+.detail-card.highlight .detail-card-icon{
+  background:#0ea5e9;
+  color:#fff;
+}
+
+.detail-card.highlight .detail-card-value{
+  color:#0369a1;
+  font-size:28px;
+  font-weight:900;
+}
+
+.profile-modal-footer{
+  padding:20px 28px;
+  border-top:1px solid #e8e9f0;
+  display:flex;
+  gap:12px;
+  justify-content:flex-end;
+  flex-wrap:wrap;
+}
+
+.edit-input{
+  width:100%;
+  padding:10px 12px;
+  border:1px solid #d1d5db;
+  border-radius:8px;
+  font-size:13px;
+  font-family:inherit;
+  color:#1f2937;
+  background:#fff;
+  transition:all 0.2s;
+  margin-top:6px;
+}
+
+.edit-input:focus{
+  outline:none;
+  border-color:#635bff;
+  box-shadow:0 0 0 3px rgba(99,91,255,0.1);
+}
+
+.edit-input::placeholder{
+  color:#9ca3af;
+}
+
+@media(max-width:900px){
+  .profile-detail-grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+}
+
+@media(max-width:600px){
+  .profile-detail-grid{
+    grid-template-columns:1fr;
+  }
+}
+
+/* Excel Format Link */
+.sub a{
+  display:inline-flex;
+  align-items:center;
+  gap:4px;
+  transition:.2s;
+}
+
+.sub a:hover{
+  color:#5148e8;
+  border-bottom-color:#5148e8;
+  transform:translateX(2px);
+}
+
+/* Responsive Header */
+@media(max-width:900px){
+  header{
+    padding:0 3%;
+  }
+
+  .header-right{
+    gap:7px;
+  }
+
+  header .btn{
+    font-size:10px;
+    padding:8px 11px;
+  }
+
+  .brand b{
+    font-size:20px;
+    letter-spacing:1.5px;
+  }
+
+  .brand small{
+    font-size:10px;
+  }
+}
+
+@media(max-width:600px){
+  header{
+    height:70px;
+    padding:0 2.5%;
+  }
+
+  .logo{
+    width:46px;
+    height:46px;
+  }
+
+  .brand b{
+    font-size:17px;
+    letter-spacing:1px;
+  }
+
+  .brand small{
+    display:none;
+  }
+
+  .header-right{
+    gap:5px;
+    flex-wrap:nowrap;
+  }
+
+  header .btn{
+    font-size:9px;
+    padding:7px 9px;
+    white-space:nowrap;
+  }
+
+  header .btn.ghost svg{
+    width:16px;
+    height:16px;
+  }
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+
+  <div class="brand">
+    <div class="logo"></div>
+
+    <div>
+      <b><span style="color:#fff;text-shadow:0 2px 8px rgba(99,91,255,.5)">Quiz</span><span style="color:#60a5fa;text-shadow:0 2px 8px rgba(96,165,250,.5)">ora</span></b>
+      <small style="color:rgba(255,255,255,.75);font-size:11px;font-weight:600;letter-spacing:0.5px">Test Creator Studio</small>
+    </div>
+  </div>
+
+  <div class="header-right">
+
+    <button class="btn ghost" id="createTestNav">
+      ＋ Create Test
+    </button>
+
+    <button
+      class="btn secondary"
+      onclick="window.location.href='published-tests.html'">
+      📡 Published Tests
+    </button>
+
+    <button
+      class="btn primary"
+      onclick="window.location.href='result.html'">
+      📊 Assessment Score
+    </button>
+
+    
+
+    <button class="btn ghost" id="profileBtn" style="padding:8px 14px">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+    </button>
+
+  </div>
+
+</header>
+
+<main>
+
+<section class="hero">
+
+  <div class="hero-inner">
+
+    <div>
+
+      <div class="hero-pill">
+        ✦ QUIZORA EXAMINER WORKSPACE
+      </div>
+
+      <h1>Create a professional MCQ assessment</h1>
+
+      <p>
+        <a href="#importExcel" style="color:#e1e0f4;text-decoration:none;font-weight:600;border-bottom:1px solid #cccae5">Import from Excel</a> or
+        <a href="#manualQuestion" style="color:#d8d7e8;text-decoration:none;font-weight:600;border-bottom:1px solid #dfdef5">add questions manually</a>.
+        <a href="#step2" style="color:#d9d8eb;text-decoration:none;font-weight:600;border-bottom:1px solid #dcdbed">Review Questions</a>,
+        <a href="#step3" style="color:#dcdbe6;text-decoration:none;font-weight:600;border-bottom:1px solid #e1e0f1">Configure Test Settings</a>,
+        choose <a href="#step4" style="color:#d6d5e2;text-decoration:none;font-weight:600;border-bottom:1px solid #d9d8f1">Test Assignment</a> method,
+        set <a href="#step5" style="color:#dddcf2;text-decoration:none;font-weight:600;border-bottom:1px solid #d9d8f2">Student Details</a>,
+        and <a href="#publishTest" style="color:#dcdbf4;text-decoration:none;font-weight:600;border-bottom:1px solid #d7d6eb">Publish</a> your test.
+      </p>
+
+    </div>
+
+    <div class="hero-art">
+      📝
+    </div>
+
+  </div>
+
+</section>
+
+<div class="stepbar" data-step="1">
+
+  <div class="step active" data-step-num="1" onclick="goToStep(1)">
+    <div class="step-num">01</div>
+    <div class="step-label">
+      <b>Build</b>
+      <span>Add or import questions and answers</span>
+    </div>
+  </div>
+
+  <div class="step" data-step-num="2" onclick="goToStep(2)">
+    <div class="step-num">02</div>
+    <div class="step-label">
+      <b>Review</b>
+      <span>Check every answer</span>
+    </div>
+  </div>
+
+  <div class="step" data-step-num="3" onclick="goToStep(3)">
+    <div class="step-num">03</div>
+    <div class="step-label">
+      <b>Configure</b>
+      <span>Set test settings</span>
+    </div>
+  </div>
+
+  <div class="step" data-step-num="4" onclick="goToStep(4)">
+    <div class="step-num">04</div>
+    <div class="step-label">
+      <b>Assignment</b>
+      <span>Choose assignment method</span>
+    </div>
+  </div>
+
+  <div class="step" data-step-num="5" onclick="goToStep(5)">
+    <div class="step-num">05</div>
+    <div class="step-label">
+      <b>Publish</b>
+      <span>Save to AWS</span>
+    </div>
+  </div>
+
+</div>
+
+<!-- STEP 1: BUILD -->
+<div class="step-content active" id="step1">
+
+<div class="step-header">
+  <div class="step-header-num">01</div>
+  <div>
+    <h2>Build Your Test</h2>
+    <p>Add or import questions from Excel files</p>
+  </div>
+</div>
+
+<div class="grid" id="createTestArea">
+
+<section class="card" id="importExcel">
+
+  <div class="section-head">
+
+    <div>
+
+      <h2>Import from Excel</h2>
+
+      <p class="sub">
+        Upload a single Excel file with columns: Question, Option A, Option B, Option C, Option D, and Answer.
+        The Answer column should contain the correct option (A, B, C, or D).
+        <a href="work.html#questions-excel" target="_blank" style="color:#635bff;font-size:11px;font-weight:700;margin-left:8px;text-decoration:none;border-bottom:1px solid #635bff">View Excel Format Reference →</a>
+      </p>
+
+    </div>
+
+    <div class="section-icon">
+      📊
+    </div>
+
+  </div>
+
+  <div class="upload-grid">
+
+    <div class="upload" style="grid-column:1/-1;max-width:600px;margin:0 auto">
+
+      <b>📊 Questions and Answers Excel</b>
+
+      <p>
+        Upload one Excel file containing: Question, Option A, Option B, Option C, Option D, Answer
+      </p>
+
+      <label class="file-label">
+
+        📥 Choose Questions & Answers Excel
+
+        <input
+          type="file"
+          id="questionsFile"
+          accept=".xlsx,.xls,.csv">
+
+      </label>
+
+      <span class="file-name" id="questionsFileName">
+        No file selected
+      </span>
+
+    </div>
+
+  </div>
+
+  <div class="notice" id="uploadStatus">
+    📋 Upload an Excel file with questions and answers to get started.
+  </div>
+
+</section>
+
+<section class="card" id="manualQuestion">
+
+  <div class="section-head">
+
+    <div>
+
+      <h2>Manual Question</h2>
+
+      <p class="sub">
+        Add one question at a time.
+        <a href="work.html#answers-excel" target="_blank" style="color:#635bff;font-size:11px;font-weight:700;margin-left:8px;text-decoration:none;border-bottom:1px solid #635bff">How to Create Questions →</a>
+      </p>
+
+    </div>
+
+    <div class="section-icon">
+      ✍️
+    </div>
+
+  </div>
+
+  <div class="form-grid">
+
+    <div class="field full">
+
+      <label>Question</label>
+
+      <textarea
+        id="mq"
+        placeholder="Enter your question..."></textarea>
+
+    </div>
+
+    <div class="field">
+
+      <label>Option A</label>
+
+      <input
+        id="ma"
+        placeholder="Option A">
+
+    </div>
+
+    <div class="field">
+
+      <label>Option B</label>
+
+      <input
+        id="mb"
+        placeholder="Option B">
+
+    </div>
+
+    <div class="field">
+
+      <label>Option C</label>
+
+      <input
+        id="mc"
+        placeholder="Option C">
+
+    </div>
+
+    <div class="field">
+
+      <label>Option D</label>
+
+      <input
+        id="md"
+        placeholder="Option D">
+
+    </div>
+
+    <div class="field">
+
+      <label>Correct Answer</label>
+
+      <select id="mans">
+
+        <option value="">Select</option>
+        <option value="A">A</option>
+        <option value="B">B</option>
+        <option value="C">C</option>
+        <option value="D">D</option>
+
+      </select>
+
+    </div>
+
+    <div class="field">
+
+      <label>Marks</label>
+
+      <select id="manualMarks">
+
+        <option value="1">1 Mark</option>
+        <option value="2">2 Marks</option>
+        <option value="3">3 Marks</option>
+        <option value="4">4 Marks</option>
+        <option value="5">5 Marks</option>
+        <option value="10">10 Marks</option>
+
+      </select>
+
+    </div>
+
+  </div>
+
+  <div class="manual-actions">
+
+    <button type="button" class="btn primary" id="addManual">
+      ＋ Add Question
+    </button>
+
+    <button type="button" class="btn secondary" id="resetManual">
+      Reset
+    </button>
+
+  </div>
+
+</section>
+
+</div>
+
+<div class="step-actions">
+  <button type="button" class="btn primary" onclick="nextStep()">
+    Continue to Review Questions →
+  </button>
+</div>
+
+</div>
+<!-- END STEP 1 -->
+
+<!-- STEP 2: REVIEW -->
+<div class="step-content" id="step2">
+
+<div class="step-header">
+  <div class="step-header-num">02</div>
+  <div>
+    <h2>Review Questions</h2>
+    <p>Check every answer and verify all questions
+      <a href="work.html#review" target="_blank" style="color:#635bff;font-size:11px;font-weight:700;margin-left:8px;text-decoration:none;border-bottom:1px solid #635bff">Learn More →</a>
+    </p>
+  </div>
+</div>
+
+<div class="stats">
+
+  <div class="stat">
+
+    <div class="stat-icon">📝</div>
+
+    <div>
+      <span>Total Questions</span>
+      <strong id="total">0</strong>
+    </div>
+
+  </div>
+
+  <div class="stat">
+
+    <div class="stat-icon">✓</div>
+
+    <div>
+      <span>Matched Answers</span>
+      <strong id="matched">0</strong>
+    </div>
+
+  </div>
+
+  <div class="stat">
+
+    <div class="stat-icon">⚠</div>
+
+    <div>
+      <span>Need Checking</span>
+      <strong id="bad">0</strong>
+    </div>
+
+  </div>
+
+  <div class="stat">
+
+    <div class="stat-icon">⭐</div>
+
+    <div>
+      <span>Total Marks</span>
+      <strong id="totalMarksStat">0</strong>
+    </div>
+
+  </div>
+
+</div>
+
+<div class="toolbar">
+
+  <div>
+
+    <h2>
+      Question & Answer Review
+    </h2>
+
+    <p>
+      Review every question before publishing.
+    </p>
+
+  </div>
+
+  <div class="toolbar-right">
+
+    <button
+      class="btn secondary"
+      id="exportBtn">
+      ⇩ Export JSON
+    </button>
+
+    <button
+      class="btn danger"
+      id="removeAll">
+      Remove All
+    </button>
+
+  </div>
+
+</div>
+
+<section class="card table-card">
+
+  <div class="table-wrap">
+
+    <table>
+
+      <thead>
+
+        <tr>
+
+          <th>#</th>
+          <th>Question</th>
+          <th>Options</th>
+          <th>Answer</th>
+          <th>Marks</th>
+          <th>Status</th>
+          <th>Action</th>
+
+        </tr>
+
+      </thead>
+
+      <tbody id="questionBody"></tbody>
+
+    </table>
+
+    <div class="empty" id="empty">
+
+      <div class="empty-icon">
+        📚
+      </div>
+
+      <b>
+        Your question bank is empty
+      </b>
+
+      Add a question or upload your Excel files.
+
+    </div>
+
+  </div>
+
+</section>
+
+<div class="step-actions">
+  <button type="button" class="btn primary" onclick="nextStep()">
+    Continue to Configure Test →
+  </button>
+</div>
+
+</div>
+<!-- END STEP 2 -->
+
+<!-- STEP 3: CONFIGURE -->
+<div class="step-content" id="step3">
+
+<div class="step-header">
+  <div class="step-header-num">03</div>
+  <div>
+    <h2>Configure Test Settings</h2>
+    <p>Set test title, duration, and time limits
+      <a href="work.html#marks-settings" target="_blank" style="color:#635bff;font-size:11px;font-weight:700;margin-left:8px;text-decoration:none;border-bottom:1px solid #635bff">Learn More →</a>
+    </p>
+  </div>
+</div>
+
+<section class="card settings-card">
+
+  <div class="section-head">
+
+    <div>
+
+      <h2>
+        Test Configuration
+      </h2>
+
+      <p class="sub">
+        Configure your test before publishing.
+      </p>
+
+    </div>
+
+    <div class="section-icon">
+      ⚙️
+    </div>
+
+  </div>
+
+  <div class="settings-layout">
+
+    <div class="form-grid">
+
+      <div class="field">
+
+        <label>
+          Test Title
+        </label>
+
+        <input
+          id="testTitle"
+          value="Programming Fundamentals"
+          placeholder="Example: Python Basics">
+
+      </div>
+
+      <div class="field">
+
+        <label>
+          Subject
+        </label>
+
+        <input
+          id="subject"
+          value="Programming"
+          placeholder="Example: Python">
+
+      </div>
+
+      <div class="field">
+
+        <label>
+          Student Attempt Duration (minutes)
+        </label>
+
+        <input
+          id="duration"
+          type="number"
+          min="1"
+          value="30">
+
+        <small style="display:block;margin-top:5px;color:var(--muted);font-size:8px;">
+          Time allowed for each student after starting the test.
+        </small>
+
+      </div>
+
+      <div class="field">
+
+        <label>
+          Test Live For (hours)
+        </label>
+
+        <input
+          id="liveHours"
+          type="number"
+          min="0.5"
+          step="0.5"
+          value="5">
+
+        <small style="display:block;margin-top:5px;color:var(--muted);font-size:8px;">
+          After this time, the test is automatically disabled and removed from active portals.
+        </small>
+
+      </div>
+
+      <div class="field">
+
+        <label>
+          Questions in this Test
+        </label>
+
+        <input
+          id="limit"
+          value="0"
+          readonly>
+
+      </div>
+
+      <div class="field">
+
+        <label>
+          Total Marks
+        </label>
+
+        <input
+          id="totalMarksInput"
+          value="0"
+          readonly>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+<div class="step-actions">
+  <button type="button" class="btn primary" onclick="nextStep()">
+    Continue to Assignment & Publish →
+  </button>
+</div>
+
+</div>
+<!-- END STEP 3 -->
+
+<!-- STEP 4: PUBLISH -->
+<div class="step-content" id="step4">
+
+<div class="step-header">
+  <div class="step-header-num">04</div>
+  <div>
+    <h2>Test Assignment</h2>
+    <p>Choose how students will access this test
+      <a href="work.html#schedule" target="_blank" style="color:#635bff;font-size:11px;font-weight:700;margin-left:8px;text-decoration:none;border-bottom:1px solid #635bff">Learn More →</a>
+    </p>
+  </div>
+</div>
+
+<section class="card settings-card">
+
+  <div class="section-head">
+
+    <div>
+
+      <h2>Test Assignment Method</h2>
+
+      <p class="sub">
+        Choose how students will access and take this test.
+      </p>
+
+    </div>
+
+    <div class="section-icon">
+      🎯
+    </div>
+
+  </div>
+
+  <div id="editingBanner" class="editing-banner">
+
+    <span id="editingBannerText">
+      ✏️ You are editing a published test.
+    </span>
+
+    <button
+      class="btn ghost"
+      id="cancelEditingBtn">
+      Cancel Editing
+    </button>
+
+  </div>
+
+  <div class="assignment">
+
+    <div class="assignment-title">
+      🎯 Test Assignment
+    </div>
+
+    <div class="assignment-sub">
+      Choose exactly one assignment method.
+      You can assign the test to specific student emails
+      OR create one access code for students.
+    </div>
+
+    <div class="assignment-options">
+
+      <label
+        class="assignment-option active"
+        id="emailOption">
+
+        <input
+          type="radio"
+          name="assignmentType"
+          value="email"
+          checked>
+
+        <div class="assignment-option-head">
+
+          <div class="assignment-radio"></div>
+
+          <b>
+            📧 Email Assignment
+          </b>
+
+        </div>
+
+        <p>
+          Assign this test to specific student email IDs.
+        </p>
+
+      </label>
+
+      <label
+        class="assignment-option"
+        id="codeOption">
+
+        <input
+          type="radio"
+          name="assignmentType"
+          value="code">
+
+        <div class="assignment-option-head">
+
+          <div class="assignment-radio"></div>
+
+          <b>
+            🔑 Access Code
+          </b>
+
+        </div>
+
+        <p>
+          Generate one code that students can enter to join.
+        </p>
+
+      </label>
+
+    </div>
+
+    <div
+      class="assignment-panel active"
+      id="emailPanel">
+
+      <div class="field">
+
+        <label>
+          Student Email
+        </label>
+
+        <div class="email-add">
+
+          <input
+            id="studentEmail"
+            type="email"
+            placeholder="student@example.com">
+
+          <button
+            type="button"
+            class="btn primary"
+            id="addEmail">
+            ＋ Add
+          </button>
+
+        </div>
+
+      </div>
+
+      <div class="email-actions">
+
+        <label class="btn secondary">
+
+          📥 Import Email Excel
+
+          <input
+            type="file"
+            id="emailFile"
+            accept=".xlsx,.xls,.csv"
+            style="display:none">
+
+        </label>
+
+        <button
+          type="button"
+          class="btn danger"
+          id="clearEmails">
+          Clear All
+        </button>
+
+      </div>
+
+      <div
+        class="email-count"
+        id="emailCount">
+        0 student email(s) added
+      </div>
+
+      <div
+        class="email-list"
+        id="emailList">
+      </div>
+
+    </div>
+
+    <div
+      class="assignment-panel"
+      id="codePanel">
+
+      <div class="field">
+
+        <label>
+          Access Code
+        </label>
+
+        <div class="access-code-area">
+
+          <div
+            class="code"
+            id="accessCode"
+            style="flex:1;">
+            QZ-XXXXXX
+          </div>
+
+          <button
+            class="btn primary"
+            id="copyCode">
+            📋 Copy Code
+          </button>
+
+        </div>
+
+      </div>
+
+      <div class="notice">
+        Students can use this access code to join the published test.
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+<div class="step-actions">
+  <button type="button" class="btn primary" onclick="nextStep()">
+    Continue to Student Details →
+  </button>
+</div>
+
+</div>
+<!-- END STEP 4 -->
+
+<!-- STEP 5: STUDENT DETAILS & PUBLISH -->
+<div class="step-content" id="step5">
+
+<div class="step-header">
+  <div class="step-header-num">05</div>
+  <div>
+    <h2>Student Details & Publish</h2>
+    <p>Configure required student information and publish test
+      <a href="work.html#student-details" target="_blank" style="color:#635bff;font-size:11px;font-weight:700;margin-left:8px;text-decoration:none;border-bottom:1px solid #635bff">Learn More →</a>
+    </p>
+  </div>
+</div>
+
+<section class="card" id="studentDetails">
+
+  <div class="section-head">
+
+    <div>
+
+      <h2>Required Student Details</h2>
+
+      <p class="sub">
+        Select what information students must provide before starting the test.
+        <a href="work.html#student-details" target="_blank" style="color:#635bff;font-size:11px;font-weight:700;margin-left:8px;text-decoration:none;border-bottom:1px solid #635bff">Field Options →</a>
+      </p>
+
+    </div>
+
+    <div class="section-icon">
+      👤
+    </div>
+
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:18px;">
+
+    <label style="display:flex;align-items:center;gap:10px;padding:14px;border:1px solid var(--line);border-radius:12px;cursor:pointer;transition:.2s;background:#fff;">
+      <input type="checkbox" id="requireName" checked style="width:18px;height:18px;">
+      <div>
+        <b style="font-size:10px;display:block;margin-bottom:3px;">Student Name</b>
+        <span style="font-size:8px;color:var(--muted);">Full name of the student</span>
+      </div>
+    </label>
+
+    <label style="display:flex;align-items:center;gap:10px;padding:14px;border:1px solid var(--line);border-radius:12px;cursor:pointer;transition:.2s;background:#fff;">
+      <input type="checkbox" id="requireEmail" checked style="width:18px;height:18px;">
+      <div>
+        <b style="font-size:10px;display:block;margin-bottom:3px;">Email Address</b>
+        <span style="font-size:8px;color:var(--muted);">Student email address</span>
+      </div>
+    </label>
+
+    <label style="display:flex;align-items:center;gap:10px;padding:14px;border:1px solid var(--line);border-radius:12px;cursor:pointer;transition:.2s;background:#fff;">
+      <input type="checkbox" id="requireSchool" style="width:18px;height:18px;">
+      <div>
+        <b style="font-size:10px;display:block;margin-bottom:3px;">School Name</b>
+        <span style="font-size:8px;color:var(--muted);">Name of the school/institution</span>
+      </div>
+    </label>
+
+    <label style="display:flex;align-items:center;gap:10px;padding:14px;border:1px solid var(--line);border-radius:12px;cursor:pointer;transition:.2s;background:#fff;">
+      <input type="checkbox" id="requireRegNo" style="width:18px;height:18px;">
+      <div>
+        <b style="font-size:10px;display:block;margin-bottom:3px;">Registration Number</b>
+        <span style="font-size:8px;color:var(--muted);">Student registration/roll number</span>
+      </div>
+    </label>
+
+  </div>
+
+  <div style="margin-top:18px;padding-top:18px;border-top:1px solid var(--line);">
+
+    <h3 style="font-size:11px;margin-bottom:8px;font-weight:900;">Add Custom Field</h3>
+
+    <div style="display:flex;gap:8px;margin-bottom:12px;">
+      <input
+        type="text"
+        id="customFieldName"
+        placeholder="Enter field name (e.g., Department, Class)"
+        style="flex:1;font-size:9px;padding:10px 12px;"
+      >
+      <button
+        type="button"
+        class="btn primary"
+        onclick="addCustomField()"
+        style="font-size:9px;padding:10px 16px;"
+      >
+        ＋ Add Field
+      </button>
+    </div>
+
+    <div id="customFieldsList"></div>
+
+  </div>
+
+  <div class="notice">
+    Name and Email are required by default. You can enable additional fields as needed.
+  </div>
+
+</section>
+
+<section class="card" id="publishTest">
+
+  <div class="section-head">
+
+    <div>
+
+      <h2>Ready to Publish</h2>
+
+      <p class="sub">
+        Review and publish your test to AWS.
+        <a href="work.html#preview-publish" target="_blank" style="color:#635bff;font-size:11px;font-weight:700;margin-left:8px;text-decoration:none;border-bottom:1px solid #635bff">Publishing Guide →</a>
+      </p>
+
+    </div>
+
+    <div class="section-icon">
+      🚀
+    </div>
+
+  </div>
+
+  <div class="notice">
+    Before publishing, make sure every question has:
+    question text, four options, correct answer and marks.
+    Assignment must also be configured.
+  </div>
+
+</section>
+
+<div class="step-actions">
+  <button
+    class="btn ghost"
+    id="saveDraftBtn">
+    💾 Save Draft
+  </button>
+  <button
+    class="btn primary"
+    id="saveBottom">
+    🚀 Publish Test
+  </button>
+</div>
+
+</div>
+<!-- END STEP 5 -->
+
+</main>
+
+<div class="toast" id="toast"></div>
+
+<div class="modal-backdrop" id="editModal">
+
+  <div class="modal">
+
+    <div class="edit-title">
+
+      <div>
+
+        <h3>
+          ✏️ Edit Question
+        </h3>
+
+        <p>
+          Edit question and answer.
+        </p>
+
+      </div>
+
+      <div
+        class="edit-number"
+        id="editNumber">
+        Question 1
+      </div>
+
+    </div>
+
+    <div class="edit-grid">
+
+      <div class="field full">
+
+        <label>
+          Question
+        </label>
+
+        <textarea
+          id="editQuestion"></textarea>
+
+      </div>
+
+      <div class="field">
+
+        <label>
+          Option A
+        </label>
+
+        <input id="editA">
+
+      </div>
+
+      <div class="field">
+
+        <label>
+          Option B
+        </label>
+
+        <input id="editB">
+
+      </div>
+
+      <div class="field">
+
+        <label>
+          Option C
+        </label>
+
+        <input id="editC">
+
+      </div>
+
+      <div class="field">
+
+        <label>
+          Option D
+        </label>
+
+        <input id="editD">
+
+      </div>
+
+      <div class="field">
+
+        <label>
+          Correct Answer
+        </label>
+
+        <select id="editAnswer">
+
+          <option value="">
+            Select
+          </option>
+
+          <option value="A">
+            A — Option A
+          </option>
+
+          <option value="B">
+            B — Option B
+          </option>
+
+          <option value="C">
+            C — Option C
+          </option>
+
+          <option value="D">
+            D — Option D
+          </option>
+
+        </select>
+
+      </div>
+
+      <div class="field">
+
+        <label>
+          Marks
+        </label>
+
+        <select id="editMarks">
+
+          <option value="1">1 Mark</option>
+          <option value="2">2 Marks</option>
+          <option value="3">3 Marks</option>
+          <option value="4">4 Marks</option>
+          <option value="5">5 Marks</option>
+          <option value="10">10 Marks</option>
+
+        </select>
+
+      </div>
+
+    </div>
+
+    <div class="modal-actions">
+
+      <button
+        class="btn ghost"
+        id="cancelEdit">
+        Cancel
+      </button>
+
+      <button
+        class="btn primary"
+        id="saveEdit">
+        ✓ Save Changes
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+<div class="modal-backdrop" id="successModal">
+
+  <div class="modal">
+
+    <h3>
+      🎉 Test Published Successfully
+    </h3>
+
+    <p>
+      Your test has been published successfully.
+    </p>
+
+    <div
+      class="code"
+      id="modalCode">
+      —
+    </div>
+
+    <div
+      id="publishedAssignment"
+      style="margin-top:12px;font-size:9px;color:#666;text-align:center">
+    </div>
+
+    <div class="modal-actions">
+
+      <button
+        class="btn primary"
+        id="closeModal">
+        Done
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+
+/* =========================================================
+   QUIZORA TEST CREATOR
+   ========================================================= */
+
+const API_BASE =
+  "https://yh5j21oonb.execute-api.eu-north-1.amazonaws.com/prod";
+
+const DRAFT_KEY =
+  "quizora_creator_draft";
+
+const EDIT_KEY =
+  "quizora_edit_test_id";
+
+let questions = [];
+
+let assignedEmails = [];
+
+let accessCode = "";
+
+let customFields = [];
+
+let lastPublished = null;
+
+let editingTestId = null;
+
+let editingQuestionIndex = -1;
+
+let publishedTests = [];
+
+let currentStep = 1;
+
+let maxReachedStep = 1;
+
+
+/* =========================================================
+   STEP WIZARD NAVIGATION
+   ========================================================= */
+
+function goToStep(step){
+
+  if(
+    step < 1 ||
+    step > 5
+  ){
+    return;
+  }
+
+  if(
+    step > maxReachedStep
+  ){
+    return;
+  }
+
+  currentStep =
+    step;
+
+  updateStepUI();
+
+  const stepEl =
+    document.getElementById(
+      "step" + step
+    );
+
+  if(stepEl){
+
+    stepEl.scrollIntoView({
+      behavior:"smooth",
+      block:"start"
+    });
+
+  }
+
+}
+
+function nextStep(){
+
+  if(
+    currentStep < 5
+  ){
+
+    const nextStepNum =
+      currentStep + 1;
+
+    maxReachedStep =
+      Math.max(
+        maxReachedStep,
+        nextStepNum
+      );
+
+    goToStep(
+      nextStepNum
+    );
+
+  }
+
+}
+
+function updateStepUI(){
+
+  const stepbar =
+    document.querySelector(
+      ".stepbar"
+    );
+
+  const steps =
+    document.querySelectorAll(
+      ".step"
+    );
+
+  const contents =
+    document.querySelectorAll(
+      ".step-content"
+    );
+
+  if(stepbar){
+
+    stepbar.setAttribute(
+      "data-step",
+      currentStep
+    );
+
+  }
+
+  steps.forEach(
+    (step,index) => {
+
+      const stepNumber =
+        index + 1;
+
+      const isActive =
+        stepNumber === currentStep;
+
+      const isCompleted =
+        stepNumber < currentStep;
+
+      const isDisabled =
+        stepNumber > currentStep;
+
+      step.classList.toggle(
+        "active",
+        isActive
+      );
+
+      step.classList.toggle(
+        "completed",
+        isCompleted
+      );
+
+      step.classList.toggle(
+        "disabled",
+        isDisabled
+      );
+
+    }
+  );
+
+  contents.forEach(
+    (content,index) => {
+
+      const stepNumber =
+        index + 1;
+
+      const isActive =
+        stepNumber === currentStep;
+
+      const isCompleted =
+        stepNumber < currentStep;
+
+      content.classList.toggle(
+        "active",
+        isActive
+      );
+
+      content.classList.toggle(
+        "completed",
+        isCompleted
+      );
+
+    }
+  );
+
+}
+
+window.goToStep =
+  goToStep;
+
+window.nextStep =
+  nextStep;
+
+
+/* =========================================================
+   HELPERS
+   ========================================================= */
+
+const $ = id =>
+  document.getElementById(id);
+
+
+function toast(message){
+
+  const el = $("toast");
+
+  if(!el) return;
+
+  el.textContent =
+    String(message || "");
+
+  el.classList.add("show");
+
+  clearTimeout(
+    toast.timer
+  );
+
+  toast.timer =
+    setTimeout(
+      () => {
+        el.classList.remove("show");
+      },
+      2600
+    );
+}
+
+
+function escapeHTML(value){
+
+  return String(
+    value == null ? "" : value
+  )
+  .replace(/&/g,"&amp;")
+  .replace(/</g,"&lt;")
+  .replace(/>/g,"&gt;")
+  .replace(/"/g,"&quot;")
+  .replace(/'/g,"&#039;");
+}
+
+
+/* =========================================================
+   AWS API
+   ========================================================= */
+
+async function apiRequest(
+  path,
+  options = {}
+){
+
+  const url =
+    API_BASE.replace(/\/$/,"") +
+    "/" +
+    String(path || "")
+      .replace(/^\//,"");
+
+  const fetchOptions = {
+    method:
+      options.method || "GET",
+
+    mode:"cors",
+
+    cache:"no-store",
+
+    headers:{
+      Accept:
+        "application/json",
+      ...(options.headers || {})
+    }
+  };
+
+  if(options.body !== undefined){
+
+    fetchOptions.body =
+      options.body;
+
+    fetchOptions.headers[
+      "Content-Type"
+    ] =
+      "application/json";
+  }
+
+  let response;
+
+  try{
+
+    response =
+      await fetch(
+        url,
+        fetchOptions
+      );
+
+  }catch(error){
+
+    throw new Error(
+      "Unable to connect to the AWS API.\n\n" +
+      "Check API Gateway, Lambda, CORS and the /prod deployment.\n\n" +
+      error.message
+    );
+  }
+
+  const text =
+    await response.text();
+
+  let data = null;
+
+  if(text){
+
+    try{
+
+      data =
+        JSON.parse(text);
+
+    }catch(error){
+
+      data = {
+        raw:text
+      };
+
+    }
+
+  }
+
+  if(!response.ok){
+
+    let message =
+      data?.message ||
+      data?.error ||
+      data?.raw ||
+      "";
+
+    if(
+      response.status === 404
+    ){
+
+      message =
+        message ||
+        "API route not found. Make sure this route is deployed under /prod.";
+    }
+
+    if(
+      response.status === 403
+    ){
+
+      message =
+        message ||
+        "AWS API returned 403 Forbidden. Check API Gateway authorization/CORS.";
+    }
+
+    if(
+      response.status >= 500
+    ){
+
+      message =
+        message ||
+        "AWS Lambda returned a server error.";
+    }
+
+    throw new Error(
+      `HTTP ${response.status}: ${message}`
+    );
+  }
+
+  return data ?? {};
+}
+
+
+/* =========================================================
+   ANSWER NORMALIZATION
+   ========================================================= */
+
+function cleanAnswer(value){
+
+  const raw =
+    String(
+      value == null ? "" : value
+    )
+    .trim()
+    .toUpperCase();
+
+  if(!raw)
+    return "";
+
+  if(
+    /^(A|OPTION A|CHOICE A|1)$/.test(raw)
+  ){
+    return "A";
+  }
+
+  if(
+    /^(B|OPTION B|CHOICE B|2)$/.test(raw)
+  ){
+    return "B";
+  }
+
+  if(
+    /^(C|OPTION C|CHOICE C|3)$/.test(raw)
+  ){
+    return "C";
+  }
+
+  if(
+    /^(D|OPTION D|CHOICE D|4)$/.test(raw)
+  ){
+    return "D";
+  }
+
+  if(
+    /^A[\s\-\.\:\)]/.test(raw)
+  ){
+    return "A";
+  }
+
+  if(
+    /^B[\s\-\.\:\)]/.test(raw)
+  ){
+    return "B";
+  }
+
+  if(
+    /^C[\s\-\.\:\)]/.test(raw)
+  ){
+    return "C";
+  }
+
+  if(
+    /^D[\s\-\.\:\)]/.test(raw)
+  ){
+    return "D";
+  }
+
+  return "";
+}
+
+
+/* =========================================================
+   QUESTION CREATION
+   ========================================================= */
+
+function makeQuestion(
+  question,
+  a,
+  b,
+  c,
+  d,
+  answer = "",
+  marks = 1
+){
+
+  const id =
+    window.crypto &&
+    typeof window.crypto.randomUUID ===
+      "function"
+      ? window.crypto.randomUUID()
+      : Date.now() +
+        "-" +
+        Math.random();
+
+  const allowedMarks =
+    [1,2,3,4,5,10];
+
+  const numericMarks =
+    Number(marks);
+
+  return {
+
+    id,
+
+    question:
+      String(
+        question || ""
+      ).trim(),
+
+    options:[
+      String(a || "").trim(),
+      String(b || "").trim(),
+      String(c || "").trim(),
+      String(d || "").trim()
+    ],
+
+    answer:
+      cleanAnswer(answer),
+
+    marks:
+      allowedMarks.includes(
+        numericMarks
+      )
+      ? numericMarks
+      : 1
+
+  };
+}
+
+
+function validQuestion(q){
+
+  if(!q)
+    return false;
+
+  if(
+    !String(q.question || "")
+      .trim()
+  ){
+    return false;
+  }
+
+  if(
+    !Array.isArray(q.options) ||
+    q.options.length !== 4
+  ){
+    return false;
+  }
+
+  if(
+    q.options.some(
+      option =>
+        !String(option || "")
+          .trim()
+    )
+  ){
+    return false;
+  }
+
+  if(
+    !["A","B","C","D"]
+      .includes(
+        cleanAnswer(q.answer)
+      )
+  ){
+    return false;
+  }
+
+  return [1,2,3,4,5,10]
+    .includes(
+      Number(q.marks)
+    );
+}
+
+
+function getTotalMarks(){
+
+  return questions.reduce(
+    (sum,q) =>
+      sum +
+      (
+        Number(q.marks) || 0
+      ),
+    0
+  );
+}
+
+
+/* =========================================================
+   DRAFT
+   ========================================================= */
+
+function saveDraft(){
+
+  try{
+
+    const draft = {
+
+      questions,
+
+      assignedEmails,
+
+      customFields,
+
+      requiredDetails: {
+        name: $("requireName")?.checked !== false,
+        email: $("requireEmail")?.checked !== false,
+        school: $("requireSchool")?.checked === true,
+        regNo: $("requireRegNo")?.checked === true,
+        custom: [...customFields]
+      },
+
+      accessCode,
+
+      assignmentType:
+        getAssignmentType(),
+
+      testTitle:
+        $("testTitle")?.value || "",
+
+      subject:
+        $("subject")?.value || "",
+
+      duration:
+        Number(
+          $("duration")?.value
+        ) || 30,
+
+      liveHours:
+        Number(
+          $("liveHours")?.value
+        ) || 5,
+
+      editingTestId:
+        editingTestId
+
+    };
+
+    localStorage.setItem(
+      DRAFT_KEY,
+      JSON.stringify(draft)
+    );
+
+  }catch(error){
+
+    console.warn(
+      "Could not save draft:",
+      error
+    );
+
+  }
+}
+
+
+/* =========================================================
+   RENDER QUESTION TABLE
+   ========================================================= */
+
+function render(){
+
+  const body =
+    $("questionBody");
+
+  const empty =
+    $("empty");
+
+  if(!body)
+    return;
+
+  $("total").textContent =
+    questions.length;
+
+  $("matched").textContent =
+    questions.filter(
+      q =>
+        ["A","B","C","D"]
+          .includes(
+            cleanAnswer(q.answer)
+          )
+    ).length;
+
+  $("bad").textContent =
+    questions.filter(
+      q =>
+        !validQuestion(q)
+    ).length;
+
+  $("totalMarksStat").textContent =
+    getTotalMarks();
+
+  $("limit").value =
+    questions.length;
+
+  $("totalMarksInput").value =
+    getTotalMarks();
+
+  if(!questions.length){
+
+    body.innerHTML = "";
+
+    if(empty)
+      empty.style.display =
+        "block";
+
+    saveDraft();
+
+    return;
+  }
+
+  if(empty)
+    empty.style.display =
+      "none";
+
+  body.innerHTML =
+    questions.map(
+      (q,index)=>{
+
+        const answer =
+          cleanAnswer(q.answer);
+
+        const matched =
+          ["A","B","C","D"]
+            .includes(answer);
+
+        return `
+
+          <tr>
+
+            <td>
+              ${index + 1}
+            </td>
+
+            <td class="q">
+              ${escapeHTML(
+                q.question
+              )}
+            </td>
+
+            <td class="options">
+              A. ${escapeHTML(q.options[0])}
+
+              B. ${escapeHTML(q.options[1])}
+
+              C. ${escapeHTML(q.options[2])}
+
+              D. ${escapeHTML(q.options[3])}
+            </td>
+
+            <td>
+              <b>
+                ${answer || "—"}
+              </b>
+            </td>
+
+            <td>
+
+              <select
+                onchange="setQuestionMarks(${index},this.value)"
+                style="min-width:75px;"
+              >
+
+                ${[1,2,3,4,5,10]
+                  .map(
+                    mark =>
+                      `<option
+                        value="${mark}"
+                        ${Number(q.marks) === mark ? "selected" : ""}
+                      >
+                        ${mark}
+                      </option>`
+                  )
+                  .join("")}
+
+              </select>
+
+            </td>
+
+            <td>
+
+              <span
+                class="status ${
+                  matched
+                    ? "matched"
+                    : "unmatched"
+                }"
+              >
+
+                ${
+                  matched
+                    ? "✓ Matched"
+                    : "⚠ Check"
+                }
+
+              </span>
+
+            </td>
+
+            <td>
+
+              <div
+                style="
+                  display:flex;
+                  gap:5px;
+                  flex-wrap:wrap;
+                "
+              >
+
+                <button
+                  class="btn secondary"
+                  type="button"
+                  onclick="editQuestion(${index})"
+                >
+                  ✏️ Edit
+                </button>
+
+                <button
+                  class="btn danger"
+                  type="button"
+                  onclick="deleteQuestion(${index})"
+                >
+                  🗑
+                </button>
+
+              </div>
+
+            </td>
+
+          </tr>
+
+        `;
+
+      }
+    ).join("");
+
+  saveDraft();
+}
+
+
+function setQuestionMarks(
+  index,
+  value
+){
+
+  if(
+    !questions[index]
+  )
+    return;
+
+  const mark =
+    Number(value);
+
+  if(
+    ![1,2,3,4,5,10]
+      .includes(mark)
+  ){
+    return;
+  }
+
+  questions[index].marks =
+    mark;
+
+  render();
+
+  toast(
+    "Marks updated"
+  );
+}
+
+window.setQuestionMarks =
+  setQuestionMarks;
+
+
+/* =========================================================
+   EDIT QUESTION
+   ========================================================= */
+
+function editQuestion(index){
+
+  const q =
+    questions[index];
+
+  if(!q)
+    return;
+
+  editingQuestionIndex =
+    index;
+
+  $("editNumber").textContent =
+    "Question " +
+    (index + 1);
+
+  $("editQuestion").value =
+    q.question;
+
+  $("editA").value =
+    q.options[0] || "";
+
+  $("editB").value =
+    q.options[1] || "";
+
+  $("editC").value =
+    q.options[2] || "";
+
+  $("editD").value =
+    q.options[3] || "";
+
+  $("editAnswer").value =
+    cleanAnswer(q.answer);
+
+  $("editMarks").value =
+    String(
+      q.marks || 1
+    );
+
+  $("editModal").style.display =
+    "flex";
+}
+
+window.editQuestion =
+  editQuestion;
+
+
+$("cancelEdit").onclick =
+function(){
+
+  editingQuestionIndex =
+    -1;
+
+  $("editModal").style.display =
+    "none";
+};
+
+
+$("saveEdit").onclick =
+function(){
+
+  if(
+    editingQuestionIndex < 0 ||
+    !questions[editingQuestionIndex]
+  ){
+    return;
+  }
+
+  const q =
+    makeQuestion(
+      $("editQuestion").value,
+      $("editA").value,
+      $("editB").value,
+      $("editC").value,
+      $("editD").value,
+      $("editAnswer").value,
+      $("editMarks").value
+    );
+
+  if(!validQuestion(q)){
+
+    alert(
+      "Please fill the question, all 4 options, select the correct answer and select valid marks."
+    );
+
+    return;
+  }
+
+  q.id =
+    questions[
+      editingQuestionIndex
+    ].id;
+
+  questions[
+    editingQuestionIndex
+  ] = q;
+
+  $("editModal").style.display =
+    "none";
+
+  editingQuestionIndex =
+    -1;
+
+  render();
+
+  toast(
+    "Question updated"
+  );
+};
+
+
+$("editModal").onclick =
+function(e){
+
+  if(
+    e.target ===
+    $("editModal")
+  ){
+
+    $("editModal").style.display =
+      "none";
+
+    editingQuestionIndex =
+      -1;
+  }
+};
+
+
+function deleteQuestion(index){
+
+  if(
+    !questions[index]
+  )
+    return;
+
+  if(
+    !confirm(
+      "Delete this question?"
+    )
+  ){
+    return;
+  }
+
+  questions.splice(
+    index,
+    1
+  );
+
+  render();
+
+  toast(
+    "Question deleted"
+  );
+}
+
+window.deleteQuestion =
+  deleteQuestion;
+
+
+/* =========================================================
+   EXCEL READER
+   ========================================================= */
+
+async function readWorkbook(file){
+
+  if(!file)
+    throw new Error(
+      "No file selected."
+    );
+
+  if(
+    typeof XLSX ===
+    "undefined"
+  ){
+
+    throw new Error(
+      "Excel library failed to load. Check your internet connection."
+    );
+
+  }
+
+  const buffer =
+    await file.arrayBuffer();
+
+  const workbook =
+    XLSX.read(
+      buffer,
+      {
+        type:"array"
+      }
+    );
+
+  if(
+    !workbook.SheetNames.length
+  ){
+
+    throw new Error(
+      "No worksheet found."
+    );
+
+  }
+
+  const sheet =
+    workbook.Sheets[
+      workbook.SheetNames[0]
+    ];
+
+  return XLSX.utils.sheet_to_json(
+    sheet,
+    {
+      defval:"",
+      raw:false
+    }
+  );
+}
+
+
+function normalizeKey(key){
+
+  return String(
+    key == null ? "" : key
+  )
+  .trim()
+  .toLowerCase()
+  .replace(/[_-]+/g," ")
+  .replace(/\s+/g," ");
+}
+
+
+function getCell(
+  row,
+  names
+){
+
+  const keys =
+    Object.keys(row || {});
+
+  const wanted =
+    names.map(
+      normalizeKey
+    );
+
+  const key =
+    keys.find(
+      k =>
+        wanted.includes(
+          normalizeKey(k)
+        )
+    );
+
+  return key
+    ? row[key]
+    : "";
+}
+
+
+/* =========================================================
+   QUESTIONS EXCEL
+   ========================================================= */
+
+const questionsFileInput = $("questionsFile");
+const questionsFileNameElement = $("questionsFileName");
+
+if (questionsFileInput) {
+  questionsFileInput.addEventListener(
+    "change",
+    async function(e){
+
+      const file =
+        e.target.files[0];
+
+      if (questionsFileNameElement) {
+        questionsFileNameElement.textContent =
+          file?.name ||
+          "No file selected";
+      }
+
+      if(!file)
+        return;
+
+    try{
+
+      const rows =
+        await readWorkbook(file);
+
+      if(!rows.length){
+
+        throw new Error(
+          "Excel file is empty. Please upload a file with questions and answers."
+        );
+
+      }
+
+      const imported = [];
+
+      rows.forEach(
+        row => {
+
+          if(
+            imported.length >= 100
+          ){
+            return;
+          }
+
+          const question =
+            getCell(
+              row,
+              [
+                "question",
+                "questions"
+              ]
+            );
+
+          const a =
+            getCell(
+              row,
+              [
+                "option a",
+                "optiona",
+                "a"
+              ]
+            );
+
+          const b =
+            getCell(
+              row,
+              [
+                "option b",
+                "optionb",
+                "b"
+              ]
+            );
+
+          const c =
+            getCell(
+              row,
+              [
+                "option c",
+                "optionc",
+                "c"
+              ]
+            );
+
+          const d =
+            getCell(
+              row,
+              [
+                "option d",
+                "optiond",
+                "d"
+              ]
+            );
+
+          const answer =
+            getCell(
+              row,
+              [
+                "answer",
+                "correct answer",
+                "correctanswer"
+              ]
+            );
+
+          const marks =
+            getCell(
+              row,
+              [
+                "marks",
+                "mark"
+              ]
+            );
+
+          if(
+            String(
+              question || ""
+            ).trim()
+          ){
+
+            imported.push(
+              makeQuestion(
+                question,
+                a,
+                b,
+                c,
+                d,
+                answer,
+                marks || 1
+              )
+            );
+
+          }
+
+        }
+      );
+
+      questions =
+        imported;
+
+      $("uploadStatus")
+        .textContent =
+          `✓ Successfully imported ${questions.length} question(s) with answers from Excel.`;
+
+      render();
+
+      toast(
+        `${questions.length} question(s) imported`
+      );
+
+    }catch(error){
+
+      console.error(error);
+
+      alert(
+        "Excel Import Error:\n\n" +
+        error.message
+      );
+
+    }
+
+  }
+);
+}
+
+
+/* =========================================================
+   ANSWERS EXCEL (REMOVED - Single file now includes answers)
+   ========================================================= */
+
+// This section is obsolete. The Questions & Answers Excel file
+// now contains both questions and answers in a single file.
+// Answer column is parsed at line ~3649-3657 during question import.
+
+
+/* =========================================================
+   MANUAL QUESTION
+   ========================================================= */
+
+function clearManual(){
+
+  $("mq").value = "";
+
+  $("ma").value = "";
+
+  $("mb").value = "";
+
+  $("mc").value = "";
+
+  $("md").value = "";
+
+  $("mans").value = "";
+
+  $("manualMarks").value = "1";
+}
+
+
+$("resetManual").onclick =
+  clearManual;
+
+
+$("addManual").onclick =
+function(){
+
+  if(
+    questions.length >= 100
+  ){
+
+    alert(
+      "Maximum 100 questions allowed."
+    );
+
+    return;
+  }
+
+  const q =
+    makeQuestion(
+      $("mq").value,
+      $("ma").value,
+      $("mb").value,
+      $("mc").value,
+      $("md").value,
+      $("mans").value,
+      $("manualMarks").value
+    );
+
+  if(!validQuestion(q)){
+
+    alert(
+      "Please fill the question, all 4 options and select the correct answer."
+    );
+
+    return;
+  }
+
+  questions.push(q);
+
+  clearManual();
+
+  render();
+
+  toast(
+    "Question added"
+  );
+};
+
+
+/* =========================================================
+   REMOVE ALL
+   ========================================================= */
+
+$("removeAll").onclick =
+function(){
+
+  if(!questions.length)
+    return;
+
+  if(
+    !confirm(
+      "Remove all questions?"
+    )
+  ){
+    return;
+  }
+
+  questions = [];
+
+  render();
+
+  toast(
+    "All questions removed"
+  );
+};
+
+
+/* =========================================================
+   ASSIGNMENT TYPE
+   ========================================================= */
+
+function getAssignmentType(){
+
+  const selected =
+    document.querySelector(
+      'input[name="assignmentType"]:checked'
+    );
+
+  return selected
+    ? selected.value
+    : "";
+}
+
+
+function updateAssignmentUI(){
+
+  const type =
+    getAssignmentType();
+
+  $("emailOption")
+    .classList.toggle(
+      "active",
+      type === "email"
+    );
+
+  $("codeOption")
+    .classList.toggle(
+      "active",
+      type === "code"
+    );
+
+  $("emailPanel")
+    .classList.toggle(
+      "active",
+      type === "email"
+    );
+
+  $("codePanel")
+    .classList.toggle(
+      "active",
+      type === "code"
+    );
+
+  saveDraft();
+
+  return true;
+}
+
+
+document
+.querySelectorAll(
+  'input[name="assignmentType"]'
+)
+.forEach(
+  input => {
+
+    input.addEventListener(
+      "change",
+      function(){
+
+        updateAssignmentUI();
+
+        if(
+          input.value === "code" &&
+          !accessCode
+        ){
+
+          generateAccessCode();
+
+        }
+
+      }
+    );
+
+  }
+);
+
+
+const liveHoursInput = $("liveHours");
+if (liveHoursInput) {
+  liveHoursInput.addEventListener(
+    "change",
+    function(){
+
+    updateAssignmentUI();
+
+    saveDraft();
+
+  }
+);
+}
+
+
+/* =========================================================
+   EMAIL
+   ========================================================= */
+
+function validEmail(email){
+
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    .test(
+      email
+    );
+}
+
+
+function renderEmails(){
+
+  $("emailCount")
+    .textContent =
+      `${assignedEmails.length} student email(s) added`;
+
+  $("emailList").innerHTML =
+    assignedEmails.map(
+      (email,index) => `
+
+        <div class="email-chip">
+
+          <span>
+            ${escapeHTML(email)}
+          </span>
+
+          <button
+            type="button"
+            onclick="removeEmail(${index})"
+            title="Remove email"
+          >
+            ×
+          </button>
+
+        </div>
+
+      `
+    ).join("");
+
+  saveDraft();
+}
+
+
+function addEmail(email){
+
+  email =
+    String(
+      email || ""
+    )
+    .trim()
+    .toLowerCase();
+
+  if(!validEmail(email)){
+
+    alert(
+      "Please enter a valid email address."
+    );
+
+    return false;
+  }
+
+  if(
+    assignedEmails.includes(
+      email
+    )
+  ){
+
+    toast(
+      "Email already added"
+    );
+
+    return false;
+  }
+
+  assignedEmails.push(
+    email
+  );
+
+  renderEmails();
+
+  toast(
+    "Student email added"
+  );
+
+  return true;
+}
+
+
+// Add email button handler
+const addEmailBtn = $("addEmail");
+const studentEmailInput = $("studentEmail");
+
+if (addEmailBtn && studentEmailInput) {
+  addEmailBtn.onclick = function(e) {
+    e.preventDefault();
+
+    const email = studentEmailInput.value.trim();
+
+    if (!email) {
+      alert("Please enter an email address.");
+      return;
+    }
+
+    if (addEmail(email)) {
+      studentEmailInput.value = "";
+      studentEmailInput.focus();
+    }
+  };
+} else {
+  console.error("Add email button or input not found!");
+}
+
+
+// Enter key handler for email input
+if (studentEmailInput) {
+  studentEmailInput.addEventListener("keydown", function(e) {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      if (addEmailBtn) {
+        addEmailBtn.click();
+      }
+    }
+  });
+}
+
+
+function removeEmail(index){
+
+  if(
+    index < 0 ||
+    index >= assignedEmails.length
+  ){
+    return;
+  }
+
+  assignedEmails.splice(
+    index,
+    1
+  );
+
+  renderEmails();
+
+  toast(
+    "Student email removed"
+  );
+}
+
+window.removeEmail =
+  removeEmail;
+
+
+/* =========================================================
+   CUSTOM FIELDS
+   ========================================================= */
+
+function addCustomField(){
+
+  const input =
+    $("customFieldName");
+
+  const fieldName =
+    String(
+      input?.value || ""
+    )
+    .trim();
+
+  if(!fieldName){
+
+    alert(
+      "Please enter a field name."
+    );
+
+    return;
+  }
+
+  if(
+    customFields.includes(
+      fieldName
+    )
+  ){
+
+    toast(
+      "Field already added"
+    );
+
+    return;
+  }
+
+  customFields.push(
+    fieldName
+  );
+
+  input.value = "";
+
+  renderCustomFields();
+
+  saveDraft();
+
+  toast(
+    "Custom field added"
+  );
+
+}
+
+window.addCustomField =
+  addCustomField;
+
+
+function removeCustomField(index){
+
+  if(
+    index < 0 ||
+    index >= customFields.length
+  ){
+    return;
+  }
+
+  customFields.splice(
+    index,
+    1
+  );
+
+  renderCustomFields();
+
+  saveDraft();
+
+  toast(
+    "Custom field removed"
+  );
+
+}
+
+window.removeCustomField =
+  removeCustomField;
+
+
+function renderCustomFields(){
+
+  const list =
+    $("customFieldsList");
+
+  if(!list)
+    return;
+
+  if(customFields.length === 0){
+
+    list.innerHTML = "";
+
+    return;
+  }
+
+  list.innerHTML =
+    customFields.map(
+      (field,index) => `
+
+        <div style="display:flex;align-items:center;gap:10px;padding:12px;border:1px solid var(--line);border-radius:12px;margin-bottom:8px;background:#fff;">
+
+          <input
+            type="checkbox"
+            checked
+            disabled
+            style="width:18px;height:18px;"
+          >
+
+          <div style="flex:1;">
+            <b style="font-size:10px;display:block;">
+              ${escapeHTML(field)}
+            </b>
+            <span style="font-size:8px;color:var(--muted);">
+              Custom field (required)
+            </span>
+          </div>
+
+          <button
+            type="button"
+            class="btn danger"
+            onclick="removeCustomField(${index})"
+            style="font-size:8px;padding:8px 10px;"
+          >
+            × Remove
+          </button>
+
+        </div>
+
+      `
+    ).join("");
+
+}
+
+
+$("clearEmails").onclick =
+function(){
+
+  if(
+    !assignedEmails.length
+  )
+    return;
+
+  if(
+    !confirm(
+      "Remove all student emails?"
+    )
+  ){
+    return;
+  }
+
+  assignedEmails = [];
+
+  renderEmails();
+
+  toast(
+    "All emails cleared"
+  );
+};
+
+
+/* =========================================================
+   EMAIL EXCEL
+   ========================================================= */
+
+const emailFileInput = $("emailFile");
+if (emailFileInput) {
+  emailFileInput.addEventListener(
+    "change",
+    async function(e){
+
+      const file =
+        e.target.files[0];
+
+      if(!file)
+        return;
+
+    try{
+
+      const rows =
+        await readWorkbook(file);
+
+      let added = 0;
+
+      rows.forEach(
+        row => {
+
+          const keys =
+            Object.keys(row);
+
+          if(!keys.length)
+            return;
+
+          const emailKey =
+            keys.find(
+              k =>
+                [
+                  "email",
+                  "email id",
+                  "email address"
+                ].includes(
+                  normalizeKey(k)
+                )
+            );
+
+          const value =
+            emailKey
+              ? row[emailKey]
+              : row[keys[0]];
+
+          const email =
+            String(
+              value || ""
+            )
+            .trim()
+            .toLowerCase();
+
+          if(
+            validEmail(email) &&
+            !assignedEmails.includes(
+              email
+            )
+          ){
+
+            assignedEmails.push(
+              email
+            );
+
+            added++;
+
+          }
+
+        }
+      );
+
+      renderEmails();
+
+      toast(
+        `${added} email(s) imported`
+      );
+
+    }catch(error){
+
+      console.error(error);
+
+      alert(
+        "Email Excel Error:\n\n" +
+        error.message
+      );
+
+    }
+
+  }
+);
+}
+
+
+/* =========================================================
+   ACCESS CODE
+   ========================================================= */
+
+function generateAccessCode(){
+
+  const chars =
+    "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+
+  let random = "";
+
+  for(
+    let i = 0;
+    i < 6;
+    i++
+  ){
+
+    random +=
+      chars[
+        Math.floor(
+          Math.random() *
+          chars.length
+        )
+      ];
+
+  }
+
+  accessCode =
+    "QZ-" +
+    random;
+
+  $("accessCode")
+    .textContent =
+      accessCode;
+
+  saveDraft();
+
+  return accessCode;
+}
+
+
+$("copyCode").onclick =
+async function(){
+
+  if(!accessCode){
+
+    generateAccessCode();
+
+  }
+
+  try{
+
+    await navigator.clipboard.writeText(
+      accessCode
+    );
+
+    toast(
+      "Access code copied"
+    );
+
+  }catch(error){
+
+    const temp =
+      document.createElement(
+        "textarea"
+      );
+
+    temp.value =
+      accessCode;
+
+    document.body.appendChild(
+      temp
+    );
+
+    temp.select();
+
+    document.execCommand(
+      "copy"
+    );
+
+    temp.remove();
+
+    toast(
+      "Access code copied"
+    );
+
+  }
+
+};
+
+
+/* =========================================================
+   SAVE DRAFT BUTTON
+   ========================================================= */
+
+$("saveDraftBtn").onclick =
+function(){
+
+  saveDraft();
+
+  toast(
+    "Draft saved"
+  );
+};
+
+
+/* =========================================================
+   DATE / TIME
+   ========================================================= */
+
+function formatRemaining(seconds){
+
+  const sec =
+    Math.max(
+      0,
+      Number(seconds) || 0
+    );
+
+  const hours =
+    Math.floor(
+      sec / 3600
+    );
+
+  const minutes =
+    Math.floor(
+      (sec % 3600) / 60
+    );
+
+  const secs =
+    sec % 60;
+
+  if(hours > 0){
+
+    return `${hours}h ${minutes}m remaining`;
+
+  }
+
+  if(minutes > 0){
+
+    return `${minutes}m ${secs}s remaining`;
+
+  }
+
+  if(secs > 0){
+
+    return `${secs}s remaining`;
+
+  }
+
+  return "Ending soon";
+}
+
+
+function formatDateTime(value){
+
+  if(!value)
+    return "—";
+
+  const d =
+    new Date(value);
+
+  if(
+    Number.isNaN(
+      d.getTime()
+    )
+  ){
+    return "—";
+  }
+
+  return d.toLocaleString(
+    [],
+    {
+      dateStyle:"medium",
+      timeStyle:"short"
+    }
+  );
+}
+
+
+/* =========================================================
+   NORMALIZE API TEST LIST
+   ========================================================= */
+
+function extractTests(data){
+
+  if(
+    Array.isArray(data)
+  ){
+    return data;
+  }
+
+  if(
+    Array.isArray(data?.tests)
+  ){
+    return data.tests;
+  }
+
+  if(
+    Array.isArray(data?.items)
+  ){
+    return data.items;
+  }
+
+  if(
+    Array.isArray(data?.data)
+  ){
+    return data.data;
+  }
+
+  if(
+    Array.isArray(data?.data?.tests)
+  ){
+    return data.data.tests;
+  }
+
+  return [];
+}
+
+
+/* =========================================================
+   LOAD PUBLISHED TESTS
+   ========================================================= */
+
+async function loadPublishedTests(){
+
+  if(!hasPublishedOnce){
+    return;
+  }
+
+  const grid =
+    $("publishedGrid");
+
+  if(!grid)
+    return;
+
+  try{
+
+    const data =
+      await apiRequest(
+        "/tests",
+        {
+          method:"GET"
+        }
+      );
+
+    const list =
+      extractTests(data);
+
+    const now =
+      Date.now();
+
+    publishedTests =
+      list.filter(
+        test => {
+
+          const examinerId =
+            String(
+              test.examinerId || ""
+            )
+            .trim();
+
+          const status =
+            String(
+              test.status || ""
+            )
+            .trim()
+            .toLowerCase();
+
+          const end =
+            Date.parse(
+              test.endTime || ""
+            );
+
+          /*
+           * Creator tests normally use
+           * examiner-dashboard.
+           *
+           * If the backend does not provide
+           * examinerId, allow the test so the
+           * creator can still display it.
+           */
+          const examinerMatches =
+            !examinerId ||
+            examinerId ===
+              "examiner-dashboard";
+
+          /*
+           * Support several possible status
+           * values from Lambda.
+           */
+          const statusMatches =
+            !status ||
+            [
+              "published",
+              "active",
+              "live",
+              "published_test"
+            ].includes(status);
+
+          /*
+           * Expired tests are NOT active.
+           */
+          const notExpired =
+            !Number.isFinite(end) ||
+            end > now;
+
+          return (
+            examinerMatches &&
+            statusMatches &&
+            notExpired
+          );
+
+        }
+      );
+
+    renderPublishedTests();
+
+  }catch(error){
+
+    console.error(
+      "Published tests error:",
+      error
+    );
+
+    const section =
+      $("publishedSection");
+
+    if(section){
+
+      section.classList.remove(
+        "show"
+      );
+
+    }
+
+  }
+
+}
+
+window.loadPublishedTests =
+  loadPublishedTests;
+
+
+/* =========================================================
+   RENDER PUBLISHED TESTS
+   ========================================================= */
+
+function renderPublishedTests(){
+
+  const grid =
+    $("publishedGrid");
+
+  if(!grid)
+    return;
+
+  const now =
+    Date.now();
+
+  /*
+   * Remove expired tests immediately
+   * from the active Published Tests UI.
+   */
+  publishedTests =
+    publishedTests.filter(
+      test => {
+
+        const end =
+          Date.parse(
+            test.endTime || ""
+          );
+
+        if(
+          Number.isFinite(end)
+        ){
+
+          return end > now;
+
+        }
+
+        return true;
+
+      }
+    );
+
+  const section =
+    $("publishedSection");
+
+  if(!publishedTests.length){
+
+    if(section){
+
+      section.classList.remove(
+        "show"
+      );
+
+    }
+
+    return;
+  }
+
+  if(section){
+
+    section.classList.add(
+      "show"
+    );
+
+  }
+
+
+  grid.innerHTML =
+    publishedTests
+      .map(
+        test => {
+
+          const testId =
+            String(
+              test.testId ||
+              test.id ||
+              ""
+            );
+
+          if(!testId)
+            return "";
+
+          const end =
+            Date.parse(
+              test.endTime || ""
+            );
+
+          const remaining =
+            Number.isFinite(end)
+              ? Math.max(
+                  0,
+                  Math.ceil(
+                    (end - now) /
+                    1000
+                  )
+                )
+              : Number(
+                  test.remainingSeconds ||
+                  0
+                );
+
+          const expired =
+            Number.isFinite(end) &&
+            end <= now;
+
+          const questionCount =
+            Number(
+              test.questionCount ||
+              (
+                Array.isArray(
+                  test.questions
+                )
+                ? test.questions.length
+                : 0
+              )
+            );
+
+          const duration =
+            Number(
+              test.duration ||
+              test.durationMinutes ||
+              0
+            );
+
+          const liveHours =
+            Number(
+              test.liveHours || 0
+            );
+
+          const attendance =
+            Number(
+              test.liveStudents ||
+              test.attendingStudents ||
+              test.attendanceCount ||
+              0
+            );
+
+          const assignmentType =
+            String(
+              test.assignmentType || ""
+            )
+            .toLowerCase();
+
+          const assignedCount =
+            Array.isArray(
+              test.assignedEmails
+            )
+            ? test.assignedEmails.length
+            : Number(
+                test.assignedStudentCount ||
+                test.studentCount ||
+                0
+              );
+
+          const serverCode =
+            test.accessCode ||
+            test.testCode ||
+            "";
+
+          const safeId =
+            encodeURIComponent(
+              testId
+            );
+
+          return `
+
+            <article
+              class="published-card ${
+                expired
+                  ? "expired"
+                  : ""
+              }"
+            >
+
+              <div class="published-top">
+
+                <div>
+
+                  <h3>
+                    ${escapeHTML(
+                      test.testName ||
+                      test.title ||
+                      "Untitled Test"
+                    )}
+                  </h3>
+
+                  <div class="meta">
+                    ${escapeHTML(
+                      test.subject ||
+                      "General"
+                    )}
+                  </div>
+
+                </div>
+
+                <span
+                  class="published-status ${
+                    expired
+                      ? "expired"
+                      : ""
+                  }"
+                >
+                  ${
+                    expired
+                      ? "EXPIRED"
+                      : "LIVE"
+                  }
+                </span>
+
+              </div>
+
+
+              <div
+                class="time-badge"
+                data-end="${escapeHTML(
+                  test.endTime || ""
+                )}"
+              >
+
+                ⏱
+                ${
+                  expired
+                    ? "Test live time ended"
+                    : formatRemaining(
+                        remaining
+                      )
+                }
+
+              </div>
+
+
+              <div class="meta">
+
+                📝
+                ${questionCount}
+                question(s)
+
+                <br>
+
+                👥
+                ${attendance}
+                student(s) attending live
+
+                <br>
+
+                🎯
+                ${duration}
+                minute attempt
+
+                <br>
+
+                📡
+                Live for
+                ${liveHours || "—"}
+                hour(s)
+
+                <br>
+
+                ${
+                  assignmentType ===
+                  "email"
+
+                    ? `
+                      📧 Assigned to
+                      ${assignedCount}
+                      student(s)
+                    `
+
+                    : `
+                      🔑 Access Code:
+                      ${escapeHTML(
+                        serverCode ||
+                        "—"
+                      )}
+                    `
+                }
+
+                <br>
+
+                🟢
+                Published:
+                ${formatDateTime(
+                  test.startTime ||
+                  test.publishedAt ||
+                  test.createdAt
+                )}
+
+                <br>
+
+                🔴
+                Ends:
+                ${formatDateTime(
+                  test.endTime
+                )}
+
+              </div>
+
+
+              <div class="published-actions">
+
+                
+
+
+                <button
+                  type="button"
+                  class="btn ghost"
+                  onclick="editTestTime('${safeId}')"
+                >
+                  ⏱ Edit Test Time
+                </button>
+
+
+                <button
+                  type="button"
+                  class="btn danger"
+                  onclick="deletePublishedTest('${safeId}')"
+                >
+                  🗑 Delete Test
+                </button>
+
+
+                <button
+                  type="button"
+                  class="btn success"
+                  onclick="viewFullReport('${safeId}')"
+                >
+                  📊 View Full Report
+                </button>
+
+              </div>
+
+            </article>
+
+          `;
+
+        }
+      )
+      .join("");
+
+}
+
+
+/* =========================================================
+   EDIT TEST TIME
+   ========================================================= */
+
+async function editTestTime(
+  testId
+){
+
+  testId =
+    decodeURIComponent(
+      String(
+        testId || ""
+      )
+    );
+
+  const test =
+    publishedTests.find(
+      item =>
+        String(
+          item.testId ||
+          item.id ||
+          ""
+        ) ===
+        String(testId)
+    );
+
+  if(!test){
+
+    alert(
+      "Published test not found."
+    );
+
+    return;
+  }
+
+  const current =
+    Number(
+      test.liveHours || 1
+    );
+
+  const value =
+    prompt(
+      "How many hours should this test remain live from now?",
+      String(current)
+    );
+
+  if(value === null){
+    return;
+  }
+
+  const liveHours =
+    Number(value);
+
+  if(
+    !Number.isFinite(
+      liveHours
+    ) ||
+    liveHours < 0.5 ||
+    liveHours > 168
+  ){
+
+    alert(
+      "Enter a value between 0.5 and 168 hours."
+    );
+
+    return;
+  }
+
+  try{
+
+    /*
+      Restart the test live window from NOW.
+      Lambda should calculate:
+      endTime = startTime + liveHours
+    */
+
+    const startTime =
+      new Date().toISOString();
+
+    const data =
+      await apiRequest(
+        "/tests/" +
+        encodeURIComponent(
+          testId
+        ),
+        {
+          method:"PUT",
+
+          body:
+            JSON.stringify({
+              liveHours:
+                liveHours,
+
+              startTime:
+                startTime,
+
+              published:
+                true,
+
+              active:
+                true
+            })
+        }
+      );
+
+
+    if(
+      data &&
+      data.success === false
+    ){
+
+      throw new Error(
+        data.message ||
+        data.error ||
+        "Could not update test time."
+      );
+
+    }
+
+
+    toast(
+      `Test live time updated for ${liveHours} hour(s) from now`
+    );
+
+
+
+
+  }catch(error){
+
+    console.error(
+      "Edit test time error:",
+      error
+    );
+
+    alert(
+      "Could not update test time.\n\n" +
+      (
+        error.message ||
+        "Unknown error"
+      )
+    );
+
+  }
+
+}
+
+
+window.editTestTime =
+  editTestTime;
+
+/* =========================================================
+   DELETE PUBLISHED TEST
+   ========================================================= */
+
+async function deletePublishedTest(
+  testId
+){
+
+  testId =
+    decodeURIComponent(
+      String(
+        testId || ""
+      )
+    );
+
+  if(!testId){
+
+    alert(
+      "Test ID is missing."
+    );
+
+    return;
+  }
+
+  const confirmed =
+    confirm(
+      "Delete this test?\n\n" +
+      "This action cannot be undone."
+    );
+
+  if(!confirmed)
+    return;
+
+  try{
+
+    const data =
+      await apiRequest(
+        "/tests/" +
+        encodeURIComponent(
+          testId
+        ),
+        {
+          method:"DELETE"
+        }
+      );
+
+    if(
+      data &&
+      data.success === false
+    ){
+
+      throw new Error(
+        data.message ||
+        data.error ||
+        "Could not delete test."
+      );
+
+    }
+
+    /*
+     * Immediately remove it from
+     * the creator screen.
+     */
+    publishedTests =
+      publishedTests.filter(
+        test =>
+          String(
+            test.testId ||
+            test.id ||
+            ""
+          ) !==
+          String(testId)
+      );
+
+    renderPublishedTests();
+
+    /*
+     * If the deleted test was being
+     * edited, exit edit mode.
+     */
+    if(
+      String(
+        editingTestId || ""
+      ) ===
+      String(testId)
+    ){
+
+      cancelEditing();
+
+    }
+
+    toast(
+      "Test deleted successfully"
+    );
+
+  }catch(error){
+
+    console.error(
+      "Delete test error:",
+      error
+    );
+
+    alert(
+      "Could not delete the test.\n\n" +
+      error.message
+    );
+
+  }
+
+}
+
+window.deletePublishedTest =
+  deletePublishedTest;
+
+
+/* =========================================================
+   EDIT PUBLISHED TEST
+   ========================================================= */
+
+async function editPublishedTest(
+  testId
+){
+
+  testId =
+    decodeURIComponent(
+      String(
+        testId || ""
+      )
+    );
+
+  if(!testId){
+
+    alert(
+      "Test ID is missing."
+    );
+
+    return;
+  }
+
+  try{
+
+    /*
+     * Load test and questions.
+     */
+    const [
+      testData,
+      questionData
+    ] =
+      await Promise.all([
+        apiRequest(
+          "/tests/" +
+          encodeURIComponent(
+            testId
+          ),
+          {
+            method:"GET"
+          }
+        ),
+
+        apiRequest(
+          "/questions/" +
+          encodeURIComponent(
+            testId
+          ),
+          {
+            method:"GET"
+          }
+        )
+      ]);
+
+    const test =
+      testData?.test ||
+      testData?.data?.test ||
+      testData?.data ||
+      testData;
+
+    editingTestId =
+      testId;
+
+    localStorage.setItem(
+      EDIT_KEY,
+      testId
+    );
+
+
+    $("testTitle").value =
+      test.testName ||
+      test.title ||
+      "";
+
+    $("subject").value =
+      test.subject ||
+      "";
+
+
+    $("duration").value =
+      Number(
+        test.duration ||
+        test.durationMinutes ||
+        30
+      );
+
+
+    $("liveHours").value =
+      Number(
+        test.liveHours ||
+        5
+      );
+
+
+    /*
+     * Questions may come from:
+     * {questions:[]}
+     * or directly as []
+     */
+    const qs =
+      Array.isArray(
+        questionData?.questions
+      )
+      ? questionData.questions
+
+      : Array.isArray(
+          questionData?.data?.questions
+        )
+        ? questionData.data.questions
+
+        : Array.isArray(
+            questionData
+          )
+          ? questionData
+          : [];
+
+
+    questions =
+      qs.map(
+        (q,index) => {
+
+          const mapped =
+            makeQuestion(
+              q.question ||
+              q.questionText ||
+              "",
+
+              q.optionA ||
+              q.options?.[0] ||
+              "",
+
+              q.optionB ||
+              q.options?.[1] ||
+              "",
+
+              q.optionC ||
+              q.options?.[2] ||
+              "",
+
+              q.optionD ||
+              q.options?.[3] ||
+              "",
+
+              q.correctAnswer ||
+              q.answer ||
+              "",
+
+              q.marks ||
+              1
+            );
+
+          mapped.id =
+            q.id ||
+            q.questionId ||
+            mapped.id;
+
+          return mapped;
+
+        }
+      );
+
+
+    /*
+     * Restore email assignment.
+     */
+    assignedEmails =
+      Array.isArray(
+        test.assignedEmails
+      )
+      ? test.assignedEmails
+          .map(
+            email =>
+              String(
+                email || ""
+              )
+              .trim()
+              .toLowerCase()
+          )
+          .filter(
+            validEmail
+          )
+      : [];
+
+
+    /*
+     * Restore access code.
+     */
+    accessCode =
+      String(
+        test.accessCode ||
+        test.testCode ||
+        ""
+      );
+
+    $("accessCode")
+      .textContent =
+        accessCode ||
+        "QZ-XXXXXX";
+
+
+    /*
+     * Restore assignment type.
+     */
+    const assignmentType =
+      test.assignmentType ||
+      (
+        assignedEmails.length
+          ? "email"
+          : "code"
+      );
+
+    const radio =
+      document.querySelector(
+        `input[name="assignmentType"][value="${assignmentType}"]`
+      );
+
+    if(radio){
+
+      radio.checked =
+        true;
+
+    }
+
+    const requiredDetails =
+      test.requiredDetails || {
+        name: true,
+        email: true,
+        school: false,
+        regNo: false,
+        custom: []
+      };
+
+    $("requireName").checked =
+      requiredDetails.name !== false;
+
+    $("requireEmail").checked =
+      requiredDetails.email !== false;
+
+    $("requireSchool").checked =
+      requiredDetails.school === true;
+
+    $("requireRegNo").checked =
+      requiredDetails.regNo === true;
+
+    customFields =
+      Array.isArray(requiredDetails.custom)
+        ? requiredDetails.custom
+            .map(field => String(field || "").trim())
+            .filter(Boolean)
+        : [];
+
+    renderCustomFields();
+
+    updateAssignmentUI();
+
+    render();
+
+    renderEmails();
+
+    showEditingBanner(
+      test.testName ||
+      test.title ||
+      "Published Test"
+    );
+
+    saveDraft();
+
+
+    goToStep(1);
+
+
+    toast(
+      "Test loaded for editing"
+    );
+
+  }catch(error){
+
+    console.error(
+      "Edit test error:",
+      error
+    );
+
+    alert(
+      "Could not load the test for editing.\n\n" +
+      error.message
+    );
+
+  }
+
+}
+
+window.editPublishedTest =
+  editPublishedTest;
+
+
+/* =========================================================
+   FULL REPORT
+   ========================================================= */
+
+function viewFullReport(
+  testId
+){
+
+  testId =
+    decodeURIComponent(
+      String(
+        testId || ""
+      )
+    );
+
+  if(!testId){
+
+    alert(
+      "Test ID is missing."
+    );
+
+    return;
+  }
+
+  /*
+   * Exact navigation requested:
+   *
+   * report.html?testId=TEST_ID
+   */
+  window.location.href =
+    "report.html?testId=" +
+    encodeURIComponent(
+      testId
+    );
+}
+
+window.viewFullReport =
+  viewFullReport;
+
+
+/* =========================================================
+   QUESTION REVIEW
+   ========================================================= */
+
+function showQuestionReview(){
+
+  document
+    .querySelectorAll(
+      ".toolbar, .table-card"
+    )
+    .forEach(
+      el => {
+
+        el.style.display =
+          "";
+
+      }
+    );
+
+}
+
+
+function hideQuestionReview(){
+
+  /*
+   * Keep review available.
+   */
+}
+
+
+function showEditingBanner(
+  name
+){
+
+  const banner =
+    $("editingBanner");
+
+  const text =
+    $("editingBannerText");
+
+  if(!banner)
+    return;
+
+  text.textContent =
+    "✏️ Editing published test: " +
+    name;
+
+  banner.classList.add(
+    "show"
+  );
+
+  $("saveBottom")
+    .textContent =
+      "✓ Update Test";
+}
+
+
+function hideEditingBanner(){
+
+  const banner =
+    $("editingBanner");
+
+  if(banner){
+
+    banner.classList.remove(
+      "show"
+    );
+
+  }
+
+  $("saveBottom")
+    .textContent =
+      "🚀 Publish Test";
+}
+
+
+/* =========================================================
+   CANCEL EDITING
+   ========================================================= */
+
+function cancelEditing(){
+
+  editingTestId =
+    null;
+
+  localStorage.removeItem(
+    EDIT_KEY
+  );
+
+  hideEditingBanner();
+
+  toast(
+    "Editing cancelled"
+  );
+
+}
+
+window.cancelEditing =
+  cancelEditing;
+
+
+$("cancelEditingBtn").onclick =
+  cancelEditing;
+
+
+/* =========================================================
+   VALIDATE PUBLISH
+   ========================================================= */
+
+function validateBeforePublish(){
+
+  if(!questions.length){
+
+    alert(
+      "Please add at least one question."
+    );
+
+    return false;
+  }
+
+
+  if(
+    questions.length > 100
+  ){
+
+    alert(
+      "Maximum 100 questions allowed."
+    );
+
+    return false;
+  }
+
+
+  const invalid =
+    questions.filter(
+      q =>
+        !validQuestion(q)
+    );
+
+  if(invalid.length){
+
+    alert(
+      `Please fix ${invalid.length} question(s).\n\n` +
+      "Every question must have:\n" +
+      "• Question text\n" +
+      "• Option A\n" +
+      "• Option B\n" +
+      "• Option C\n" +
+      "• Option D\n" +
+      "• Correct Answer\n" +
+      "• Marks"
+    );
+
+    return false;
+  }
+
+
+  const title =
+    $("testTitle")
+      .value
+      .trim();
+
+  if(!title){
+
+    alert(
+      "Please enter a Test Title."
+    );
+
+    $("testTitle").focus();
+
+    return false;
+  }
+
+
+  const duration =
+    Number(
+      $("duration").value
+    );
+
+  if(
+    !Number.isFinite(duration) ||
+    duration < 1
+  ){
+
+    alert(
+      "Please enter a valid test duration."
+    );
+
+    $("duration").focus();
+
+    return false;
+  }
+
+
+  const liveHours =
+    Number(
+      $("liveHours").value
+    );
+
+  if(
+    !Number.isFinite(liveHours) ||
+    liveHours < 0.5 ||
+    liveHours > 168
+  ){
+
+    alert(
+      "Please enter Test Live For between 0.5 and 168 hours."
+    );
+
+    $("liveHours").focus();
+
+    return false;
+  }
+
+
+  const type =
+    getAssignmentType();
+
+
+  if(!type){
+
+    alert(
+      "Please select Email Assignment or Access Code."
+    );
+
+    return false;
+  }
+
+
+  if(
+    type === "email"
+  ){
+
+    if(
+      !assignedEmails.length
+    ){
+
+      alert(
+        "Please add at least one student email."
+      );
+
+      return false;
+    }
+
+    const invalidEmails =
+      assignedEmails.filter(
+        email =>
+          !validEmail(email)
+      );
+
+    if(
+      invalidEmails.length
+    ){
+
+      alert(
+        "One or more student email addresses are invalid."
+      );
+
+      return false;
+    }
+
+  }
+
+
+  if(
+    type === "code"
+  ){
+
+    if(!accessCode){
+
+      generateAccessCode();
+
+    }
+
+  }
+
+
+  return true;
+}
+
+
+/* =========================================================
+   PUBLISH / UPDATE
+   ========================================================= */
+
+async function publishTest(){
+
+  if(
+    !validateBeforePublish()
+  ){
+    return;
+  }
+
+
+  const title =
+    $("testTitle")
+      .value
+      .trim();
+
+
+  const subject =
+    $("subject")
+      .value
+      .trim() ||
+      "General";
+
+
+  const duration =
+    Math.max(
+      1,
+      Number(
+        $("duration").value
+      ) || 30
+    );
+
+
+  const liveHours =
+    Math.max(
+      0.5,
+      Number(
+        $("liveHours").value
+      ) || 5
+    );
+
+
+  const assignmentType =
+    getAssignmentType();
+
+
+  const requiredDetails = {
+    name:
+      $("requireName")?.checked !== false,
+
+    email:
+      $("requireEmail")?.checked !== false,
+
+    school:
+      $("requireSchool")?.checked === true,
+
+    regNo:
+      $("requireRegNo")?.checked === true,
+
+    custom:
+      [...customFields]
+  };
+
+
+  const wasEditing =
+    Boolean(
+      editingTestId
+    );
+
+
+  const button =
+    $("saveBottom");
+
+  button.disabled =
+    true;
+
+  button.textContent =
+    wasEditing
+      ? "Updating..."
+      : "Publishing...";
+
+
+  try{
+
+    const payload = {
+
+      title:
+        title,
+
+      durationMinutes:
+        duration,
+
+      liveHours:
+        liveHours,
+
+      assignmentType:
+        assignmentType,
+
+      assignedEmails:
+        assignmentType === "email"
+          ? [...assignedEmails]
+          : [],
+
+      testCode:
+        assignmentType === "code"
+          ? accessCode
+          : "",
+
+      requiredDetails:
+        requiredDetails,
+
+      published:
+        true,
+
+      active:
+        true,
+
+      questions:
+        questions.map(
+          q => ({
+
+            question:
+              q.question,
+
+            options:
+              q.options,
+
+            answer:
+              q.answer,
+
+            marks:
+              Number(q.marks) || 1
+
+          })
+        )
+
+    };
+
+
+    const path =
+      wasEditing
+
+        ? "/tests/" +
+          encodeURIComponent(
+            editingTestId
+          )
+
+        : "/tests";
+
+
+    const data =
+      await apiRequest(
+        path,
+        {
+
+          method:
+            wasEditing
+              ? "PUT"
+              : "POST",
+
+          body:
+            JSON.stringify(
+              payload
+            )
+
+        }
+      );
+
+
+    if(
+      data &&
+      data.success === false
+    ){
+
+      throw new Error(
+        data.message ||
+        data.error ||
+        "Publish failed."
+      );
+
+    }
+
+
+    lastPublished =
+      data?.test ||
+      data?.data?.test ||
+      data?.data ||
+      data;
+
+
+    const serverCode =
+      lastPublished?.testCode ||
+      lastPublished?.accessCode ||
+      accessCode ||
+      "—";
+
+
+    $("modalCode")
+      .textContent =
+        serverCode;
+
+
+    if(
+      assignmentType === "email"
+    ){
+
+      $("publishedAssignment")
+        .textContent =
+          `📧 Assigned to ${assignedEmails.length} student(s)`;
+
+    }else{
+
+      $("publishedAssignment")
+        .textContent =
+          `🔑 Access Code: ${serverCode}`;
+
+    }
+
+
+    $("successModal")
+      .style.display =
+        "flex";
+
+
+    localStorage.removeItem(
+      DRAFT_KEY
+    );
+
+
+    editingTestId =
+      null;
+
+
+    localStorage.removeItem(
+      EDIT_KEY
+    );
+
+
+    hideEditingBanner();
+
+
+    toast(
+      wasEditing
+        ? "Test updated successfully"
+        : "Test published successfully"
+    );
+
+
+  }catch(error){
+
+    console.error(
+      "Publish error:",
+      error
+    );
+
+    alert(
+      "Could not " +
+      (
+        wasEditing
+          ? "update"
+          : "publish"
+      ) +
+      " the test.\n\n" +
+      error.message +
+      "\n\n" +
+      "Check that your AWS API Gateway and Lambda are running and that POST/PUT /tests is deployed."
+    );
+
+  }finally{
+
+    button.disabled =
+      false;
+
+    /*
+     * Use the current editing state.
+     */
+    button.textContent =
+      editingTestId
+        ? "✓ Update Test"
+        : "🚀 Publish Test";
+
+  }
+
+}
+
+
+$("saveBottom").onclick =
+  publishTest;
+
+
+/* =========================================================
+   EXPORT JSON
+   ========================================================= */
+
+$("exportBtn").onclick =
+function(){
+
+  if(!questions.length){
+
+    alert(
+      "Nothing to export."
+    );
+
+    return;
+  }
+
+
+  const exportData = {
+
+    title:
+      $("testTitle").value,
+
+    subject:
+      $("subject").value,
+
+    duration:
+      Number(
+        $("duration").value
+      ) || 30,
+
+    liveHours:
+      Number(
+        $("liveHours").value
+      ) || 5,
+
+    questionCount:
+      questions.length,
+
+    totalMarks:
+      getTotalMarks(),
+
+    assignmentType:
+      getAssignmentType(),
+
+    assignedEmails:
+      assignedEmails,
+
+    accessCode:
+      accessCode,
+
+    questions:
+      questions
+
+  };
+
+
+  const blob =
+    new Blob(
+      [
+        JSON.stringify(
+          exportData,
+          null,
+          2
+        )
+      ],
+      {
+        type:
+          "application/json"
+      }
+    );
+
+
+  const url =
+    URL.createObjectURL(
+      blob
+    );
+
+
+  const a =
+    document.createElement(
+      "a"
+    );
+
+  a.href =
+    url;
+
+  a.download =
+    "quizora-test.json";
+
+  document.body.appendChild(
+    a
+  );
+
+  a.click();
+
+  a.remove();
+
+  URL.revokeObjectURL(
+    url
+  );
+
+};
+
+
+/* =========================================================
+   NAVIGATION
+   ========================================================= */
+
+$("createTestNav").onclick =
+function(){
+
+  goToStep(1);
+
+};
+
+
+/* =========================================================
+   SUCCESS MODAL
+   ========================================================= */
+
+$("closeModal").onclick =
+function(){
+
+  window.location.href =
+    "published-tests.html?success=true";
+
+};
+
+
+$("successModal").onclick =
+function(e){
+
+  if(
+    e.target ===
+    $("successModal")
+  ){
+
+    window.location.href =
+      "published-tests.html?success=true";
+
+  }
+
+};
+
+
+/* =========================================================
+   LOAD DRAFT
+   ========================================================= */
+
+function loadDraft(){
+
+  try{
+
+    const raw =
+      localStorage.getItem(
+        DRAFT_KEY
+      );
+
+    if(!raw)
+      return;
+
+    const draft =
+      JSON.parse(raw);
+
+
+    if(
+      Array.isArray(
+        draft.questions
+      )
+    ){
+
+      questions =
+        draft.questions.map(
+          q => {
+
+            const item =
+              makeQuestion(
+                q.question || "",
+
+                q.options?.[0] ||
+                q.optionA ||
+                "",
+
+                q.options?.[1] ||
+                q.optionB ||
+                "",
+
+                q.options?.[2] ||
+                q.optionC ||
+                "",
+
+                q.options?.[3] ||
+                q.optionD ||
+                "",
+
+                q.answer ||
+                q.correctAnswer ||
+                "",
+
+                q.marks ||
+                1
+              );
+
+            item.id =
+              q.id ||
+              item.id;
+
+            return item;
+
+          }
+        );
+
+    }
+
+
+    if(
+      Array.isArray(
+        draft.assignedEmails
+      )
+    ){
+
+      assignedEmails =
+        draft.assignedEmails
+          .map(
+            email =>
+              String(
+                email || ""
+              )
+              .trim()
+              .toLowerCase()
+          )
+          .filter(
+            validEmail
+          );
+
+    }
+
+
+    if(
+      Array.isArray(
+        draft.customFields
+      )
+    ){
+
+      customFields =
+        draft.customFields
+          .map(
+            field =>
+              String(
+                field || ""
+              )
+              .trim()
+          )
+          .filter(
+            f => f.length > 0
+          );
+
+    }
+
+
+    if(draft.requiredDetails){
+      $("requireName").checked = draft.requiredDetails.name !== false;
+      $("requireEmail").checked = draft.requiredDetails.email !== false;
+      $("requireSchool").checked = draft.requiredDetails.school === true;
+      $("requireRegNo").checked = draft.requiredDetails.regNo === true;
+    }
+
+    if(
+      draft.accessCode
+    ){
+
+      accessCode =
+        String(
+          draft.accessCode
+        );
+
+      $("accessCode")
+        .textContent =
+          accessCode;
+
+    }
+
+
+    if(
+      draft.testTitle
+    ){
+
+      $("testTitle")
+        .value =
+          draft.testTitle;
+
+    }
+
+
+    if(
+      draft.subject
+    ){
+
+      $("subject")
+        .value =
+          draft.subject;
+
+    }
+
+
+    if(
+      draft.duration
+    ){
+
+      $("duration")
+        .value =
+          draft.duration;
+
+    }
+
+
+    if(
+      draft.liveHours
+    ){
+
+      $("liveHours")
+        .value =
+          draft.liveHours;
+
+    }
+
+
+    if(
+      draft.assignmentType
+    ){
+
+      const radio =
+        document.querySelector(
+          `input[name="assignmentType"][value="${draft.assignmentType}"]`
+        );
+
+      if(radio){
+
+        radio.checked =
+          true;
+
+      }
+
+    }
+
+
+    if(
+      draft.editingTestId
+    ){
+
+      editingTestId =
+        draft.editingTestId;
+
+      localStorage.setItem(
+        EDIT_KEY,
+        editingTestId
+      );
+
+      showEditingBanner(
+        draft.testTitle ||
+        "Published Test"
+      );
+
+    }
+
+
+    updateAssignmentUI();
+
+    render();
+
+    renderEmails();
+
+    renderCustomFields();
+
+
+  }catch(error){
+
+    console.warn(
+      "Draft could not be loaded:",
+      error
+    );
+
+    localStorage.removeItem(
+      DRAFT_KEY
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   RESTORE EDIT ID
+   ========================================================= */
+
+function restoreEditingState(){
+
+  if(editingTestId)
+    return;
+
+  const stored =
+    localStorage.getItem(
+      EDIT_KEY
+    );
+
+  if(stored){
+
+    editingTestId =
+      stored;
+
+  }
+
+}
+
+
+/* =========================================================
+   INITIALIZE
+   ========================================================= */
+
+restoreEditingState();
+
+loadDraft();
+
+
+if(editingTestId){
+
+  showEditingBanner(
+    $("testTitle").value ||
+    "Published Test"
+  );
+
+}
+
+
+updateAssignmentUI();
+
+render();
+
+renderEmails();
+
+updateStepUI();
+
+
+if(!accessCode){
+
+  $("accessCode")
+    .textContent =
+      "QZ-XXXXXX";
+
+}
+
+// PROFILE FUNCTIONS
+const API_BASE_URL='https://yh5j21oonb.execute-api.eu-north-1.amazonaws.com/prod';
+
+let currentProfile=null;
+let isEditMode=false;
+
+async function openProfileModal(){
+  // Get user email from localStorage
+  const email=localStorage.getItem('creatorEmail');
+
+  if(!email){
+    alert('No user logged in. Please log in again.');
+    window.location.href='examiner-login.html';
+    return;
+  }
+
+  console.log('Fetching profile for:',email);
+
+  // Show modal with loading state
+  $('profileContent').innerHTML='<div style="grid-column:1/-1;text-align:center;padding:40px;color:#6b7280"><div style="font-size:14px">Loading profile...</div></div>';
+  $('profileModal').style.display='flex';
+
+  try{
+    const response=await fetch(`${API_BASE_URL}/creators?creatorEmail=${encodeURIComponent(email)}`);
+    let data={};
+    try{
+      data=await response.json();
+    }catch(e){
+      console.error('JSON parse error:',e);
+    }
+
+    let profile;
+    if(response.ok&&data.success&&data.creator){
+      profile=data.creator;
+      console.log('Profile loaded from DynamoDB:',profile);
+    }else{
+      console.warn('Profile not found in DynamoDB');
+      profile={
+        fullName:'Creator',
+        name:'Creator',
+        email:email,
+        phone:'Not provided',
+        orgType:'Not specified',
+        orgName:'Not specified',
+        studentCount:'Not specified',
+        updatedAt:new Date().toISOString()
+      };
+    }
+
+  // Update header
+  const firstName=(profile.fullName||profile.name||'Creator').split(' ')[0];
+  $('profileAvatar').textContent=firstName.charAt(0).toUpperCase();
+  $('profileModalName').textContent=profile.fullName||profile.name||'Creator Profile';
+  $('profileModalEmail').textContent=profile.email||'No email';
+
+  // Build profile cards
+  const content=`
+    <div class="detail-card">
+      <div class="detail-card-icon" style="background:#ede9fe;color:#7c3aed">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+      </div>
+      <div class="detail-card-label">Full Name</div>
+      <div class="detail-card-value">${escapeHTML(profile.fullName||profile.name||'Not provided')}</div>
+    </div>
+
+    <div class="detail-card">
+      <div class="detail-card-icon" style="background:#fef3c7;color:#d97706">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+      </div>
+      <div class="detail-card-label">Email Address</div>
+      <div class="detail-card-value" style="font-size:13px">${escapeHTML(profile.email||'Not provided')}</div>
+    </div>
+
+    <div class="detail-card">
+      <div class="detail-card-icon" style="background:#dbeafe;color:#2563eb">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+      </div>
+      <div class="detail-card-label">Member Since</div>
+      <div class="detail-card-value" style="font-size:13px">${formatProfileDate(profile.updatedAt)}</div>
+    </div>
+
+    <div class="detail-card">
+      <div class="detail-card-icon" style="background:#fef3c7;color:#f59e0b">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+      </div>
+      <div class="detail-card-label">Organization Type</div>
+      <div class="detail-card-value">${escapeHTML(profile.organizationType||'Not provided')}</div>
+    </div>
+
+    <div class="detail-card">
+      <div class="detail-card-icon" style="background:#dcfce7;color:#16a34a">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
+      </div>
+      <div class="detail-card-label">Organization Name</div>
+      <div class="detail-card-value" style="font-size:13px">${escapeHTML(profile.organizationName||'Not provided')}</div>
+    </div>
+
+    <div class="detail-card">
+      <div class="detail-card-icon" style="background:#fee2e2;color:#dc2626">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+      </div>
+      <div class="detail-card-label">Phone Number</div>
+      <div class="detail-card-value">${escapeHTML(profile.phone||'Not provided')}</div>
+    </div>
+
+    <div class="detail-card highlight">
+      <div class="detail-card-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+      </div>
+      <div class="detail-card-label">Student Capacity</div>
+      <div class="detail-card-value">${escapeHTML(profile.studentCount||'Not specified')}</div>
+    </div>
+
+    <div class="detail-card" style="background:#f0fdf4;border-color:#86efac">
+      <div class="detail-card-icon" style="background:#16a34a;color:#fff">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+      </div>
+      <div class="detail-card-label">Profile Status</div>
+      <div class="detail-card-value" style="color:#16a34a">✓ Complete</div>
+    </div>
+  `;
+
+  $('profileContent').innerHTML=content;
+  currentProfile=profile;
+  isEditMode=false;
+  updateProfileButtons();
+
+  }catch(err){
+    console.error('Failed to load profile:',err);
+    $('profileContent').innerHTML='<div style="grid-column:1/-1;text-align:center;padding:40px;color:#dc2626"><div style="font-size:14px">Failed to load profile. Please try again.</div></div>';
+  }
+}
+
+function closeProfileModal(){
+  $('profileModal').style.display='none';
+  isEditMode=false;
+}
+
+function toggleEditProfile(){
+  isEditMode=true;
+  renderEditableProfile();
+  updateProfileButtons();
+}
+
+function cancelEditProfile(){
+  isEditMode=false;
+  openProfileModal();
+}
+
+function updateProfileButtons(){
+  $('editProfileBtn').classList.toggle('hidden',isEditMode);
+  $('saveProfileBtn').classList.toggle('hidden',!isEditMode);
+  $('cancelEditBtn').classList.toggle('hidden',!isEditMode);
+  $('closeProfileBtn').classList.toggle('hidden',isEditMode);
+}
+
+function renderEditableProfile(){
+  if(!currentProfile)return;
+
+  const content=`
+    <div class="detail-card">
+      <div class="detail-card-icon" style="background:#ede9fe;color:#7c3aed">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+      </div>
+      <div class="detail-card-label">Full Name *</div>
+      <input type="text" id="editName" class="edit-input" value="${escapeHTML(currentProfile.fullName||currentProfile.name||'')}" placeholder="Enter full name" required>
+    </div>
+
+    <div class="detail-card">
+      <div class="detail-card-icon" style="background:#fef3c7;color:#d97706">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+      </div>
+      <div class="detail-card-label">Email Address</div>
+      <div class="detail-card-value" style="font-size:13px;color:#9ca3af">${escapeHTML(currentProfile.email||'Not provided')} (Cannot edit)</div>
+    </div>
+
+    <div class="detail-card">
+      <div class="detail-card-icon" style="background:#fee2e2;color:#dc2626">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+      </div>
+      <div class="detail-card-label">Phone Number *</div>
+      <input type="tel" id="editPhone" class="edit-input" value="${escapeHTML(currentProfile.phone||'')}" placeholder="Enter phone number" required>
+    </div>
+
+    <div class="detail-card">
+      <div class="detail-card-icon" style="background:#fef3c7;color:#f59e0b">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+      </div>
+      <div class="detail-card-label">Organization Type *</div>
+      <select id="editOrgType" class="edit-input" required>
+        <option value="">Select type</option>
+        <option value="School" ${(currentProfile.organizationType||currentProfile.orgType)==='School'?'selected':''}>School</option>
+        <option value="College" ${(currentProfile.organizationType||currentProfile.orgType)==='College'?'selected':''}>College</option>
+        <option value="Coaching centre" ${(currentProfile.organizationType||currentProfile.orgType)==='Coaching centre'?'selected':''}>Coaching centre</option>
+        <option value="Individual teacher" ${(currentProfile.organizationType||currentProfile.orgType)==='Individual teacher'?'selected':''}>Individual teacher</option>
+      </select>
+    </div>
+
+    <div class="detail-card">
+      <div class="detail-card-icon" style="background:#dcfce7;color:#16a34a">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
+      </div>
+      <div class="detail-card-label">Organization Name *</div>
+      <input type="text" id="editOrgName" class="edit-input" value="${escapeHTML(currentProfile.organizationName||currentProfile.orgName||'')}" placeholder="Enter organization name" required>
+    </div>
+
+    <div class="detail-card">
+      <div class="detail-card-icon" style="background:#dbeafe;color:#3b82f6">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+      </div>
+      <div class="detail-card-label">Student Capacity *</div>
+      <select id="editStudentCount" class="edit-input" required>
+        <option value="">Select capacity</option>
+        <option value="1–50" ${currentProfile.studentCount==='1–50'?'selected':''}>1–50 students</option>
+        <option value="51–100" ${currentProfile.studentCount==='51–100'?'selected':''}>51–100 students</option>
+        <option value="101–500" ${currentProfile.studentCount==='101–500'?'selected':''}>101–500 students</option>
+        <option value="501–1,000" ${currentProfile.studentCount==='501–1,000'?'selected':''}>501–1,000 students</option>
+        <option value="1,001–5,000" ${currentProfile.studentCount==='1,001–5,000'?'selected':''}>1,001–5,000 students</option>
+        <option value="5,000+" ${currentProfile.studentCount==='5,000+'?'selected':''}>5,000+ students</option>
+      </select>
+    </div>
+  `;
+
+  $('profileContent').innerHTML=content;
+}
+
+async function saveProfile(){
+  const name=$('editName').value.trim();
+  const phone=$('editPhone').value.trim();
+  const orgType=$('editOrgType').value;
+  const orgName=$('editOrgName').value.trim();
+  const studentCount=$('editStudentCount').value;
+
+  if(!name||!phone||!orgType||!orgName||!studentCount){
+    alert('Please fill in all required fields.');
+    return;
+  }
+
+  const saveBtn=$('saveProfileBtn');
+  saveBtn.disabled=true;
+  saveBtn.textContent='Saving...';
+
+  try{
+    const email=localStorage.getItem('creatorEmail');
+    const updatedProfile={
+      creatorEmail:email,
+      email:email,
+      name:name,
+      creatorName:name,
+      fullName:name,
+      phone:phone,
+      orgType:orgType,
+      organizationType:orgType,
+      orgName:orgName,
+      organizationName:orgName,
+      studentCount:studentCount,
+      profileComplete:true,
+      updatedAt:new Date().toISOString()
+    };
+
+    const response=await fetch(`${API_BASE_URL}/creators`,{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify(updatedProfile)
+    });
+
+    let data={};
+    try{
+      data=await response.json();
+    }catch(e){}
+
+    if(!response.ok||!data.success){
+      throw new Error(data.message||'Failed to save profile');
+    }
+
+    alert('Profile updated successfully!');
+    isEditMode=false;
+    await openProfileModal();
+
+  }catch(err){
+    console.error('Save profile error:',err);
+    alert('Failed to save profile: '+(err.message||'Please try again'));
+  }finally{
+    saveBtn.disabled=false;
+    saveBtn.textContent='Save Changes';
+  }
+}
+
+function formatProfileDate(dateStr){
+  if(!dateStr)return'Recently';
+  try{
+    const date=new Date(dateStr);
+    return date.toLocaleDateString('en-US',{year:'numeric',month:'short'});
+  }catch(e){
+    return'Recently';
+  }
+}
+
+function escapeHTML(str){
+  if(!str)return'';
+  return String(str).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));
+}
+
+function logout(){
+  if(confirm('Are you sure you want to sign out?')){
+    localStorage.removeItem('creatorEmail');
+    window.location.href='examiner-login.html';
+  }
+}
+
+// Bind profile button when page loads
+setTimeout(()=>{
+  const profileBtn=$('profileBtn');
+  const profileModal=$('profileModal');
+
+  if(profileBtn){
+    profileBtn.onclick=openProfileModal;
+    console.log('Profile button bound');
+  }else{
+    console.error('Profile button not found');
+  }
+
+  if(profileModal){
+    profileModal.onclick=e=>{
+      if(e.target.id==='profileModal'){
+        closeProfileModal();
+      }
+    };
+  }else{
+    console.error('Profile modal not found');
+  }
+},100);
+
+
+
+</script>
+
+<!-- PROFILE MODAL -->
+<div id="profileModal" class="modal-backdrop" style="display:none">
+  <div class="creator-profile-modal">
+
+    <div class="profile-modal-header">
+      <div class="profile-modal-avatar" id="profileAvatar">C</div>
+      <div>
+        <h3 id="profileModalName">Creator Profile</h3>
+        <p id="profileModalEmail" style="font-size:13px;color:rgba(255,255,255,.85);margin:4px 0 0">email@example.com</p>
+      </div>
+      <button class="profile-close-btn" onclick="closeProfileModal()">✕</button>
+    </div>
+
+    <div class="profile-detail-grid" id="profileContent">
+      <!-- Profile cards will be inserted here -->
+    </div>
+
+    <div class="profile-modal-footer">
+      <button class="btn secondary" onclick="logout()">Sign Out</button>
+      <button class="btn primary" id="editProfileBtn" onclick="toggleEditProfile()">✏️ Edit Profile</button>
+      <button class="btn success hidden" id="saveProfileBtn" onclick="saveProfile()">💾 Save Changes</button>
+      <button class="btn ghost hidden" id="cancelEditBtn" onclick="cancelEditProfile()">Cancel</button>
+      <button class="btn ghost" id="closeProfileBtn" onclick="closeProfileModal()">Close</button>
+    </div>
+
+  </div>
+</div>
+
+<script type="module">
+import{initializeApp}from'https://www.gstatic.com/firebasejs/11.2.0/firebase-app.js';
+import{getAuth,onAuthStateChanged}from'https://www.gstatic.com/firebasejs/11.2.0/firebase-auth.js';
+
+const firebaseConfig={apiKey:"AIzaSyDtzQlc-9UyuPMoHjBT_12oSLgSYdceJFw",authDomain:"mcq-test-platform-eb2b5.firebaseapp.com",projectId:"mcq-test-platform-eb2b5",storageBucket:"mcq-test-platform-eb2b5.firebasestorage.app",messagingSenderId:"609604711611",appId:"1:609604711611:web:df16e391dc17cfea17659e",measurementId:"G-62ZX6HKWDP"};
+const app=initializeApp(firebaseConfig);
+const auth=getAuth(app);
+
+onAuthStateChanged(auth,user=>{
+  if(!user){
+    const returnUrl=encodeURIComponent(location.pathname+location.search);
+    location.replace('examiner-login.html?redirect='+returnUrl);
+  }
+});
+</script>
+
+</body>
+</html>
