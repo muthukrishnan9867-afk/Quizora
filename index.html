@@ -3,163 +3,152 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#f8f8ff">
+<meta name="theme-color" content="#f8f9ff">
 <title>Quizora — Learn. Create. Achieve.</title>
-<meta name="description" content="Quizora helps educators create online MCQ assessments and helps students attend tests and track results.">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='18' fill='%236355f5'/%3E%3Cpath d='M12 12L52 52M52 12L12 52M32 4V60M4 32H60M10 10L54 54M54 10L10 54' stroke='%23fff' stroke-opacity='.45' stroke-width='1.5'/%3E%3Ccircle cx='32' cy='32' r='15' fill='none' stroke='white' stroke-width='5'/%3E%3C/svg%3E">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<meta name="description" content="Quizora is an online assessment platform for creating MCQ tests, attending assessments, and tracking results.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%236355f5'/%3E%3Ccircle cx='28' cy='28' r='16' fill='none' stroke='white' stroke-width='5'/%3E%3Cpath d='m40 40 13 13' stroke='white' stroke-width='5' stroke-linecap='round'/%3E%3C/svg%3E">
 <style>
-:root{--ink:#191735;--muted:#77758e;--purple:#635bff;--purple-dark:#5145e5;--blue:#109dce;--cyan:#38c9e5;--line:#e9e8f6;--glass:rgba(255,255,255,.78);--shadow:0 20px 60px rgba(55,45,145,.09)}
+:root{--ink:#1b1938;--muted:#77758d;--purple:#6255ee;--purple-dark:#5044d9;--blue:#168fbd;--line:#e9e8f4;--bg:#f8f9ff}
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{margin:0;min-height:100vh;font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--ink);background:linear-gradient(135deg,#fafaff,#f4f7ff);overflow-x:hidden}
+body{margin:0;min-height:100vh;font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--ink);background:linear-gradient(135deg,#fafaff 0%,#f5f7ff 55%,#f7fbff 100%);overflow-x:hidden}
 a{color:inherit;-webkit-tap-highlight-color:transparent}
-a:focus-visible,button:focus-visible{outline:3px solid #9d96ff;outline-offset:4px}
-#web-canvas{position:fixed;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none;opacity:.8}
-.glow{position:fixed;width:300px;height:300px;border-radius:50%;filter:blur(70px);opacity:.24;pointer-events:none;z-index:-2;animation:drift 16s ease-in-out infinite alternate}
-.glow.g1{background:#a79aff;left:-160px;top:10%}.glow.g2{background:#73dff2;right:-170px;top:38%;animation-delay:-7s}
-@keyframes drift{to{transform:translate(35px,-30px) scale(1.12)}}
-.site-header{width:min(1240px,calc(100% - 40px));margin:18px auto 0;padding:12px 18px;min-height:72px;display:flex;align-items:center;justify-content:space-between;gap:18px;position:relative;z-index:2;border:1px solid rgba(255,255,255,.95);border-radius:21px;background:rgba(255,255,255,.84);box-shadow:0 10px 38px rgba(45,40,110,.07);backdrop-filter:blur(18px);animation:drop .7s both}
+a:focus-visible{outline:3px solid #a49cff;outline-offset:4px}
+#web-canvas{position:fixed;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none;opacity:.65}
+.ambient{position:fixed;z-index:-2;width:330px;height:330px;border-radius:50%;filter:blur(85px);opacity:.2;pointer-events:none;animation:floatGlow 17s ease-in-out infinite alternate}
+.ambient.a{left:-180px;top:10%;background:#a79bff}.ambient.b{right:-180px;bottom:5%;background:#70d9ef;animation-delay:-8s}
+@keyframes floatGlow{to{transform:translate(40px,-25px) scale(1.1)}}
+.header{width:min(1160px,calc(100% - 36px));margin:18px auto 0;min-height:70px;padding:12px 18px;display:flex;align-items:center;justify-content:space-between;gap:20px;border:1px solid #ffffff;background:rgba(255,255,255,.88);border-radius:18px;box-shadow:0 8px 30px #29245f0b;backdrop-filter:blur(14px);animation:slideDown .65s ease both}
 .brand{display:flex;align-items:center;gap:10px;text-decoration:none;flex-shrink:0}
-.logo{width:42px;height:42px;border-radius:14px;background:linear-gradient(145deg,#8a72ff,#5145e5);display:grid;place-items:center;box-shadow:0 7px 18px #635bff35}
-.logo svg{width:27px;height:27px}
-.brand-name{font-size:24px;font-weight:900;letter-spacing:-1.2px}.brand-name span{color:var(--purple)}
-.brand-tag{font-size:11px;color:var(--muted);border-left:1px solid var(--line);padding-left:14px;margin-left:5px;white-space:nowrap}
-.nav-links{display:flex;align-items:center;gap:clamp(10px,2vw,25px)}
-.nav-link{font-size:12px;font-weight:700;text-decoration:none;color:#5e5b76;white-space:nowrap;transition:color .2s,transform .2s}
-.nav-link:hover{color:var(--purple);transform:translateY(-1px)}
-.nav-link.cta{padding:12px 16px;border-radius:12px;color:white;background:linear-gradient(110deg,#5b4cf0,#8c72ff);box-shadow:0 7px 18px #635bff2e}
-.nav-link.cta:hover{color:white;box-shadow:0 10px 24px #635bff4a}
-main{width:min(1100px,calc(100% - 36px));margin:auto}
-.hero{text-align:center;padding:clamp(48px,7vh,78px) 0 34px;animation:rise .8s .08s both}
-.eyebrow{display:inline-flex;align-items:center;gap:8px;padding:9px 14px;border:1px solid #e1ddff;border-radius:999px;background:#ffffffb8;color:#5a4de8;font-size:10px;font-weight:800;letter-spacing:1.2px}
-.spark{display:inline-grid;place-items:center;width:19px;height:19px;border-radius:50%;background:#efedff;animation:spark 3s ease-in-out infinite}
-h1{font-size:clamp(36px,5.4vw,66px);line-height:1.1;letter-spacing:-3px;margin:22px 0 17px;font-weight:900}
-h1 span{display:block;background:linear-gradient(100deg,#2789df,#6254f5 53%,#a15de9);-webkit-background-clip:text;background-clip:text;color:transparent}
-.hero-copy{max-width:700px;margin:auto;color:var(--muted);font-size:15px;line-height:1.85}
-.hero-copy strong{color:#46435f}
-.hero-actions{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-top:25px}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:46px;padding:0 19px;border-radius:13px;font-size:12px;font-weight:800;text-decoration:none;transition:transform .22s,box-shadow .22s,background .22s;cursor:pointer}
-.btn:hover{transform:translateY(-3px)}
-.btn-primary{color:#fff;background:linear-gradient(110deg,#5a4aee,#8c70ff);box-shadow:0 9px 23px #635bff32}
-.btn-primary:hover{box-shadow:0 14px 30px #635bff50}
-.btn-secondary{color:#5145dc;background:#ffffffd9;border:1px solid #e3e0ff}
-.btn-secondary:hover{box-shadow:0 10px 24px #5145e516}
-.arrow{font-size:17px;transition:transform .2s}.btn:hover .arrow,.workspace-link:hover .arrow{transform:translateX(4px)}
-.roles{max-width:930px;margin:auto;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px}
-.card{position:relative;isolation:isolate;overflow:hidden;display:flex;flex-direction:column;padding:25px;border-radius:23px;border:1px solid #ffffff;background:var(--glass);box-shadow:var(--shadow);backdrop-filter:blur(12px);transition:transform .3s,box-shadow .3s,border-color .3s;animation:rise .8s .22s both}
-.card.student{--accent:#139ed2;animation-delay:.36s}
-.card:before{content:"";position:absolute;z-index:-1;width:210px;height:210px;right:-115px;top:-125px;border-radius:50%;background:linear-gradient(145deg,#e7e1ff,#f8f6ff);transition:transform .45s}
-.card.student:before{background:linear-gradient(145deg,#d7f5ff,#f1fcff)}
-.card:hover{transform:translateY(-6px);box-shadow:0 27px 65px #4335a51c;border-color:#d9d4ff}
-.card:hover:before{transform:scale(1.25)}
-.card-top{display:flex;align-items:center;justify-content:space-between;gap:12px}
-.card-icon{width:53px;height:53px;display:grid;place-items:center;border-radius:16px;color:white;background:linear-gradient(145deg,#5848ed,#907bff);box-shadow:0 9px 22px #635bff30;transition:transform .3s}
-.student .card-icon{background:linear-gradient(145deg,#079bc8,#3bc6de);box-shadow:0 9px 22px #139ed230}
-.card:hover .card-icon{transform:translateY(-3px) rotate(-4deg)}
-.card-icon svg{width:26px;height:26px}
-.pill{padding:8px 10px;border:1px solid #e5e1ff;border-radius:999px;color:#5c4dea;background:#f6f4ff;font-size:9px;font-weight:800;letter-spacing:.7px;text-transform:uppercase}
-.student .pill{color:#108bb7;background:#effbff;border-color:#d8f4ff}
-h2{font-size:clamp(20px,2.2vw,25px);letter-spacing:-.8px;margin:19px 0 9px}
-.card-copy{margin:0;color:var(--muted);font-size:12px;line-height:1.8;min-height:65px}
-.features{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:22px 0}
-.feature{text-align:center;font-size:10px;line-height:1.5;color:#64617e;font-weight:650}
-.feature-icon{width:37px;height:37px;margin:0 auto 8px;display:grid;place-items:center;border-radius:12px;background:#f0eeff;color:#6254ed;border:1px solid #e6e2ff;transition:transform .25s}
-.student .feature-icon{background:#ebfaff;color:#0b9bc8;border-color:#d8f4ff}
-.feature:hover .feature-icon{transform:translateY(-3px) rotate(-3deg)}
-.feature-icon svg{width:18px;height:18px}
-.workspace-link{position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;gap:9px;min-height:46px;margin-top:auto;padding:10px 12px;border-radius:13px;color:white;background:linear-gradient(105deg,#5848ee,#9275ff);box-shadow:0 8px 20px #635bff28;text-decoration:none;text-align:center;font-size:11px;font-weight:800;transition:transform .22s,box-shadow .22s}
-.student .workspace-link{background:linear-gradient(105deg,#078fc4,#34bfd8);box-shadow:0 8px 20px #139ed228}
-.workspace-link:before{content:"";position:absolute;top:0;left:-130%;width:65%;height:100%;background:linear-gradient(100deg,transparent,#ffffff55,transparent);transform:skewX(-20deg);transition:left .65s}
-.workspace-link:hover:before{left:150%}
-.workspace-link:hover{transform:translateY(-2px);box-shadow:0 13px 27px #635bff38}
-.trust{max-width:880px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:15px;margin:34px auto 30px;animation:rise .8s .5s both}
-.trust-item{display:flex;align-items:center;justify-content:center;gap:10px}
-.trust-icon{width:39px;height:39px;flex-shrink:0;display:grid;place-items:center;border-radius:13px;background:#efedff;color:#6555ed}
-.trust-item:nth-child(2) .trust-icon{background:#e9faff;color:#159bc9}.trust-item:nth-child(3) .trust-icon{background:#f9edff;color:#a44edc}
-.trust-icon svg{width:21px;height:21px}
-.trust strong{display:block;font-size:10px;margin-bottom:4px}.trust small{display:block;color:var(--muted);font-size:9px;line-height:1.5}
-footer{border-top:1px solid #e6e5f2;background:#ffffff60}
-.footer-inner{width:min(1240px,calc(100% - 40px));min-height:62px;margin:auto;display:flex;justify-content:space-between;align-items:center;gap:15px;color:#89869e;font-size:10px}
-.footer-inner strong{color:#5d50e9}.footer-inner a{text-decoration:none}.footer-inner a:hover{color:var(--purple)}
-@keyframes rise{from{opacity:0;transform:translateY(19px)}to{opacity:1;transform:translateY(0)}}
-@keyframes drop{from{opacity:0;transform:translateY(-12px)}to{opacity:1;transform:translateY(0)}}
-@keyframes spark{50%{transform:rotate(18deg) scale(1.13)}}
-@media(max-width:850px){.site-header{width:calc(100% - 24px);padding:11px 13px}.brand-tag{display:none}.nav-links{gap:13px}.nav-link{font-size:11px}.nav-link.cta{padding:11px}.hero{padding-top:52px}}
-@media(max-width:600px){.site-header{margin-top:10px;min-height:60px;border-radius:16px}.logo{width:35px;height:35px;border-radius:11px}.brand-name{font-size:21px}.nav-links{gap:10px}.nav-link{font-size:10px}.nav-link:first-child{display:none}.nav-link.cta{padding:10px 11px}main{width:calc(100% - 24px)}.hero{padding:42px 0 27px}.eyebrow{font-size:8px;letter-spacing:.8px;padding:8px 10px}h1{font-size:clamp(34px,8vw,46px);letter-spacing:-1.8px;margin:19px 0 14px}.hero-copy{font-size:12px;line-height:1.85}.hero-actions{margin-top:19px;gap:8px}.btn{min-height:42px;padding:0 13px;font-size:10px}.roles{grid-template-columns:1fr;gap:14px}.card{padding:20px;border-radius:20px}.card-copy{min-height:0}.features{margin:19px 0}.trust{grid-template-columns:1fr;gap:15px;margin:27px auto;padding-bottom:25px}.trust-item{justify-content:flex-start;padding:0 12px}.trust strong{font-size:11px}.trust small{font-size:10px}.footer-inner{width:calc(100% - 28px);min-height:65px;flex-wrap:wrap;justify-content:center;text-align:center;padding:14px 0;font-size:9px}}
-@media(max-width:360px){.nav-links{gap:7px}.nav-link{font-size:9px}.brand-name{font-size:19px}.nav-link.cta{padding:9px}.card{padding:16px}}
+.logo{width:40px;height:40px;display:grid;place-items:center;border-radius:13px;background:linear-gradient(145deg,#8273ff,#5145df);box-shadow:0 5px 14px #6255ee30}
+.logo svg{width:24px;height:24px}
+.brand-name{font-size:23px;font-weight:900;letter-spacing:-1px}.brand-name span{color:var(--purple)}
+.brand-sub{font-size:10px;color:var(--muted);padding-left:12px;border-left:1px solid var(--line);white-space:nowrap}
+.nav{display:flex;align-items:center;gap:22px}
+.nav a{font-size:12px;font-weight:700;text-decoration:none;color:#625f79;transition:color .2s}
+.nav a:hover{color:var(--purple)}
+.nav .nav-button{padding:11px 15px;border-radius:11px;color:#fff;background:var(--purple);transition:transform .2s,background .2s}
+.nav .nav-button:hover{color:#fff;background:var(--purple-dark);transform:translateY(-2px)}
+main{width:min(1020px,calc(100% - 36px));margin:auto}
+.hero{text-align:center;padding:clamp(46px,7vh,76px) 0 32px;animation:rise .7s .1s both}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border:1px solid #e4e0ff;border-radius:999px;background:#fff;color:#5d50e5;font-size:10px;font-weight:800;letter-spacing:1px}
+.eyebrow-mark{display:grid;place-items:center;width:18px;height:18px;border-radius:50%;background:#efedff}
+h1{margin:20px 0 14px;font-size:clamp(36px,5.1vw,61px);line-height:1.12;letter-spacing:-2.6px;font-weight:900}
+h1 span{display:block;color:var(--purple);background:linear-gradient(100deg,#248fc9,#6255ee 60%,#9870e8);background-clip:text;-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero-description{max-width:680px;margin:0 auto;color:var(--muted);font-size:14px;line-height:1.85}
+.hero-actions{display:flex;justify-content:center;align-items:center;gap:11px;flex-wrap:wrap;margin-top:23px}
+.button{display:inline-flex;align-items:center;justify-content:center;gap:9px;min-height:44px;padding:0 17px;border-radius:12px;font-size:11px;font-weight:800;text-decoration:none;transition:transform .22s,box-shadow .22s,background .22s}
+.button:hover{transform:translateY(-2px)}
+.button.primary{background:var(--purple);color:#fff;box-shadow:0 7px 18px #6255ee30}
+.button.primary:hover{background:var(--purple-dark);box-shadow:0 10px 22px #6255ee40}
+.button.secondary{background:#fff;color:#5147d0;border:1px solid #e5e2fb}
+.button.secondary:hover{box-shadow:0 7px 18px #342b6c0c}
+.arrow{display:inline-block;font-size:16px;transition:transform .2s}.button:hover .arrow,.card-link:hover .arrow{transform:translateX(4px)}
+.section-heading{text-align:center;margin:0 0 18px;color:#77748f;font-size:10px;font-weight:800;letter-spacing:1.6px;text-transform:uppercase}
+.cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.card{position:relative;display:flex;flex-direction:column;min-width:0;padding:24px;border:1px solid #e9e8f5;border-radius:20px;background:rgba(255,255,255,.93);box-shadow:0 10px 32px rgba(42,35,110,.055);transition:transform .25s ease,box-shadow .25s ease,border-color .25s ease;animation:rise .7s both}
+.card:nth-child(2){animation-delay:.12s}
+.card:hover{transform:translateY(-5px);box-shadow:0 18px 42px rgba(42,35,110,.11);border-color:#d8d3ff}
+.card-header{display:flex;align-items:center;gap:13px}
+.card-icon{width:48px;height:48px;display:grid;place-items:center;flex-shrink:0;border-radius:14px;background:#f0edff;color:#5c4ee8}
+.card.student .card-icon{background:#eaf8ff;color:#168dbb}
+.card-icon svg{width:24px;height:24px}
+.card-label{font-size:9px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:#6b60e7}
+.card.student .card-label{color:#168dbb}
+.card h2{margin:18px 0 8px;font-size:22px;line-height:1.25;letter-spacing:-.7px}
+.card-description{margin:0;color:var(--muted);font-size:12px;line-height:1.8;min-height:64px}
+.card-features{display:flex;flex-wrap:wrap;gap:8px;margin:17px 0 21px}
+.feature{display:inline-flex;align-items:center;gap:6px;padding:7px 9px;border-radius:8px;background:#f7f6ff;color:#605b7a;font-size:10px;font-weight:650}
+.student .feature{background:#f0faff}
+.feature-check{font-size:12px;color:#6658ed}.student .feature-check{color:#168dbb}
+.card-link{display:flex;align-items:center;justify-content:center;gap:8px;min-height:43px;margin-top:auto;padding:10px 14px;border-radius:11px;background:#6255ee;color:white;text-align:center;text-decoration:none;font-size:11px;font-weight:800;transition:background .2s,box-shadow .2s,transform .2s}
+.card-link:hover{background:#5144dc;box-shadow:0 8px 18px #6255ee2b;transform:translateY(-1px)}
+.student .card-link{background:#168fbd}
+.student .card-link:hover{background:#0c7ba6;box-shadow:0 8px 18px #168fbd2b}
+.highlights{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin:27px 0 32px}
+.highlight{display:flex;align-items:center;justify-content:center;gap:9px;padding:13px 10px;border:1px solid #eeedf7;border-radius:13px;background:#ffffffa8}
+.highlight-icon{display:grid;place-items:center;width:32px;height:32px;flex-shrink:0;border-radius:10px;background:#f0edff;color:#6255ee}
+.highlight-icon svg{width:17px;height:17px}
+.highlight strong{display:block;font-size:10px;margin-bottom:3px}
+.highlight small{display:block;color:var(--muted);font-size:9px;line-height:1.5}
+footer{border-top:1px solid #e9e8f3;background:#ffffff80}
+.footer-inner{width:min(1160px,calc(100% - 36px));min-height:58px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:14px;color:#88859b;font-size:10px}
+.footer-inner strong{color:#5c50df}.footer-inner a{text-decoration:none}.footer-inner a:hover{color:var(--purple)}
+@keyframes rise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+@keyframes slideDown{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:760px){.header{width:calc(100% - 24px);padding:10px 12px;min-height:62px}.brand-sub{display:none}.nav{gap:13px}.nav a{font-size:10px}.nav .nav-button{padding:10px}.hero{padding-top:48px}}
+@media(max-width:580px){.header{margin-top:10px;border-radius:15px}.logo{width:35px;height:35px;border-radius:11px}.brand-name{font-size:21px}.nav{gap:10px}.nav a{font-size:9px}.nav a:first-child{display:none}.nav .nav-button{padding:9px 10px}main{width:calc(100% - 26px)}.hero{padding:40px 0 28px}.eyebrow{font-size:8px;letter-spacing:.7px}h1{font-size:clamp(34px,8vw,45px);letter-spacing:-1.6px;margin:18px 0 13px}.hero-description{font-size:12px;line-height:1.8}.hero-actions{margin-top:19px;gap:8px}.button{min-height:41px;padding:0 12px;font-size:10px}.section-heading{margin-bottom:14px}.cards{grid-template-columns:1fr;gap:13px}.card{padding:20px;border-radius:17px}.card h2{font-size:21px;margin-top:16px}.card-description{min-height:0}.card-features{margin:15px 0 18px}.highlights{grid-template-columns:1fr;gap:9px;margin:22px 0}.highlight{justify-content:flex-start;padding:11px 14px}.highlight strong{font-size:11px}.highlight small{font-size:10px}.footer-inner{width:calc(100% - 26px);padding:13px 0;min-height:60px;flex-wrap:wrap;justify-content:center;text-align:center;font-size:9px}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
 </style>
 </head>
 <body>
 <canvas id="web-canvas" aria-hidden="true"></canvas>
-<div class="glow g1" aria-hidden="true"></div><div class="glow g2" aria-hidden="true"></div>
+<div class="ambient a" aria-hidden="true"></div><div class="ambient b" aria-hidden="true"></div>
 
-<header class="site-header">
+<header class="header">
   <a class="brand" href="index.html" aria-label="Quizora home">
-    <span class="logo" aria-hidden="true">
-      <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.7" stroke-linecap="round"><circle cx="10" cy="10" r="6.5"/><path d="m15 15 5 5"/></svg>
-    </span>
+    <span class="logo" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.6" stroke-linecap="round"><circle cx="10" cy="10" r="6.5"/><path d="m15 15 5 5"/></svg></span>
     <span class="brand-name">Quiz<span>ora</span></span>
-    <span class="brand-tag">Learn. Create. Achieve.</span>
+    <span class="brand-sub">Learn. Create. Achieve.</span>
   </a>
-  <nav class="nav-links" aria-label="Main navigation">
-    <a class="nav-link" href="work.html">Documentation</a>
-    <a class="nav-link" href="examiner-login.html">Creator Login</a>
-    <a class="nav-link" href="student-login.html">Student Login</a>
-    <a class="nav-link cta" href="student-login.html">Get Started <span aria-hidden="true">→</span></a>
+  <nav class="nav" aria-label="Main navigation">
+    <a href="work.html">Documentation</a>
+    <a href="examiner-login.html">Creator Login</a>
+    <a href="student-login.html">Student Login</a>
+    <a class="nav-button" href="student-login.html">Get Started ↗</a>
   </nav>
 </header>
 
 <main>
   <section class="hero">
-    <div class="eyebrow"><span class="spark">✦</span> ONE PLATFORM · TWO EXPERIENCES</div>
+    <div class="eyebrow"><span class="eyebrow-mark">✦</span> ONE PLATFORM · TWO EXPERIENCES</div>
     <h1>Learning made smarter.<span>Progress made visible.</span></h1>
-    <p class="hero-copy">Welcome to <strong>Quizora</strong> — your online assessment workspace. Educators can create, publish, and manage MCQ tests, while students attend assessments, view their results, and follow their learning progress in one organized platform.</p>
+    <p class="hero-description">Quizora is an online assessment platform that brings educators and students together. Create and publish MCQ tests, attend assessments, and follow learning results in one clear, organized workspace.</p>
     <div class="hero-actions">
-      <a class="btn btn-primary" href="examiner-login.html">Create an assessment <span class="arrow">→</span></a>
-      <a class="btn btn-secondary" href="student-login.html">Explore student workspace</a>
+      <a class="button primary" href="examiner-login.html">Create an assessment <span class="arrow">→</span></a>
+      <a class="button secondary" href="student-login.html">I'm a student <span class="arrow">→</span></a>
     </div>
   </section>
 
-  <section class="roles" aria-label="Choose your Quizora workspace">
-    <article class="card">
-      <div class="card-top">
-        <div class="card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L8 18l-4 1 1-4Z"/><path d="m14 6 4 4"/></svg></div>
-        <span class="pill">For educators</span>
-      </div>
-      <h2>Create and manage tests</h2>
-      <p class="card-copy">Build assessments, configure student details, publish tests, organize assessments, and review performance through results and reports.</p>
-      <div class="features">
-        <div class="feature"><div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 8h6M9 12h6M9 16h3"/></svg></div>Test builder</div>
-        <div class="feature"><div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="9" cy="8" r="3"/><path d="M3 20v-2a6 6 0 0 1 12 0v2M16 5a3 3 0 0 1 0 6M18 14a5 5 0 0 1 3 4v2"/></svg></div>Student management</div>
-        <div class="feature"><div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 20V10h4v10M10 20V4h4v16M16 20v-7h4v7"/></svg></div>Result insights</div>
-      </div>
-      <a class="workspace-link" href="examiner-login.html">Enter creator workspace <span class="arrow">→</span></a>
-    </article>
+  <section aria-label="Choose your workspace">
+    <p class="section-heading">Choose your workspace</p>
+    <div class="cards">
+      <article class="card">
+        <div class="card-header">
+          <div class="card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L8 18l-4 1 1-4Z"/><path d="m14 6 4 4"/></svg></div>
+          <span class="card-label">Creator workspace</span>
+        </div>
+        <h2>Create and manage tests</h2>
+        <p class="card-description">Build MCQ assessments, set marks and student details, publish tests, and review scores with organized reports.</p>
+        <div class="card-features">
+          <span class="feature"><span class="feature-check">✓</span> Test builder</span>
+          <span class="feature"><span class="feature-check">✓</span> Student details</span>
+          <span class="feature"><span class="feature-check">✓</span> Reports</span>
+        </div>
+        <a class="card-link" href="examiner-login.html">Enter creator workspace <span class="arrow">→</span></a>
+      </article>
 
-    <article class="card student">
-      <div class="card-top">
-        <div class="card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 5H6a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect x="8" y="3" width="8" height="4" rx="1"/><path d="m8 13 2 2 5-5M8 18h8"/></svg></div>
-        <span class="pill">For learners</span>
-      </div>
-      <h2>Attend your tests</h2>
-      <p class="card-copy">Access available assessments, provide required student information, complete tests, and review your scores and learning progress.</p>
-      <div class="features">
-        <div class="feature"><div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M5 4h14v16H5z"/><path d="m8 12 3 3 5-6"/></svg></div>Join a test</div>
-        <div class="feature"><div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div>Track progress</div>
-        <div class="feature"><div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="m12 3 2.8 5.7 6.2.9-4.5 4.4 1.1 6.2-5.6-3-5.6 3 1.1-6.2L3 9.6l6.2-.9Z"/></svg></div>View results</div>
-      </div>
-      <a class="workspace-link" href="student-login.html">Enter student workspace <span class="arrow">→</span></a>
-    </article>
+      <article class="card student">
+        <div class="card-header">
+          <div class="card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 5H6a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect x="8" y="3" width="8" height="4" rx="1"/><path d="m8 13 2 2 5-5M8 18h8"/></svg></div>
+          <span class="card-label">Student workspace</span>
+        </div>
+        <h2>Attend your tests</h2>
+        <p class="card-description">Join available assessments, enter required information, complete tests, and keep track of your scores and progress.</p>
+        <div class="card-features">
+          <span class="feature"><span class="feature-check">✓</span> Join a test</span>
+          <span class="feature"><span class="feature-check">✓</span> Track progress</span>
+          <span class="feature"><span class="feature-check">✓</span> View results</span>
+        </div>
+        <a class="card-link" href="student-login.html">Enter student workspace <span class="arrow">→</span></a>
+      </article>
+    </div>
   </section>
 
-  <section class="trust" aria-label="Quizora highlights">
-    <div class="trust-item"><span class="trust-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-11V5l-8-3-8 3v6c0 7 8 11 8 11Z"/><path d="m9 12 2 2 4-4"/></svg></span><div><strong>Simple and organized</strong><small>Assessments in one workspace</small></div></div>
-    <div class="trust-item"><span class="trust-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg></span><div><strong>Designed for every screen</strong><small>Learn and create anywhere</small></div></div>
-    <div class="trust-item"><span class="trust-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1.1L12 21l7.8-7.5 1.1-1.1a5.5 5.5 0 0 0-.1-7.8Z"/></svg></span><div><strong>Built for better learning</strong><small>Make every assessment count</small></div></div>
+  <section class="highlights" aria-label="Quizora benefits">
+    <div class="highlight"><span class="highlight-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-11V5l-8-3-8 3v6c0 7 8 11 8 11Z"/><path d="m9 12 2 2 4-4"/></svg></span><span><strong>Simple and organized</strong><small>Assessments in one workspace</small></span></div>
+    <div class="highlight"><span class="highlight-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg></span><span><strong>Works across screens</strong><small>Designed for desktop and mobile</small></span></div>
+    <div class="highlight"><span class="highlight-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="m12 3 2.8 5.7 6.2.9-4.5 4.4 1.1 6.2-5.6-3-5.6 3 1.1-6.2L3 9.6l6.2-.9Z"/></svg></span><span><strong>Made for better learning</strong><small>Make every assessment count</small></span></div>
   </section>
 </main>
 
@@ -168,119 +157,66 @@ footer{border-top:1px solid #e6e5f2;background:#ffffff60}
 <script>
 document.getElementById("year").textContent = new Date().getFullYear();
 
-/* Animated interactive spider-web network. No video, images, or external libraries. */
+/* Lightweight animated web-network background. No video or image assets. */
 (() => {
   const canvas = document.getElementById("web-canvas");
   const ctx = canvas.getContext("2d");
   if (!ctx) return;
+  const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let w = 0, h = 0, dpr = 1, points = [], frame = 0;
+  const gap = 125;
+  const mouse = {x:-9999,y:-9999,active:false};
 
-  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  let width = 0, height = 0, dpr = 1, points = [], raf = 0;
-  const pointer = { x: -1000, y: -1000, active: false };
-  const spacing = 115;
-
-  function resize() {
-    width = window.innerWidth;
-    height = window.innerHeight;
-    dpr = Math.min(window.devicePixelRatio || 1, 2);
-    canvas.width = Math.round(width * dpr);
-    canvas.height = Math.round(height * dpr);
-    canvas.style.width = width + "px";
-    canvas.style.height = height + "px";
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-
+  function resize(){
+    w = innerWidth; h = innerHeight; dpr = Math.min(devicePixelRatio || 1, 2);
+    canvas.width = Math.round(w*dpr); canvas.height = Math.round(h*dpr);
+    canvas.style.width = w+"px"; canvas.style.height = h+"px";
+    ctx.setTransform(dpr,0,0,dpr,0,0);
     points = [];
-    const cols = Math.ceil(width / spacing) + 2;
-    const rows = Math.ceil(height / spacing) + 2;
-    for (let row = -1; row < rows; row++) {
-      for (let col = -1; col < cols; col++) {
-        points.push({
-          x: col * spacing + (Math.random() - .5) * 38,
-          y: row * spacing + (Math.random() - .5) * 38,
-          baseX: col * spacing,
-          baseY: row * spacing,
-          phase: Math.random() * Math.PI * 2,
-          size: Math.random() * 1.6 + .6
-        });
-      }
+    const cols = Math.ceil(w/gap)+2, rows = Math.ceil(h/gap)+2;
+    for(let y=-1;y<rows;y++) for(let x=-1;x<cols;x++){
+      points.push({bx:x*gap,by:y*gap,phase:Math.random()*6.28,r:Math.random()*1.2+.5});
     }
   }
-
-  function draw(time = 0) {
-    ctx.clearRect(0, 0, width, height);
-    const t = reduceMotion ? 0 : time * .00035;
-    const maxDist = Math.min(145, Math.max(95, width / 10));
-
-    for (let i = 0; i < points.length; i++) {
-      const p = points[i];
-      p.x = p.baseX + (reduceMotion ? 0 : Math.sin(t + p.phase) * 10);
-      p.y = p.baseY + (reduceMotion ? 0 : Math.cos(t * .9 + p.phase) * 10);
-
-      if (pointer.active) {
-        const dx = p.x - pointer.x, dy = p.y - pointer.y;
-        const dist = Math.hypot(dx, dy);
-        if (dist < 145 && dist > 0) {
-          const force = (145 - dist) / 145;
-          p.x += dx / dist * force * 17;
-          p.y += dy / dist * force * 17;
-        }
+  function draw(time=0){
+    ctx.clearRect(0,0,w,h);
+    const t = reduced ? 0 : time*.00035;
+    const reach = 145;
+    for(const p of points){
+      p.x = p.bx + (reduced?0:Math.sin(t+p.phase)*8);
+      p.y = p.by + (reduced?0:Math.cos(t*.9+p.phase)*8);
+      if(mouse.active){
+        const dx=p.x-mouse.x,dy=p.y-mouse.y,dist=Math.hypot(dx,dy);
+        if(dist<reach&&dist>0){const f=(reach-dist)/reach*.12;p.x+=dx*f;p.y+=dy*f;}
       }
     }
-
-    for (let i = 0; i < points.length; i++) {
-      const p = points[i];
-      for (let j = i + 1; j < points.length; j++) {
-        const q = points[j];
-        const dx = p.x - q.x, dy = p.y - q.y;
-        const dist = Math.hypot(dx, dy);
-        if (dist < maxDist) {
-          const alpha = (1 - dist / maxDist) * .22;
-          ctx.strokeStyle = `rgba(105, 93, 231, ${alpha})`;
-          ctx.lineWidth = .7;
-          ctx.beginPath();
-          ctx.moveTo(p.x, p.y);
-          ctx.lineTo(q.x, q.y);
-          ctx.stroke();
+    for(let i=0;i<points.length;i++){
+      const p=points[i];
+      for(let j=i+1;j<points.length;j++){
+        const q=points[j],dist=Math.hypot(p.x-q.x,p.y-q.y);
+        if(dist<gap*1.18){
+          ctx.strokeStyle=`rgba(101,88,225,${(1-dist/(gap*1.18))*.19})`;
+          ctx.lineWidth=.65;ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(q.x,q.y);ctx.stroke();
         }
       }
-
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-      ctx.fillStyle = "rgba(105, 93, 231, .27)";
-      ctx.fill();
+      ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+      ctx.fillStyle="rgba(99,85,225,.24)";ctx.fill();
     }
-
-    if (pointer.active) {
-      const glow = ctx.createRadialGradient(pointer.x, pointer.y, 0, pointer.x, pointer.y, 155);
-      glow.addColorStop(0, "rgba(117, 103, 255, .08)");
-      glow.addColorStop(1, "rgba(117, 103, 255, 0)");
-      ctx.fillStyle = glow;
-      ctx.fillRect(pointer.x - 155, pointer.y - 155, 310, 310);
+    if(mouse.active){
+      const g=ctx.createRadialGradient(mouse.x,mouse.y,0,mouse.x,mouse.y,125);
+      g.addColorStop(0,"rgba(110,96,245,.07)");g.addColorStop(1,"rgba(110,96,245,0)");
+      ctx.fillStyle=g;ctx.fillRect(mouse.x-125,mouse.y-125,250,250);
     }
-
-    if (!reduceMotion) raf = requestAnimationFrame(draw);
+    if(!reduced) frame=requestAnimationFrame(draw);
   }
-
-  window.addEventListener("resize", () => {
-    cancelAnimationFrame(raf);
-    resize();
-    draw();
-  }, { passive: true });
-
-  window.addEventListener("pointermove", event => {
-    pointer.x = event.clientX;
-    pointer.y = event.clientY;
-    pointer.active = true;
-  }, { passive: true });
-
-  document.addEventListener("pointerleave", () => { pointer.active = false; });
-  document.addEventListener("visibilitychange", () => {
-    if (document.hidden) cancelAnimationFrame(raf);
-    else if (!reduceMotion) { cancelAnimationFrame(raf); raf = requestAnimationFrame(draw); }
+  addEventListener("resize",()=>{cancelAnimationFrame(frame);resize();draw();},{passive:true});
+  addEventListener("pointermove",e=>{mouse.x=e.clientX;mouse.y=e.clientY;mouse.active=true;},{passive:true});
+  addEventListener("pointerout",e=>{if(!e.relatedTarget)mouse.active=false;},{passive:true});
+  document.addEventListener("visibilitychange",()=>{
+    if(document.hidden) cancelAnimationFrame(frame);
+    else if(!reduced){cancelAnimationFrame(frame);frame=requestAnimationFrame(draw);}
   });
-
-  resize();
-  draw();
+  resize();draw();
 })();
 </script>
 </body>
